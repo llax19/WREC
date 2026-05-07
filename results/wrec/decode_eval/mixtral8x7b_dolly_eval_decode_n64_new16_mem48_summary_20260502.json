@@ -1,0 +1,134 @@
+{
+  "trace": "/root/workspace/logs/processed/wrec/decode_eval/mixtral8x7b_dolly_eval_decode_n64_new16_mem48_20260502.jsonl",
+  "stats": "/root/workspace/results/wrec/decode_eval/router_trace_stats_mixtral8x7b_dolly_eval_decode_n64_new16_mem48_20260502.json",
+  "num_requests": 64,
+  "num_failures": 0,
+  "max_input_tokens": 128,
+  "max_new_tokens": 16,
+  "total_input_tokens": 3908,
+  "total_decode_tokens": 1024,
+  "total_events": 157824,
+  "phase_events": {
+    "prefill": 125056,
+    "decode": 32768
+  },
+  "decode_steps_per_request_min": 16,
+  "decode_steps_per_request_max": 16,
+  "router_events_per_decode_token": 32.0,
+  "expert_refs_per_decode_token": 64.0,
+  "elapsed_seconds": 1149.322125119972,
+  "seconds_per_request": 17.958158204999563,
+  "prefill_decode_hotness_shift": {
+    "tv_p50": 0.0548869106640225,
+    "tv_p90": 0.0746049769703173,
+    "tv_max": 0.11808459810005119,
+    "top2_overlap_mean": 0.5625,
+    "top2_overlap_min": 0.0
+  },
+  "largest_shift_layers": [
+    {
+      "layer": 8,
+      "tv": 0.11808459810005119,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        4,
+        6
+      ],
+      "decode_top2": [
+        5,
+        6
+      ]
+    },
+    {
+      "layer": 10,
+      "tv": 0.08196328045035825,
+      "top2_overlap": 0.0,
+      "prefill_top2": [
+        3,
+        7
+      ],
+      "decode_top2": [
+        0,
+        1
+      ]
+    },
+    {
+      "layer": 11,
+      "tv": 0.08150698487077791,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        2,
+        6
+      ],
+      "decode_top2": [
+        1,
+        2
+      ]
+    },
+    {
+      "layer": 16,
+      "tv": 0.0746285664022518,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        0,
+        1
+      ],
+      "decode_top2": [
+        0,
+        5
+      ]
+    },
+    {
+      "layer": 14,
+      "tv": 0.07439267208290685,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        4,
+        6
+      ],
+      "decode_top2": [
+        4,
+        5
+      ]
+    },
+    {
+      "layer": 15,
+      "tv": 0.07085375751663253,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        1,
+        4
+      ],
+      "decode_top2": [
+        1,
+        7
+      ]
+    },
+    {
+      "layer": 12,
+      "tv": 0.0703699742515353,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        1,
+        3
+      ],
+      "decode_top2": [
+        0,
+        1
+      ]
+    },
+    {
+      "layer": 13,
+      "tv": 0.067864596660696,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        0,
+        1
+      ],
+      "decode_top2": [
+        0,
+        2
+      ]
+    }
+  ]
+}

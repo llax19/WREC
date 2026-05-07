@@ -1,0 +1,216 @@
+{
+  "created_at_utc": "2026-05-05T09:01:04.641339+00:00",
+  "inputs": {
+    "train_trace": "/root/workspace/logs/processed/wrec/mixtral8x7b_dolly_train_router_events_n512_mem48_20260501.jsonl",
+    "event_trace": "/root/workspace/logs/processed/wrec/mixtral8x7b_dolly_eval_router_events_n256_mem48_20260501.jsonl",
+    "train_stats": "/root/workspace/results/wrec/router_trace_stats_mixtral8x7b_dolly_train_n512_mem48_20260501.json",
+    "event_stats": "/root/workspace/results/wrec/router_trace_stats_mixtral8x7b_dolly_eval_n256_mem48_20260501.json"
+  },
+  "contract": {
+    "model_family": "mixtral8x7b",
+    "expected_layers": 32,
+    "expected_experts": 8,
+    "expected_topk": 2
+  },
+  "overall_pass": true,
+  "traces": {
+    "train": {
+      "path": "/root/workspace/logs/processed/wrec/mixtral8x7b_dolly_train_router_events_n512_mem48_20260501.jsonl",
+      "router_events": 931936,
+      "expert_refs": 1863872,
+      "requests": 512,
+      "input_tokens": 29123,
+      "token_layer_events": 931936,
+      "expected_token_layer_events": 931936,
+      "observed_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "observed_experts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "selected_lengths": {
+        "2": 931936
+      },
+      "complete_layer_set": true,
+      "complete_expert_set": true,
+      "failure_count": 0,
+      "failures": []
+    },
+    "event": {
+      "path": "/root/workspace/logs/processed/wrec/mixtral8x7b_dolly_eval_router_events_n256_mem48_20260501.jsonl",
+      "router_events": 452704,
+      "expert_refs": 905408,
+      "requests": 256,
+      "input_tokens": 14147,
+      "token_layer_events": 452704,
+      "expected_token_layer_events": 452704,
+      "observed_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "observed_experts": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "selected_lengths": {
+        "2": 452704
+      },
+      "complete_layer_set": true,
+      "complete_expert_set": true,
+      "failure_count": 0,
+      "failures": []
+    }
+  },
+  "stats_checks": [
+    {
+      "trace": "train",
+      "name": "requests",
+      "actual": 512,
+      "expected": 512,
+      "pass": true
+    },
+    {
+      "trace": "train",
+      "name": "input_tokens",
+      "actual": 29123,
+      "expected": 29123,
+      "pass": true
+    },
+    {
+      "trace": "train",
+      "name": "router_events",
+      "actual": 931936,
+      "expected": 931936,
+      "pass": true
+    },
+    {
+      "trace": "train",
+      "name": "num_layers",
+      "actual": 32,
+      "expected": 32,
+      "pass": true
+    },
+    {
+      "trace": "train",
+      "name": "num_experts",
+      "actual": 8,
+      "expected": 8,
+      "pass": true
+    },
+    {
+      "trace": "event",
+      "name": "requests",
+      "actual": 256,
+      "expected": 256,
+      "pass": true
+    },
+    {
+      "trace": "event",
+      "name": "input_tokens",
+      "actual": 14147,
+      "expected": 14147,
+      "pass": true
+    },
+    {
+      "trace": "event",
+      "name": "router_events",
+      "actual": 452704,
+      "expected": 452704,
+      "pass": true
+    },
+    {
+      "trace": "event",
+      "name": "num_layers",
+      "actual": 32,
+      "expected": 32,
+      "pass": true
+    },
+    {
+      "trace": "event",
+      "name": "num_experts",
+      "actual": 8,
+      "expected": 8,
+      "pass": true
+    }
+  ],
+  "claim_boundary": {
+    "validates_prior_event_dimension_alignment": true,
+    "uses_existing_mem48_offload_traces": true,
+    "does_control_real_expert_loading": false,
+    "does_modify_vllm": false
+  }
+}

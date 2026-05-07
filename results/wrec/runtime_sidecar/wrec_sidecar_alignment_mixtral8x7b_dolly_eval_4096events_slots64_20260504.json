@@ -1,0 +1,114 @@
+{
+  "created_at_utc": "2026-05-04T13:56:50.380717+00:00",
+  "inputs": {
+    "sidecar_smoke": "/root/workspace/results/wrec/runtime_sidecar/wrec_sidecar_smoke_mixtral8x7b_dolly_eval_4096events_slots64_20260504.json",
+    "local_shadow": "/root/workspace/results/wrec/runtime_sidecar/wrec_shadow_prefix8192_mixtral8x7b_dolly_eval_slots64_20260504.json"
+  },
+  "overall_pass": true,
+  "metrics": [
+    {
+      "name": "expert_refs",
+      "sidecar": 8192.0,
+      "shadow": 8192.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "router_events",
+      "sidecar": 4096.0,
+      "shadow": 4096.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "shadow_hits",
+      "sidecar": 7237.0,
+      "shadow": 7237.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "shadow_misses",
+      "sidecar": 955.0,
+      "shadow": 955.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "shadow_hit_rate",
+      "sidecar": 0.8834228515625,
+      "shadow": 0.8834228515625,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-12,
+      "pass": true
+    },
+    {
+      "name": "shadow_miss_rate",
+      "sidecar": 0.1165771484375,
+      "shadow": 0.1165771484375,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-12,
+      "pass": true
+    },
+    {
+      "name": "would_admit",
+      "sidecar": 651.0,
+      "shadow": 651.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "would_bypass",
+      "sidecar": 304.0,
+      "shadow": 304.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "would_evict",
+      "sidecar": 651.0,
+      "shadow": 651.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "demand_transfer_bytes",
+      "sidecar": 336467066880.0,
+      "shadow": 336467066880.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    {
+      "name": "stall_ms",
+      "sidecar": 8132.6837182044965,
+      "shadow": 8132.6837182044965,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    }
+  ],
+  "claim_boundary": {
+    "validates_http_sidecar_alignment": true,
+    "does_control_real_expert_loading": false,
+    "does_measure_end_to_end_latency": false
+  }
+}

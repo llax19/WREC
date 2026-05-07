@@ -1,0 +1,61 @@
+[
+  {
+    "load_level": "medium",
+    "arrival_interval": 0.5,
+    "max_concurrency": 4,
+    "num_requests": 24,
+    "baseline": {
+      "strategy": "fcfs",
+      "server_scheduling_policy": "fcfs",
+      "dispatch_strategy": "fcfs",
+      "source_file": "results/tp2_fcfs_loadcalib_calib_i050_c4_20260424T084745Z_fcfs_calib_i050_c4_summary.json",
+      "metrics": {
+        "throughput_tokens_per_s": 15.13960372952866,
+        "avg_ttft": 1.1282638013362885,
+        "p95_ttft": 1.4551439881324768,
+        "p99_ttft": 1.5623375296592712,
+        "avg_tpot": 0.21401308993880894,
+        "p95_tpot": 0.2522234679530225,
+        "p99_tpot": 0.25430307831815496,
+        "wall_time": 83.95199918746948
+      }
+    },
+    "candidate": {
+      "strategy": "length_only",
+      "server_scheduling_policy": "length_only",
+      "dispatch_strategy": "fcfs",
+      "source_file": "results/tp2_length_only_server_medium_r1_20260424T092009Z_length_only_medium_summary.json",
+      "metrics": {
+        "throughput_tokens_per_s": 15.143613739930405,
+        "avg_ttft": 1.127952516078949,
+        "p95_ttft": 1.4545582652091977,
+        "p99_ttft": 1.5616307520866395,
+        "avg_tpot": 0.21395602784386836,
+        "p95_tpot": 0.25218854300797944,
+        "p99_tpot": 0.2542300391581751,
+        "wall_time": 83.92976880073547
+      }
+    },
+    "candidate_minus_baseline": {
+      "throughput_tokens_per_s": 0.004010010401745712,
+      "avg_ttft": -0.00031128525733947754,
+      "p95_ttft": -0.0005857229232791059,
+      "p99_ttft": -0.000706777572631747,
+      "avg_tpot": -0.00005706209494057978,
+      "p95_tpot": -0.00003492494504308231,
+      "p99_tpot": -0.0000730391599798556,
+      "wall_time": -0.02223038673400879
+    },
+    "candidate_minus_baseline_percent": {
+      "throughput_tokens_per_s": 0.02648688946973813,
+      "avg_ttft": -0.027590010443281175,
+      "p95_ttft": -0.04025223391107445,
+      "p99_ttft": -0.04523782869122693,
+      "avg_tpot": -0.026662899441117503,
+      "p95_tpot": -0.013846829048280531,
+      "p99_tpot": -0.02872128888677387,
+      "wall_time": -0.026479873087776415
+    },
+    "interpretation": "New medium has more queueing pressure than the old medium, but the 24-request server-side Length-only smoke is effectively identical to FCFS. Treat this as a load validation point, not evidence that Length-only has no effect."
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "strategy": "fcfs",
+    "load_level": "calib_i025_c4",
+    "num_requests": 24,
+    "throughput_tokens_per_s": 15.181170220853538,
+    "avg_ttft": 1.1885757545630138,
+    "p95_ttft": 1.5766909718513489,
+    "p99_ttft": 1.8981394982337951,
+    "avg_tpot": 0.21204402850273987,
+    "p95_tpot": 0.2461875794455409,
+    "p99_tpot": 0.25169033239285155,
+    "total_output_tokens": 1263,
+    "wall_time": 83.1951675415039
+  }
+]

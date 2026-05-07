@@ -1,0 +1,190 @@
+{
+  "model_type": "numpy_ridge_ltr_lite",
+  "score_convention": "lower score means predicted shorter request and earlier scheduling",
+  "request_file": "data/prompts/eval_requests.jsonl",
+  "raw_log_globs": [
+    "logs/raw/tp2_fcfs_*_fcfs_*.jsonl"
+  ],
+  "used_logs": [
+    "logs/raw/tp2_fcfs_high_probe_20260422T135531Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r1_20260422T142857Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r1_20260422T191710Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r1_20260424T092542Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r2_20260422T194450Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r2_20260424T092824Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r3_20260422T201225Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_high_r3_20260424T093105Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_loadcalib_calib_i025_c4_20260424T085029Z_fcfs_calib_i025_c4.jsonl",
+    "logs/raw/tp2_fcfs_loadcalib_calib_i050_c4_20260424T084745Z_fcfs_calib_i050_c4.jsonl",
+    "logs/raw/tp2_fcfs_loadcalib_calib_i075_c3_20260424T084442Z_fcfs_calib_i075_c3.jsonl",
+    "logs/raw/tp2_fcfs_loadcalib_calib_i100_c3_20260424T084138Z_fcfs_calib_i100_c3.jsonl",
+    "logs/raw/tp2_fcfs_low_r1_20260422T142118Z_fcfs_low.jsonl",
+    "logs/raw/tp2_fcfs_low_r1_20260422T143918Z_fcfs_low.jsonl",
+    "logs/raw/tp2_fcfs_low_r2_20260422T153546Z_fcfs_low.jsonl",
+    "logs/raw/tp2_fcfs_low_r3_20260422T163214Z_fcfs_low.jsonl",
+    "logs/raw/tp2_fcfs_medium_probe_20260422T134941Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_medium_r1_20260422T142548Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_medium_r1_20260422T172842Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_medium_r1_20260424T104819Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_medium_r2_20260422T180452Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_medium_r3_20260422T184101Z_fcfs_medium.jsonl",
+    "logs/raw/tp2_fcfs_servercheck_high_r1_20260424T082136Z_fcfs_high.jsonl",
+    "logs/raw/tp2_fcfs_servercheck_medium_r1_20260424T081521Z_fcfs_medium.jsonl"
+  ],
+  "label_strategy": "fcfs",
+  "num_requests_in_manifest": 240,
+  "num_labeled_requests": 240,
+  "num_train_requests": 192,
+  "num_validation_requests": 48,
+  "alpha": 5.0,
+  "validation_fraction": 0.2,
+  "seed": 20260424,
+  "feature_count": 107,
+  "train_metrics": {
+    "mae": 19.39041289137195,
+    "rmse": 28.774501482646965,
+    "kendall_tau_b": 0.7315920483828574,
+    "spearman": 0.8800708537713609
+  },
+  "validation_metrics": {
+    "mae": 24.854020697891496,
+    "rmse": 44.11095850782511,
+    "kendall_tau_b": 0.6289957278543516,
+    "spearman": 0.7276758165193286
+  },
+  "validation_target_max_new_tokens_ranking": {
+    "kendall_tau_b": 0.6892843447042553,
+    "spearman": 0.7523400669335106
+  },
+  "validation_estimated_total_tokens_ranking": {
+    "kendall_tau_b": 0.5246356181076199,
+    "spearman": 0.647411775936978
+  },
+  "top_standardized_coefficients": [
+    {
+      "feature": "target_max_new_tokens",
+      "coefficient": 25.202421728755716
+    },
+    {
+      "feature": "group=long",
+      "coefficient": 23.604419757545706
+    },
+    {
+      "feature": "group=short",
+      "coefficient": -17.808832214620224
+    },
+    {
+      "feature": "prompt_chars",
+      "coefficient": 8.3285029174124
+    },
+    {
+      "feature": "tag=planning",
+      "coefficient": 5.009169380408822
+    },
+    {
+      "feature": "prompt_cjk_chars",
+      "coefficient": 4.94826741592696
+    },
+    {
+      "feature": "prompt_punctuation",
+      "coefficient": 4.466041519546535
+    },
+    {
+      "feature": "prompt_words",
+      "coefficient": -3.772391337180526
+    },
+    {
+      "feature": "tag=operations",
+      "coefficient": -3.5645438300657735
+    },
+    {
+      "feature": "task_family=planning",
+      "coefficient": 2.754023642766322
+    },
+    {
+      "feature": "prompt_ascii_ratio",
+      "coefficient": 2.014525484777455
+    },
+    {
+      "feature": "lang=zh",
+      "coefficient": -2.014525484777424
+    },
+    {
+      "feature": "lang=en",
+      "coefficient": 2.0145254847774203
+    },
+    {
+      "feature": "group=medium",
+      "coefficient": -1.6070060061904583
+    },
+    {
+      "feature": "task_family=explanation",
+      "coefficient": 1.494864810720479
+    },
+    {
+      "feature": "tag=explanation",
+      "coefficient": 1.4948648107204525
+    },
+    {
+      "feature": "tag=qa",
+      "coefficient": 1.4948648107204525
+    },
+    {
+      "feature": "tag=rewriting",
+      "coefficient": -1.2186739750201545
+    },
+    {
+      "feature": "tag=style",
+      "coefficient": -1.2186739750201543
+    },
+    {
+      "feature": "task_family=rewriting",
+      "coefficient": -1.2186739750201367
+    },
+    {
+      "feature": "tag=extraction",
+      "coefficient": -1.2164648393154986
+    },
+    {
+      "feature": "tag=structured-output",
+      "coefficient": -1.2164648393154984
+    },
+    {
+      "feature": "task_family=extraction",
+      "coefficient": -1.2164648393154458
+    },
+    {
+      "feature": "prompt_tokens",
+      "coefficient": -1.2126950834773629
+    },
+    {
+      "feature": "tag=compression",
+      "coefficient": -1.1447641171401128
+    },
+    {
+      "feature": "tag=summarization",
+      "coefficient": -1.1447641171401124
+    },
+    {
+      "feature": "task_family=summarization",
+      "coefficient": -1.144764117140069
+    },
+    {
+      "feature": "topic=transit_info",
+      "coefficient": -1.0860576392979957
+    },
+    {
+      "feature": "tag=public_service",
+      "coefficient": -1.086057639297989
+    },
+    {
+      "feature": "tag=mobility",
+      "coefficient": -1.086057639297988
+    }
+  ],
+  "label_samples_per_request": {
+    "min": 9.0,
+    "mean": 10.7,
+    "max": 24.0
+  }
+}

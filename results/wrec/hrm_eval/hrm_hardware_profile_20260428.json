@@ -1,0 +1,135 @@
+{
+  "created_at_utc": "2026-04-28T05:45:44.915940+00:00",
+  "units": {
+    "bandwidth": "GB/s decimal",
+    "compute": "TFLOP/s"
+  },
+  "benchmarks": {
+    "cpu_bandwidth": {
+      "available": true,
+      "size_mib": 512,
+      "repeats": 7,
+      "copy_gbps": {
+        "min": 30.704726090850922,
+        "median": 31.125477924887164,
+        "mean": 31.037714094228374,
+        "p90": 31.197807360880034,
+        "max": 31.22947475995947
+      },
+      "triad_gbps": {
+        "min": 10.0172065383377,
+        "median": 10.117234389570045,
+        "mean": 10.104765189107189,
+        "p90": 10.142795973627821,
+        "max": 10.156215859388412
+      },
+      "recommended_cpu_bandwidth_gbps": 31.125477924887164
+    },
+    "cpu_flops": {
+      "available": true,
+      "matrix_size": 1536,
+      "repeats": 7,
+      "tflops": {
+        "min": 0.6267052436315129,
+        "median": 0.9315798002171252,
+        "mean": 0.8887119386970471,
+        "p90": 0.9704624641622679,
+        "max": 0.9803853095138546
+      },
+      "recommended_cpu_tflops": 0.9315798002171252
+    },
+    "gpu_bandwidth": {
+      "available": true,
+      "device": "cuda:0",
+      "size_mib": 512,
+      "repeats": 7,
+      "copy_ms": {
+        "min": 1.1970560550689697,
+        "median": 1.201151967048645,
+        "mean": 1.2049554416111536,
+        "p90": 1.2163391828536987,
+        "max": 1.2349439859390259
+      },
+      "hbm_copy_gbps": {
+        "min": 869.4660132164205,
+        "median": 893.9267082401697,
+        "mean": 891.1984075219817,
+        "p90": 896.9854163914948,
+        "max": 896.9854163914948
+      },
+      "recommended_gpu_bandwidth_gbps": 893.9267082401697
+    },
+    "cpu_gpu_bandwidth": {
+      "available": true,
+      "device": "cuda:0",
+      "size_mib": 512,
+      "repeats": 7,
+      "pageable": {
+        "available": true,
+        "copy_ms": {
+          "min": 85.29481506347656,
+          "median": 85.33372497558594,
+          "mean": 85.35802132742745,
+          "p90": 85.42544708251953,
+          "max": 85.50950622558594
+        },
+        "h2d_gbps": {
+          "min": 6.278493885623196,
+          "median": 6.291427125132524,
+          "mean": 6.289640096880693,
+          "p90": 6.293496729547574,
+          "max": 6.294297157458629
+        },
+        "recommended_cpu_gpu_bandwidth_gbps": 6.291427125132524
+      },
+      "pinned": {
+        "available": true,
+        "copy_ms": {
+          "min": 82.60982513427734,
+          "median": 82.61567687988281,
+          "mean": 82.61815752301898,
+          "p90": 82.62799835205078,
+          "max": 82.6418228149414
+        },
+        "h2d_gbps": {
+          "min": 6.496358547199606,
+          "median": 6.4984144931787124,
+          "mean": 6.498219475934396,
+          "p90": 6.498853567564442,
+          "max": 6.498874814555634
+        },
+        "recommended_cpu_gpu_bandwidth_gbps": 6.4984144931787124
+      },
+      "recommended_cpu_gpu_bandwidth_gbps": 6.4984144931787124
+    },
+    "gpu_flops": {
+      "available": true,
+      "device": "cuda:0",
+      "dtype": "fp16",
+      "matrix_size": 4096,
+      "repeats": 7,
+      "matmul_ms": {
+        "min": 1.8972159624099731,
+        "median": 1.8994879722595215,
+        "mean": 1.9042239870343889,
+        "p90": 1.91528959274292,
+        "max": 1.936352014541626
+      },
+      "tflops": {
+        "min": 70.97828929856774,
+        "median": 72.35579033886196,
+        "mean": 72.17924458860948,
+        "p90": 72.44097342125369,
+        "max": 72.44243997263003
+      },
+      "recommended_gpu_tflops": 72.35579033886196
+    }
+  },
+  "recommended_hrm_constants": {
+    "cpu_bandwidth_gbps": 31.125477924887164,
+    "cpu_tflops": 0.9315798002171252,
+    "gpu_bandwidth_gbps": 893.9267082401697,
+    "cpu_gpu_bandwidth_gbps": 6.4984144931787124,
+    "gpu_tflops": 72.35579033886196
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "window_start": 1776863487.9358587,
+  "window_end": 1776863627.9587424,
+  "sample_count": 134,
+  "per_gpu": [
+    {
+      "gpu_index": 1,
+      "sample_count": 134,
+      "memory_total_mib": 24564.0,
+      "peak_memory_used_mib": 22279.0,
+      "avg_memory_used_mib": 22278.925373134327,
+      "peak_memory_utilization": 0.906977690929816
+    }
+  ]
+}

@@ -1,0 +1,1527 @@
+{
+  "model": "mixtral8x7b-instruct-v0.1",
+  "model_path": "models/Mixtral-8x7B-Instruct-v0.1",
+  "request_file": "data/prompts/wrec_dolly_debug_n64.jsonl",
+  "output": "logs/processed/wrec/mixtral8x7b_dolly_debug_router_events_n64_mem48_20260501.jsonl",
+  "phase": "prefill",
+  "num_requests": 64,
+  "num_failures": 0,
+  "total_input_tokens": 3347,
+  "total_events": 107104,
+  "num_experts": 8,
+  "num_experts_per_tok": 2,
+  "router_top_k": 2,
+  "num_router_layers": 32,
+  "elapsed_seconds": 216.77333020803053,
+  "request_summaries": [
+    {
+      "request_id": "dolly-debug-000000",
+      "input_tokens": 19,
+      "events": 608,
+      "trace_seconds": 10.488281482947059
+    },
+    {
+      "request_id": "dolly-debug-000001",
+      "input_tokens": 21,
+      "events": 672,
+      "trace_seconds": 3.2952604739693925
+    },
+    {
+      "request_id": "dolly-debug-000002",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.308471273048781
+    },
+    {
+      "request_id": "dolly-debug-000003",
+      "input_tokens": 21,
+      "events": 672,
+      "trace_seconds": 3.1934671599883586
+    },
+    {
+      "request_id": "dolly-debug-000004",
+      "input_tokens": 65,
+      "events": 2080,
+      "trace_seconds": 3.261614011018537
+    },
+    {
+      "request_id": "dolly-debug-000005",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.505526626948267
+    },
+    {
+      "request_id": "dolly-debug-000006",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.30915782507509
+    },
+    {
+      "request_id": "dolly-debug-000007",
+      "input_tokens": 38,
+      "events": 1216,
+      "trace_seconds": 3.2449243610026315
+    },
+    {
+      "request_id": "dolly-debug-000008",
+      "input_tokens": 26,
+      "events": 832,
+      "trace_seconds": 3.188597489031963
+    },
+    {
+      "request_id": "dolly-debug-000009",
+      "input_tokens": 19,
+      "events": 608,
+      "trace_seconds": 3.3122194160241634
+    },
+    {
+      "request_id": "dolly-debug-000010",
+      "input_tokens": 30,
+      "events": 960,
+      "trace_seconds": 3.2710651099914685
+    },
+    {
+      "request_id": "dolly-debug-000011",
+      "input_tokens": 46,
+      "events": 1472,
+      "trace_seconds": 3.2678814600221813
+    },
+    {
+      "request_id": "dolly-debug-000012",
+      "input_tokens": 19,
+      "events": 608,
+      "trace_seconds": 3.297509973985143
+    },
+    {
+      "request_id": "dolly-debug-000013",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.244212248013355
+    },
+    {
+      "request_id": "dolly-debug-000014",
+      "input_tokens": 22,
+      "events": 704,
+      "trace_seconds": 3.253076652996242
+    },
+    {
+      "request_id": "dolly-debug-000015",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.3084464670391753
+    },
+    {
+      "request_id": "dolly-debug-000016",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.318971279077232
+    },
+    {
+      "request_id": "dolly-debug-000017",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.29375438101124
+    },
+    {
+      "request_id": "dolly-debug-000018",
+      "input_tokens": 14,
+      "events": 448,
+      "trace_seconds": 3.177658471977338
+    },
+    {
+      "request_id": "dolly-debug-000019",
+      "input_tokens": 25,
+      "events": 800,
+      "trace_seconds": 3.2345941410167143
+    },
+    {
+      "request_id": "dolly-debug-000020",
+      "input_tokens": 17,
+      "events": 544,
+      "trace_seconds": 3.2267589370021597
+    },
+    {
+      "request_id": "dolly-debug-000021",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.2531607259297743
+    },
+    {
+      "request_id": "dolly-debug-000022",
+      "input_tokens": 38,
+      "events": 1216,
+      "trace_seconds": 3.2382897769566625
+    },
+    {
+      "request_id": "dolly-debug-000023",
+      "input_tokens": 17,
+      "events": 544,
+      "trace_seconds": 3.206626551109366
+    },
+    {
+      "request_id": "dolly-debug-000024",
+      "input_tokens": 18,
+      "events": 576,
+      "trace_seconds": 3.2656993380514905
+    },
+    {
+      "request_id": "dolly-debug-000025",
+      "input_tokens": 24,
+      "events": 768,
+      "trace_seconds": 3.227595407050103
+    },
+    {
+      "request_id": "dolly-debug-000026",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.0992682189680636
+    },
+    {
+      "request_id": "dolly-debug-000027",
+      "input_tokens": 22,
+      "events": 704,
+      "trace_seconds": 3.255042331991717
+    },
+    {
+      "request_id": "dolly-debug-000028",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3061804440803826
+    },
+    {
+      "request_id": "dolly-debug-000029",
+      "input_tokens": 14,
+      "events": 448,
+      "trace_seconds": 3.1932512490311638
+    },
+    {
+      "request_id": "dolly-debug-000030",
+      "input_tokens": 26,
+      "events": 832,
+      "trace_seconds": 3.3071197650860995
+    },
+    {
+      "request_id": "dolly-debug-000031",
+      "input_tokens": 14,
+      "events": 448,
+      "trace_seconds": 3.1932404710678384
+    },
+    {
+      "request_id": "dolly-debug-000032",
+      "input_tokens": 57,
+      "events": 1824,
+      "trace_seconds": 3.2623053799616173
+    },
+    {
+      "request_id": "dolly-debug-000033",
+      "input_tokens": 19,
+      "events": 608,
+      "trace_seconds": 3.260562770999968
+    },
+    {
+      "request_id": "dolly-debug-000034",
+      "input_tokens": 17,
+      "events": 544,
+      "trace_seconds": 3.203643237007782
+    },
+    {
+      "request_id": "dolly-debug-000035",
+      "input_tokens": 15,
+      "events": 480,
+      "trace_seconds": 3.193058979930356
+    },
+    {
+      "request_id": "dolly-debug-000036",
+      "input_tokens": 47,
+      "events": 1504,
+      "trace_seconds": 3.479463587049395
+    },
+    {
+      "request_id": "dolly-debug-000037",
+      "input_tokens": 67,
+      "events": 2144,
+      "trace_seconds": 3.2753554119262844
+    },
+    {
+      "request_id": "dolly-debug-000038",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.2426987619837746
+    },
+    {
+      "request_id": "dolly-debug-000039",
+      "input_tokens": 53,
+      "events": 1696,
+      "trace_seconds": 3.274369276012294
+    },
+    {
+      "request_id": "dolly-debug-000040",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.301232536905445
+    },
+    {
+      "request_id": "dolly-debug-000041",
+      "input_tokens": 21,
+      "events": 672,
+      "trace_seconds": 3.285801567020826
+    },
+    {
+      "request_id": "dolly-debug-000042",
+      "input_tokens": 20,
+      "events": 640,
+      "trace_seconds": 3.2280875409487635
+    },
+    {
+      "request_id": "dolly-debug-000043",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3275610639248043
+    },
+    {
+      "request_id": "dolly-debug-000044",
+      "input_tokens": 30,
+      "events": 960,
+      "trace_seconds": 3.2532133440254256
+    },
+    {
+      "request_id": "dolly-debug-000045",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3113516230368987
+    },
+    {
+      "request_id": "dolly-debug-000046",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.486163133988157
+    },
+    {
+      "request_id": "dolly-debug-000047",
+      "input_tokens": 16,
+      "events": 512,
+      "trace_seconds": 3.2475509580690414
+    },
+    {
+      "request_id": "dolly-debug-000048",
+      "input_tokens": 30,
+      "events": 960,
+      "trace_seconds": 3.257353881956078
+    },
+    {
+      "request_id": "dolly-debug-000049",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3240304139908403
+    },
+    {
+      "request_id": "dolly-debug-000050",
+      "input_tokens": 29,
+      "events": 928,
+      "trace_seconds": 3.3699190069455653
+    },
+    {
+      "request_id": "dolly-debug-000051",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.296942391898483
+    },
+    {
+      "request_id": "dolly-debug-000052",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.299045618972741
+    },
+    {
+      "request_id": "dolly-debug-000053",
+      "input_tokens": 21,
+      "events": 672,
+      "trace_seconds": 3.2229314179858193
+    },
+    {
+      "request_id": "dolly-debug-000054",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3193357730051503
+    },
+    {
+      "request_id": "dolly-debug-000055",
+      "input_tokens": 23,
+      "events": 736,
+      "trace_seconds": 3.264183617080562
+    },
+    {
+      "request_id": "dolly-debug-000056",
+      "input_tokens": 20,
+      "events": 640,
+      "trace_seconds": 3.286056100972928
+    },
+    {
+      "request_id": "dolly-debug-000057",
+      "input_tokens": 128,
+      "events": 4096,
+      "trace_seconds": 3.3229037720011547
+    },
+    {
+      "request_id": "dolly-debug-000058",
+      "input_tokens": 24,
+      "events": 768,
+      "trace_seconds": 3.2721302170539275
+    },
+    {
+      "request_id": "dolly-debug-000059",
+      "input_tokens": 22,
+      "events": 704,
+      "trace_seconds": 3.257812664960511
+    },
+    {
+      "request_id": "dolly-debug-000060",
+      "input_tokens": 101,
+      "events": 3232,
+      "trace_seconds": 3.299929399974644
+    },
+    {
+      "request_id": "dolly-debug-000061",
+      "input_tokens": 20,
+      "events": 640,
+      "trace_seconds": 3.2198788210516796
+    },
+    {
+      "request_id": "dolly-debug-000062",
+      "input_tokens": 38,
+      "events": 1216,
+      "trace_seconds": 3.2841368520166725
+    },
+    {
+      "request_id": "dolly-debug-000063",
+      "input_tokens": 102,
+      "events": 3264,
+      "trace_seconds": 3.286910688970238
+    }
+  ],
+  "layer_event_counts": {
+    "0": 3347,
+    "1": 3347,
+    "2": 3347,
+    "3": 3347,
+    "4": 3347,
+    "5": 3347,
+    "6": 3347,
+    "7": 3347,
+    "8": 3347,
+    "9": 3347,
+    "10": 3347,
+    "11": 3347,
+    "12": 3347,
+    "13": 3347,
+    "14": 3347,
+    "15": 3347,
+    "16": 3347,
+    "17": 3347,
+    "18": 3347,
+    "19": 3347,
+    "20": 3347,
+    "21": 3347,
+    "22": 3347,
+    "23": 3347,
+    "24": 3347,
+    "25": 3347,
+    "26": 3347,
+    "27": 3347,
+    "28": 3347,
+    "29": 3347,
+    "30": 3347,
+    "31": 3347
+  },
+  "top_experts_by_layer": {
+    "0": [
+      [
+        5,
+        1147
+      ],
+      [
+        4,
+        850
+      ],
+      [
+        0,
+        850
+      ],
+      [
+        1,
+        829
+      ],
+      [
+        2,
+        802
+      ],
+      [
+        7,
+        792
+      ],
+      [
+        6,
+        737
+      ],
+      [
+        3,
+        687
+      ]
+    ],
+    "1": [
+      [
+        0,
+        1027
+      ],
+      [
+        5,
+        948
+      ],
+      [
+        2,
+        901
+      ],
+      [
+        4,
+        894
+      ],
+      [
+        7,
+        818
+      ],
+      [
+        3,
+        735
+      ],
+      [
+        1,
+        701
+      ],
+      [
+        6,
+        670
+      ]
+    ],
+    "2": [
+      [
+        3,
+        983
+      ],
+      [
+        0,
+        949
+      ],
+      [
+        7,
+        875
+      ],
+      [
+        1,
+        871
+      ],
+      [
+        4,
+        844
+      ],
+      [
+        6,
+        787
+      ],
+      [
+        5,
+        745
+      ],
+      [
+        2,
+        640
+      ]
+    ],
+    "3": [
+      [
+        0,
+        1105
+      ],
+      [
+        6,
+        920
+      ],
+      [
+        3,
+        885
+      ],
+      [
+        5,
+        879
+      ],
+      [
+        4,
+        844
+      ],
+      [
+        7,
+        840
+      ],
+      [
+        1,
+        764
+      ],
+      [
+        2,
+        457
+      ]
+    ],
+    "4": [
+      [
+        4,
+        1097
+      ],
+      [
+        3,
+        911
+      ],
+      [
+        1,
+        907
+      ],
+      [
+        7,
+        870
+      ],
+      [
+        0,
+        759
+      ],
+      [
+        5,
+        726
+      ],
+      [
+        2,
+        720
+      ],
+      [
+        6,
+        704
+      ]
+    ],
+    "5": [
+      [
+        3,
+        977
+      ],
+      [
+        1,
+        947
+      ],
+      [
+        7,
+        867
+      ],
+      [
+        5,
+        840
+      ],
+      [
+        6,
+        816
+      ],
+      [
+        0,
+        810
+      ],
+      [
+        4,
+        720
+      ],
+      [
+        2,
+        717
+      ]
+    ],
+    "6": [
+      [
+        7,
+        1309
+      ],
+      [
+        2,
+        1088
+      ],
+      [
+        6,
+        952
+      ],
+      [
+        3,
+        849
+      ],
+      [
+        5,
+        827
+      ],
+      [
+        0,
+        640
+      ],
+      [
+        1,
+        544
+      ],
+      [
+        4,
+        485
+      ]
+    ],
+    "7": [
+      [
+        5,
+        1176
+      ],
+      [
+        4,
+        907
+      ],
+      [
+        2,
+        868
+      ],
+      [
+        1,
+        866
+      ],
+      [
+        3,
+        843
+      ],
+      [
+        6,
+        799
+      ],
+      [
+        0,
+        669
+      ],
+      [
+        7,
+        566
+      ]
+    ],
+    "8": [
+      [
+        3,
+        1194
+      ],
+      [
+        5,
+        1077
+      ],
+      [
+        6,
+        920
+      ],
+      [
+        4,
+        878
+      ],
+      [
+        0,
+        852
+      ],
+      [
+        7,
+        711
+      ],
+      [
+        1,
+        576
+      ],
+      [
+        2,
+        486
+      ]
+    ],
+    "9": [
+      [
+        6,
+        1105
+      ],
+      [
+        5,
+        1059
+      ],
+      [
+        0,
+        1001
+      ],
+      [
+        4,
+        875
+      ],
+      [
+        7,
+        842
+      ],
+      [
+        1,
+        753
+      ],
+      [
+        2,
+        670
+      ],
+      [
+        3,
+        389
+      ]
+    ],
+    "10": [
+      [
+        3,
+        1058
+      ],
+      [
+        7,
+        1026
+      ],
+      [
+        1,
+        944
+      ],
+      [
+        4,
+        943
+      ],
+      [
+        0,
+        916
+      ],
+      [
+        2,
+        654
+      ],
+      [
+        6,
+        581
+      ],
+      [
+        5,
+        572
+      ]
+    ],
+    "11": [
+      [
+        2,
+        1193
+      ],
+      [
+        5,
+        1154
+      ],
+      [
+        6,
+        980
+      ],
+      [
+        1,
+        916
+      ],
+      [
+        0,
+        806
+      ],
+      [
+        4,
+        752
+      ],
+      [
+        7,
+        662
+      ],
+      [
+        3,
+        231
+      ]
+    ],
+    "12": [
+      [
+        1,
+        1311
+      ],
+      [
+        3,
+        1115
+      ],
+      [
+        0,
+        934
+      ],
+      [
+        4,
+        881
+      ],
+      [
+        2,
+        764
+      ],
+      [
+        5,
+        703
+      ],
+      [
+        6,
+        505
+      ],
+      [
+        7,
+        481
+      ]
+    ],
+    "13": [
+      [
+        1,
+        1062
+      ],
+      [
+        0,
+        992
+      ],
+      [
+        7,
+        889
+      ],
+      [
+        6,
+        856
+      ],
+      [
+        2,
+        831
+      ],
+      [
+        5,
+        794
+      ],
+      [
+        3,
+        767
+      ],
+      [
+        4,
+        503
+      ]
+    ],
+    "14": [
+      [
+        4,
+        1063
+      ],
+      [
+        6,
+        1052
+      ],
+      [
+        5,
+        905
+      ],
+      [
+        7,
+        873
+      ],
+      [
+        0,
+        782
+      ],
+      [
+        3,
+        772
+      ],
+      [
+        2,
+        710
+      ],
+      [
+        1,
+        537
+      ]
+    ],
+    "15": [
+      [
+        1,
+        1118
+      ],
+      [
+        4,
+        1005
+      ],
+      [
+        7,
+        883
+      ],
+      [
+        2,
+        860
+      ],
+      [
+        5,
+        796
+      ],
+      [
+        0,
+        747
+      ],
+      [
+        3,
+        649
+      ],
+      [
+        6,
+        636
+      ]
+    ],
+    "16": [
+      [
+        1,
+        1171
+      ],
+      [
+        0,
+        1062
+      ],
+      [
+        5,
+        947
+      ],
+      [
+        6,
+        942
+      ],
+      [
+        7,
+        898
+      ],
+      [
+        2,
+        623
+      ],
+      [
+        4,
+        584
+      ],
+      [
+        3,
+        467
+      ]
+    ],
+    "17": [
+      [
+        7,
+        1237
+      ],
+      [
+        6,
+        1058
+      ],
+      [
+        5,
+        843
+      ],
+      [
+        0,
+        831
+      ],
+      [
+        3,
+        801
+      ],
+      [
+        2,
+        741
+      ],
+      [
+        4,
+        652
+      ],
+      [
+        1,
+        531
+      ]
+    ],
+    "18": [
+      [
+        5,
+        1087
+      ],
+      [
+        0,
+        904
+      ],
+      [
+        7,
+        897
+      ],
+      [
+        1,
+        813
+      ],
+      [
+        2,
+        803
+      ],
+      [
+        6,
+        734
+      ],
+      [
+        4,
+        732
+      ],
+      [
+        3,
+        724
+      ]
+    ],
+    "19": [
+      [
+        1,
+        953
+      ],
+      [
+        2,
+        943
+      ],
+      [
+        7,
+        897
+      ],
+      [
+        3,
+        852
+      ],
+      [
+        0,
+        843
+      ],
+      [
+        6,
+        802
+      ],
+      [
+        4,
+        760
+      ],
+      [
+        5,
+        644
+      ]
+    ],
+    "20": [
+      [
+        6,
+        907
+      ],
+      [
+        1,
+        901
+      ],
+      [
+        2,
+        895
+      ],
+      [
+        5,
+        858
+      ],
+      [
+        7,
+        851
+      ],
+      [
+        3,
+        795
+      ],
+      [
+        0,
+        773
+      ],
+      [
+        4,
+        714
+      ]
+    ],
+    "21": [
+      [
+        0,
+        1033
+      ],
+      [
+        1,
+        968
+      ],
+      [
+        4,
+        848
+      ],
+      [
+        5,
+        825
+      ],
+      [
+        7,
+        801
+      ],
+      [
+        2,
+        788
+      ],
+      [
+        3,
+        774
+      ],
+      [
+        6,
+        657
+      ]
+    ],
+    "22": [
+      [
+        1,
+        1092
+      ],
+      [
+        4,
+        1088
+      ],
+      [
+        3,
+        1014
+      ],
+      [
+        0,
+        809
+      ],
+      [
+        2,
+        729
+      ],
+      [
+        7,
+        721
+      ],
+      [
+        5,
+        683
+      ],
+      [
+        6,
+        558
+      ]
+    ],
+    "23": [
+      [
+        0,
+        953
+      ],
+      [
+        1,
+        946
+      ],
+      [
+        4,
+        889
+      ],
+      [
+        3,
+        860
+      ],
+      [
+        6,
+        848
+      ],
+      [
+        7,
+        800
+      ],
+      [
+        2,
+        723
+      ],
+      [
+        5,
+        675
+      ]
+    ],
+    "24": [
+      [
+        1,
+        989
+      ],
+      [
+        2,
+        903
+      ],
+      [
+        0,
+        862
+      ],
+      [
+        3,
+        861
+      ],
+      [
+        5,
+        861
+      ],
+      [
+        6,
+        769
+      ],
+      [
+        4,
+        731
+      ],
+      [
+        7,
+        718
+      ]
+    ],
+    "25": [
+      [
+        3,
+        1226
+      ],
+      [
+        1,
+        1116
+      ],
+      [
+        2,
+        1004
+      ],
+      [
+        6,
+        779
+      ],
+      [
+        0,
+        719
+      ],
+      [
+        5,
+        677
+      ],
+      [
+        4,
+        637
+      ],
+      [
+        7,
+        536
+      ]
+    ],
+    "26": [
+      [
+        2,
+        1275
+      ],
+      [
+        3,
+        875
+      ],
+      [
+        5,
+        844
+      ],
+      [
+        6,
+        779
+      ],
+      [
+        4,
+        752
+      ],
+      [
+        1,
+        737
+      ],
+      [
+        7,
+        717
+      ],
+      [
+        0,
+        715
+      ]
+    ],
+    "27": [
+      [
+        7,
+        1096
+      ],
+      [
+        1,
+        1032
+      ],
+      [
+        6,
+        918
+      ],
+      [
+        5,
+        894
+      ],
+      [
+        2,
+        757
+      ],
+      [
+        0,
+        745
+      ],
+      [
+        4,
+        675
+      ],
+      [
+        3,
+        577
+      ]
+    ],
+    "28": [
+      [
+        2,
+        1077
+      ],
+      [
+        5,
+        1031
+      ],
+      [
+        3,
+        975
+      ],
+      [
+        0,
+        917
+      ],
+      [
+        4,
+        753
+      ],
+      [
+        6,
+        691
+      ],
+      [
+        7,
+        689
+      ],
+      [
+        1,
+        561
+      ]
+    ],
+    "29": [
+      [
+        1,
+        1130
+      ],
+      [
+        7,
+        889
+      ],
+      [
+        3,
+        844
+      ],
+      [
+        4,
+        841
+      ],
+      [
+        6,
+        802
+      ],
+      [
+        5,
+        797
+      ],
+      [
+        2,
+        757
+      ],
+      [
+        0,
+        634
+      ]
+    ],
+    "30": [
+      [
+        4,
+        1076
+      ],
+      [
+        7,
+        1032
+      ],
+      [
+        2,
+        938
+      ],
+      [
+        0,
+        904
+      ],
+      [
+        5,
+        841
+      ],
+      [
+        3,
+        829
+      ],
+      [
+        6,
+        556
+      ],
+      [
+        1,
+        518
+      ]
+    ],
+    "31": [
+      [
+        7,
+        1089
+      ],
+      [
+        5,
+        1005
+      ],
+      [
+        1,
+        993
+      ],
+      [
+        2,
+        989
+      ],
+      [
+        0,
+        730
+      ],
+      [
+        4,
+        689
+      ],
+      [
+        3,
+        686
+      ],
+      [
+        6,
+        513
+      ]
+    ]
+  },
+  "failures": []
+}

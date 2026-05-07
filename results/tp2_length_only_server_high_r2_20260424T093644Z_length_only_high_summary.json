@@ -1,0 +1,16 @@
+[
+  {
+    "strategy": "length_only",
+    "load_level": "high",
+    "num_requests": 24,
+    "throughput_tokens_per_s": 16.119758615901034,
+    "avg_ttft": 1.4603790442148845,
+    "p95_ttft": 1.7689247727394104,
+    "p99_ttft": 1.9857819032669068,
+    "avg_tpot": 0.3085885027926614,
+    "p95_tpot": 0.355509511453015,
+    "p99_tpot": 0.35970439820062544,
+    "total_output_tokens": 1356,
+    "wall_time": 84.12036633491516
+  }
+]

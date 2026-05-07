@@ -1,0 +1,13 @@
+model_label,repo_source,proxy_note,gpu_memory_gb,kv_cache_budget_gb,bandwidth_gbps,decode_active_tokens,model_total_gb,expert_total_gb,max_effective_resident_fraction,transfer_ratio_at_max_resident,all_resident_feasible
+Mixtral-8x7B,local,official local config,24.0,8.0,41.37220609315469,32,86.99072265625,84.0,0.125,0.998871276134114,False
+Mixtral-8x7B,local,official local config,48.0,8.0,41.37220609315469,32,86.99072265625,84.0,0.375,0.9984204997156264,False
+Mixtral-8x7B,local,official local config,96.0,8.0,41.37220609315469,32,86.99072265625,84.0,1.0,0.0,True
+Mixtral-8x22B,mistralai/Mixtral-8x22B-Instruct-v0.1,official Hugging Face config,24.0,8.0,41.37220609315469,32,261.94390869140625,252.0,0.0,0.998998904072791,False
+Mixtral-8x22B,mistralai/Mixtral-8x22B-Instruct-v0.1,official Hugging Face config,48.0,8.0,41.37220609315469,32,261.94390869140625,252.0,0.0,0.998998904072791,False
+Mixtral-8x22B,mistralai/Mixtral-8x22B-Instruct-v0.1,official Hugging Face config,96.0,8.0,41.37220609315469,32,261.94390869140625,252.0,0.25,0.9986656507009377,False
+DBRX,alpindale/dbrx-instruct,"public converted config proxy, not official Databricks repo",24.0,8.0,41.37220609315469,32,245.11761474609375,236.25,0.0,0.9990055553249666,False
+DBRX,alpindale/dbrx-instruct,"public converted config proxy, not official Databricks repo",48.0,8.0,41.37220609315469,32,245.11761474609375,236.25,0.125,0.9988636532333891,False
+DBRX,alpindale/dbrx-instruct,"public converted config proxy, not official Databricks repo",96.0,8.0,41.37220609315469,32,245.11761474609375,236.25,0.3125,0.9985541885542665,False
+DeepSeek-MoE-16B,deepseek-ai/deepseek-moe-16b-chat,official Hugging Face config,24.0,8.0,41.37220609315469,32,31.440643310546875,28.875,0.453125,0.9987938684003622,False
+DeepSeek-MoE-16B,deepseek-ai/deepseek-moe-16b-chat,official Hugging Face config,48.0,8.0,41.37220609315469,32,31.440643310546875,28.875,1.0,0.0,True
+DeepSeek-MoE-16B,deepseek-ai/deepseek-moe-16b-chat,official Hugging Face config,96.0,8.0,41.37220609315469,32,31.440643310546875,28.875,1.0,0.0,True

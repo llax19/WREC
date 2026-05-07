@@ -1,0 +1,93 @@
+{
+  "source": "databricks-dolly-15k",
+  "source_url": "https://huggingface.co/datasets/databricks/databricks-dolly-15k/resolve/main/databricks-dolly-15k.jsonl",
+  "seed": 20260427,
+  "raw_rows": 15011,
+  "usable_rows": 14924,
+  "max_approx_input_tokens": 1024,
+  "tokenizer": "regex_approximation",
+  "manifests": {
+    "debug": "data/prompts/wrec_dolly_debug_n64.jsonl",
+    "train": "data/prompts/wrec_dolly_train_n1024.jsonl",
+    "eval": "data/prompts/wrec_dolly_eval_n256.jsonl"
+  },
+  "splits": {
+    "debug": {
+      "num_requests": 64,
+      "approx_input_tokens": {
+        "min": 9,
+        "p50": 17.0,
+        "p90": 264.90000000000015,
+        "p99": 648.8199999999995,
+        "max": 766,
+        "mean": 85.25
+      },
+      "category_counts": {
+        "brainstorming": 6,
+        "classification": 11,
+        "closed_qa": 3,
+        "creative_writing": 2,
+        "general_qa": 6,
+        "information_extraction": 3,
+        "open_qa": 23,
+        "summarization": 10
+      },
+      "group_counts": {
+        "long": 12,
+        "short": 52
+      }
+    },
+    "train": {
+      "num_requests": 1024,
+      "approx_input_tokens": {
+        "min": 5,
+        "p50": 19.0,
+        "p90": 234.70000000000005,
+        "p99": 629.1599999999999,
+        "max": 984,
+        "mean": 82.17578125
+      },
+      "category_counts": {
+        "brainstorming": 112,
+        "classification": 160,
+        "closed_qa": 118,
+        "creative_writing": 46,
+        "general_qa": 151,
+        "information_extraction": 108,
+        "open_qa": 231,
+        "summarization": 98
+      },
+      "group_counts": {
+        "long": 123,
+        "medium": 59,
+        "short": 842
+      }
+    },
+    "eval": {
+      "num_requests": 256,
+      "approx_input_tokens": {
+        "min": 8,
+        "p50": 17.5,
+        "p90": 215.5,
+        "p99": 522.05,
+        "max": 941,
+        "mean": 78.21875
+      },
+      "category_counts": {
+        "brainstorming": 27,
+        "classification": 42,
+        "closed_qa": 26,
+        "creative_writing": 12,
+        "general_qa": 35,
+        "information_extraction": 28,
+        "open_qa": 64,
+        "summarization": 22
+      },
+      "group_counts": {
+        "long": 35,
+        "medium": 13,
+        "short": 208
+      }
+    }
+  }
+}

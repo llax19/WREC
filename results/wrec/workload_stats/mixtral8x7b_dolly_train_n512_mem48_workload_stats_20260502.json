@@ -1,0 +1,2988 @@
+{
+  "inputs": {
+    "train_trace": "logs/processed/wrec/mixtral8x7b_dolly_train_router_events_n512_mem48_20260501.jsonl",
+    "eval_trace": "logs/processed/wrec/mixtral8x7b_dolly_eval_router_events_n256_mem48_20260501.jsonl",
+    "window_sizes": [
+      4,
+      8,
+      16
+    ],
+    "static_hot_capacities": [
+      1,
+      2,
+      4
+    ]
+  },
+  "train_trace_metadata": {
+    "trace_path": "logs/processed/wrec/mixtral8x7b_dolly_train_router_events_n512_mem48_20260501.jsonl",
+    "num_expert_refs": 1863872,
+    "num_router_events": 931936,
+    "num_input_tokens": 29123,
+    "num_token_layer_events": 931936,
+    "num_layers": 32,
+    "num_experts": 8
+  },
+  "eval_trace_metadata": {
+    "trace_path": "logs/processed/wrec/mixtral8x7b_dolly_eval_router_events_n256_mem48_20260501.jsonl",
+    "num_expert_refs": 905408,
+    "num_router_events": 452704,
+    "num_input_tokens": 14147,
+    "num_token_layer_events": 452704,
+    "num_layers": 32,
+    "num_experts": 8
+  },
+  "expected_routed_tokens": {
+    "selected_experts_per_router_event": 2.0,
+    "router_events_per_input_token": 32.0,
+    "expert_refs_per_input_token": 64.0
+  },
+  "train_expert_frequency": {
+    "num_layers": 32,
+    "num_experts": 8,
+    "global_expert_counts": [
+      {
+        "expert": 1,
+        "count": 246516,
+        "probability": 0.1322601552037908
+      },
+      {
+        "expert": 5,
+        "count": 241146,
+        "probability": 0.12937905607252
+      },
+      {
+        "expert": 0,
+        "count": 237671,
+        "probability": 0.12751465765889503
+      },
+      {
+        "expert": 7,
+        "count": 234745,
+        "probability": 0.12594480736874636
+      },
+      {
+        "expert": 4,
+        "count": 228411,
+        "probability": 0.12254650533942245
+      },
+      {
+        "expert": 2,
+        "count": 227760,
+        "probability": 0.12219723242797789
+      },
+      {
+        "expert": 3,
+        "count": 225596,
+        "probability": 0.12103620849500395
+      },
+      {
+        "expert": 6,
+        "count": 222027,
+        "probability": 0.11912137743364351
+      }
+    ],
+    "layers": {
+      "0": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 5,
+            "count": 10090,
+            "probability": 0.1732307797960375
+          },
+          {
+            "expert": 1,
+            "count": 7564,
+            "probability": 0.12986299488376885
+          },
+          {
+            "expert": 0,
+            "count": 7524,
+            "probability": 0.12917625244651992
+          },
+          {
+            "expert": 7,
+            "count": 7383,
+            "probability": 0.12675548535521752
+          },
+          {
+            "expert": 2,
+            "count": 7004,
+            "probability": 0.12024860076228411
+          },
+          {
+            "expert": 4,
+            "count": 6891,
+            "probability": 0.11830855337705594
+          },
+          {
+            "expert": 6,
+            "count": 5969,
+            "probability": 0.10247914019846857
+          },
+          {
+            "expert": 3,
+            "count": 5821,
+            "probability": 0.0999381931806476
+          }
+        ],
+        "entropy_bits": 2.9803689388082453,
+        "top1_share": 0.1732307797960375,
+        "top2_share": 0.30309377467980636,
+        "top4_share": 0.5590255124815438
+      },
+      "1": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 0,
+            "count": 8944,
+            "probability": 0.15355560896885623
+          },
+          {
+            "expert": 5,
+            "count": 8258,
+            "probability": 0.14177797617003743
+          },
+          {
+            "expert": 4,
+            "count": 7658,
+            "probability": 0.13147683961130377
+          },
+          {
+            "expert": 2,
+            "count": 7257,
+            "probability": 0.12459224667788346
+          },
+          {
+            "expert": 7,
+            "count": 7195,
+            "probability": 0.12352779590014765
+          },
+          {
+            "expert": 1,
+            "count": 6752,
+            "probability": 0.11592212340761597
+          },
+          {
+            "expert": 3,
+            "count": 6263,
+            "probability": 0.10752669711224805
+          },
+          {
+            "expert": 6,
+            "count": 5919,
+            "probability": 0.10162071215190743
+          }
+        ],
+        "entropy_bits": 2.988099363434295,
+        "top1_share": 0.15355560896885623,
+        "top2_share": 0.2953335851388937,
+        "top4_share": 0.5514026714280809
+      },
+      "2": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 3,
+            "count": 8371,
+            "probability": 0.14371802355526558
+          },
+          {
+            "expert": 0,
+            "count": 8197,
+            "probability": 0.14073069395323284
+          },
+          {
+            "expert": 1,
+            "count": 7566,
+            "probability": 0.12989733200563128
+          },
+          {
+            "expert": 6,
+            "count": 7478,
+            "probability": 0.12838649864368368
+          },
+          {
+            "expert": 5,
+            "count": 7020,
+            "probability": 0.12052329773718366
+          },
+          {
+            "expert": 4,
+            "count": 6975,
+            "probability": 0.11975071249527865
+          },
+          {
+            "expert": 7,
+            "count": 6834,
+            "probability": 0.11732994540397623
+          },
+          {
+            "expert": 2,
+            "count": 5805,
+            "probability": 0.09966349620574803
+          }
+        ],
+        "entropy_bits": 2.991889553863543,
+        "top1_share": 0.14371802355526558,
+        "top2_share": 0.2844487175084984,
+        "top4_share": 0.5427325481578135
+      },
+      "3": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 0,
+            "count": 9177,
+            "probability": 0.15755588366583112
+          },
+          {
+            "expert": 6,
+            "count": 7841,
+            "probability": 0.13461868626171755
+          },
+          {
+            "expert": 3,
+            "count": 7841,
+            "probability": 0.13461868626171755
+          },
+          {
+            "expert": 5,
+            "count": 7814,
+            "probability": 0.13415513511657454
+          },
+          {
+            "expert": 7,
+            "count": 7447,
+            "probability": 0.12785427325481577
+          },
+          {
+            "expert": 1,
+            "count": 6908,
+            "probability": 0.11860041891288672
+          },
+          {
+            "expert": 4,
+            "count": 6764,
+            "probability": 0.11612814613879065
+          },
+          {
+            "expert": 2,
+            "count": 4454,
+            "probability": 0.0764687703876661
+          }
+        ],
+        "entropy_bits": 2.9762879627572265,
+        "top1_share": 0.15755588366583112,
+        "top2_share": 0.2921745699275487,
+        "top4_share": 0.5609483913058407
+      },
+      "4": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 4,
+            "count": 9509,
+            "probability": 0.1632558458949971
+          },
+          {
+            "expert": 3,
+            "count": 7876,
+            "probability": 0.13521958589431035
+          },
+          {
+            "expert": 7,
+            "count": 7400,
+            "probability": 0.12704735089104832
+          },
+          {
+            "expert": 1,
+            "count": 7273,
+            "probability": 0.12486694365278303
+          },
+          {
+            "expert": 2,
+            "count": 6830,
+            "probability": 0.11726127116025135
+          },
+          {
+            "expert": 0,
+            "count": 6775,
+            "probability": 0.1163170003090341
+          },
+          {
+            "expert": 5,
+            "count": 6462,
+            "probability": 0.11094324073756137
+          },
+          {
+            "expert": 6,
+            "count": 6121,
+            "probability": 0.10508876146001442
+          }
+        ],
+        "entropy_bits": 2.987289094133419,
+        "top1_share": 0.1632558458949971,
+        "top2_share": 0.2984754317893074,
+        "top4_share": 0.5503897263331388
+      },
+      "5": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 8734,
+            "probability": 0.14995021117329946
+          },
+          {
+            "expert": 3,
+            "count": 8262,
+            "probability": 0.14184665041376232
+          },
+          {
+            "expert": 7,
+            "count": 7790,
+            "probability": 0.13374308965422518
+          },
+          {
+            "expert": 5,
+            "count": 7083,
+            "probability": 0.12160491707585071
+          },
+          {
+            "expert": 6,
+            "count": 7055,
+            "probability": 0.12112419736977646
+          },
+          {
+            "expert": 4,
+            "count": 6828,
+            "probability": 0.11722693403838891
+          },
+          {
+            "expert": 0,
+            "count": 6699,
+            "probability": 0.11501218967826117
+          },
+          {
+            "expert": 2,
+            "count": 5795,
+            "probability": 0.0994918105964358
+          }
+        ],
+        "entropy_bits": 2.989482753914399,
+        "top1_share": 0.14995021117329946,
+        "top2_share": 0.29179686158706175,
+        "top4_share": 0.5471448683171377
+      },
+      "6": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 7,
+            "count": 11770,
+            "probability": 0.2020739621604917
+          },
+          {
+            "expert": 2,
+            "count": 9016,
+            "probability": 0.15479174535590426
+          },
+          {
+            "expert": 6,
+            "count": 7595,
+            "probability": 0.13039522027263675
+          },
+          {
+            "expert": 5,
+            "count": 7364,
+            "probability": 0.1264292826975243
+          },
+          {
+            "expert": 3,
+            "count": 6919,
+            "probability": 0.11878927308313017
+          },
+          {
+            "expert": 0,
+            "count": 5967,
+            "probability": 0.10244480307660613
+          },
+          {
+            "expert": 1,
+            "count": 5094,
+            "probability": 0.08745664938364867
+          },
+          {
+            "expert": 4,
+            "count": 4521,
+            "probability": 0.07761906397005804
+          }
+        ],
+        "entropy_bits": 2.9387789070340147,
+        "top1_share": 0.2020739621604917,
+        "top2_share": 0.35686570751639596,
+        "top4_share": 0.613690210486557
+      },
+      "7": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 5,
+            "count": 10351,
+            "probability": 0.17771177419908663
+          },
+          {
+            "expert": 1,
+            "count": 7790,
+            "probability": 0.13374308965422518
+          },
+          {
+            "expert": 6,
+            "count": 7283,
+            "probability": 0.12503862926209525
+          },
+          {
+            "expert": 4,
+            "count": 7074,
+            "probability": 0.1214504000274697
+          },
+          {
+            "expert": 2,
+            "count": 7073,
+            "probability": 0.12143323146653848
+          },
+          {
+            "expert": 3,
+            "count": 6655,
+            "probability": 0.11425677299728737
+          },
+          {
+            "expert": 7,
+            "count": 6244,
+            "probability": 0.10720049445455482
+          },
+          {
+            "expert": 0,
+            "count": 5776,
+            "probability": 0.09916560793874257
+          }
+        ],
+        "entropy_bits": 2.978503739594138,
+        "top1_share": 0.17771177419908663,
+        "top2_share": 0.31145486385331184,
+        "top4_share": 0.5579438931428767
+      },
+      "8": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 3,
+            "count": 9608,
+            "probability": 0.16495553342718813
+          },
+          {
+            "expert": 5,
+            "count": 8989,
+            "probability": 0.15432819421076124
+          },
+          {
+            "expert": 4,
+            "count": 8455,
+            "probability": 0.14516018267348832
+          },
+          {
+            "expert": 6,
+            "count": 8331,
+            "probability": 0.1430312811180167
+          },
+          {
+            "expert": 0,
+            "count": 6310,
+            "probability": 0.10833361947601552
+          },
+          {
+            "expert": 7,
+            "count": 5851,
+            "probability": 0.10045325000858428
+          },
+          {
+            "expert": 1,
+            "count": 5512,
+            "probability": 0.09463310785289977
+          },
+          {
+            "expert": 2,
+            "count": 5190,
+            "probability": 0.08910483123304605
+          }
+        ],
+        "entropy_bits": 2.963506121732386,
+        "top1_share": 0.16495553342718813,
+        "top2_share": 0.3192837276379494,
+        "top4_share": 0.6074751914294544
+      },
+      "9": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 6,
+            "count": 9577,
+            "probability": 0.16442330803832023
+          },
+          {
+            "expert": 5,
+            "count": 8983,
+            "probability": 0.15422518284517392
+          },
+          {
+            "expert": 0,
+            "count": 8734,
+            "probability": 0.14995021117329946
+          },
+          {
+            "expert": 4,
+            "count": 8255,
+            "probability": 0.14172647048724377
+          },
+          {
+            "expert": 7,
+            "count": 7031,
+            "probability": 0.12071215190742712
+          },
+          {
+            "expert": 1,
+            "count": 6036,
+            "probability": 0.1036294337808605
+          },
+          {
+            "expert": 2,
+            "count": 5222,
+            "probability": 0.08965422518284517
+          },
+          {
+            "expert": 3,
+            "count": 4408,
+            "probability": 0.07567901658482985
+          }
+        ],
+        "entropy_bits": 2.95506362651034,
+        "top1_share": 0.16442330803832023,
+        "top2_share": 0.3186484908834942,
+        "top4_share": 0.6103251725440374
+      },
+      "10": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 7,
+            "count": 9464,
+            "probability": 0.16248326065309207
+          },
+          {
+            "expert": 3,
+            "count": 9255,
+            "probability": 0.1588950314184665
+          },
+          {
+            "expert": 4,
+            "count": 8044,
+            "probability": 0.13810390413075577
+          },
+          {
+            "expert": 1,
+            "count": 7983,
+            "probability": 0.13705662191395118
+          },
+          {
+            "expert": 0,
+            "count": 7869,
+            "probability": 0.13509940596779177
+          },
+          {
+            "expert": 2,
+            "count": 5913,
+            "probability": 0.1015177007863201
+          },
+          {
+            "expert": 5,
+            "count": 5423,
+            "probability": 0.09310510593002094
+          },
+          {
+            "expert": 6,
+            "count": 4295,
+            "probability": 0.07373896919960168
+          }
+        ],
+        "entropy_bits": 2.9564992367363896,
+        "top1_share": 0.16248326065309207,
+        "top2_share": 0.32137829207155855,
+        "top4_share": 0.5965388181162655
+      },
+      "11": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 2,
+            "count": 9934,
+            "probability": 0.17055248429076675
+          },
+          {
+            "expert": 5,
+            "count": 9482,
+            "probability": 0.16279229474985407
+          },
+          {
+            "expert": 6,
+            "count": 9229,
+            "probability": 0.15844864883425472
+          },
+          {
+            "expert": 1,
+            "count": 7859,
+            "probability": 0.13492772035847955
+          },
+          {
+            "expert": 0,
+            "count": 7252,
+            "probability": 0.12450640387322734
+          },
+          {
+            "expert": 7,
+            "count": 6308,
+            "probability": 0.10829928235415308
+          },
+          {
+            "expert": 4,
+            "count": 6290,
+            "probability": 0.10799024825739106
+          },
+          {
+            "expert": 3,
+            "count": 1892,
+            "probability": 0.032482917281873434
+          }
+        ],
+        "entropy_bits": 2.9014819990385146,
+        "top1_share": 0.17055248429076675,
+        "top2_share": 0.3333447790406208,
+        "top4_share": 0.6267211482333551
+      },
+      "12": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 10547,
+            "probability": 0.18107681214160629
+          },
+          {
+            "expert": 3,
+            "count": 9584,
+            "probability": 0.16454348796483878
+          },
+          {
+            "expert": 0,
+            "count": 8212,
+            "probability": 0.14098822236720118
+          },
+          {
+            "expert": 4,
+            "count": 7674,
+            "probability": 0.13175153658620334
+          },
+          {
+            "expert": 5,
+            "count": 6434,
+            "probability": 0.11046252103148714
+          },
+          {
+            "expert": 2,
+            "count": 6365,
+            "probability": 0.10927789032723277
+          },
+          {
+            "expert": 6,
+            "count": 5173,
+            "probability": 0.08881296569721527
+          },
+          {
+            "expert": 7,
+            "count": 4257,
+            "probability": 0.07308656388421522
+          }
+        ],
+        "entropy_bits": 2.944728709600582,
+        "top1_share": 0.18107681214160629,
+        "top2_share": 0.34562030010644507,
+        "top4_share": 0.6183600590598496
+      },
+      "13": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 9355,
+            "probability": 0.16061188751158878
+          },
+          {
+            "expert": 0,
+            "count": 8733,
+            "probability": 0.14993304261236823
+          },
+          {
+            "expert": 6,
+            "count": 7993,
+            "probability": 0.1372283075232634
+          },
+          {
+            "expert": 7,
+            "count": 7605,
+            "probability": 0.13056690588194897
+          },
+          {
+            "expert": 2,
+            "count": 6772,
+            "probability": 0.11626549462624043
+          },
+          {
+            "expert": 5,
+            "count": 6690,
+            "probability": 0.11485767262988017
+          },
+          {
+            "expert": 3,
+            "count": 6398,
+            "probability": 0.10984445283796312
+          },
+          {
+            "expert": 4,
+            "count": 4700,
+            "probability": 0.0806922363767469
+          }
+        ],
+        "entropy_bits": 2.973493989622405,
+        "top1_share": 0.16061188751158878,
+        "top2_share": 0.310544930123957,
+        "top4_share": 0.5783401435291694
+      },
+      "14": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 4,
+            "count": 9385,
+            "probability": 0.16112694433952546
+          },
+          {
+            "expert": 6,
+            "count": 9061,
+            "probability": 0.1555643305978093
+          },
+          {
+            "expert": 7,
+            "count": 7435,
+            "probability": 0.12764825052364112
+          },
+          {
+            "expert": 5,
+            "count": 7354,
+            "probability": 0.12625759708821208
+          },
+          {
+            "expert": 0,
+            "count": 6790,
+            "probability": 0.11657452872300243
+          },
+          {
+            "expert": 3,
+            "count": 6563,
+            "probability": 0.11267726539161488
+          },
+          {
+            "expert": 2,
+            "count": 6532,
+            "probability": 0.11214504000274697
+          },
+          {
+            "expert": 1,
+            "count": 5126,
+            "probability": 0.08800604333344779
+          }
+        ],
+        "entropy_bits": 2.976924973374482,
+        "top1_share": 0.16112694433952546,
+        "top2_share": 0.31669127493733473,
+        "top4_share": 0.5705971225491879
+      },
+      "15": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 9542,
+            "probability": 0.16382240840572743
+          },
+          {
+            "expert": 4,
+            "count": 8332,
+            "probability": 0.14304844967894792
+          },
+          {
+            "expert": 7,
+            "count": 7578,
+            "probability": 0.13010335473680595
+          },
+          {
+            "expert": 2,
+            "count": 7257,
+            "probability": 0.12459224667788346
+          },
+          {
+            "expert": 0,
+            "count": 6892,
+            "probability": 0.11832572193798715
+          },
+          {
+            "expert": 5,
+            "count": 6667,
+            "probability": 0.11446279572846205
+          },
+          {
+            "expert": 6,
+            "count": 6176,
+            "probability": 0.10603303231123168
+          },
+          {
+            "expert": 3,
+            "count": 5802,
+            "probability": 0.09961199052295437
+          }
+        ],
+        "entropy_bits": 2.983028361155317,
+        "top1_share": 0.16382240840572743,
+        "top2_share": 0.30687085808467535,
+        "top4_share": 0.5615664594993648
+      },
+      "16": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 10232,
+            "probability": 0.17566871544827112
+          },
+          {
+            "expert": 0,
+            "count": 9393,
+            "probability": 0.16126429282697524
+          },
+          {
+            "expert": 6,
+            "count": 8072,
+            "probability": 0.13858462383682998
+          },
+          {
+            "expert": 5,
+            "count": 7708,
+            "probability": 0.1323352676578649
+          },
+          {
+            "expert": 7,
+            "count": 7336,
+            "probability": 0.12594856299145005
+          },
+          {
+            "expert": 2,
+            "count": 5651,
+            "probability": 0.09701953782233973
+          },
+          {
+            "expert": 4,
+            "count": 5461,
+            "probability": 0.0937575112454074
+          },
+          {
+            "expert": 3,
+            "count": 4393,
+            "probability": 0.07542148817086151
+          }
+        ],
+        "entropy_bits": 2.950950801457436,
+        "top1_share": 0.17566871544827112,
+        "top2_share": 0.33693300827524636,
+        "top4_share": 0.6078528997699413
+      },
+      "17": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 7,
+            "count": 9844,
+            "probability": 0.1690073138069567
+          },
+          {
+            "expert": 6,
+            "count": 8866,
+            "probability": 0.15221646121622084
+          },
+          {
+            "expert": 5,
+            "count": 7860,
+            "probability": 0.13494488891941078
+          },
+          {
+            "expert": 0,
+            "count": 7349,
+            "probability": 0.12617175428355595
+          },
+          {
+            "expert": 3,
+            "count": 6799,
+            "probability": 0.11672904577138345
+          },
+          {
+            "expert": 2,
+            "count": 6777,
+            "probability": 0.11635133743089654
+          },
+          {
+            "expert": 4,
+            "count": 5420,
+            "probability": 0.09305360024722728
+          },
+          {
+            "expert": 1,
+            "count": 5331,
+            "probability": 0.09152559832434845
+          }
+        ],
+        "entropy_bits": 2.9709369342125385,
+        "top1_share": 0.1690073138069567,
+        "top2_share": 0.32122377502317756,
+        "top4_share": 0.5823404182261442
+      },
+      "18": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 5,
+            "count": 9357,
+            "probability": 0.1606462246334512
+          },
+          {
+            "expert": 0,
+            "count": 7624,
+            "probability": 0.1308931085396422
+          },
+          {
+            "expert": 1,
+            "count": 7569,
+            "probability": 0.12994883768842497
+          },
+          {
+            "expert": 7,
+            "count": 7538,
+            "probability": 0.12941661229955706
+          },
+          {
+            "expert": 2,
+            "count": 7009,
+            "probability": 0.12033444356694022
+          },
+          {
+            "expert": 6,
+            "count": 6760,
+            "probability": 0.11605947189506576
+          },
+          {
+            "expert": 4,
+            "count": 6302,
+            "probability": 0.10819627098856574
+          },
+          {
+            "expert": 3,
+            "count": 6087,
+            "probability": 0.10450503038835285
+          }
+        ],
+        "entropy_bits": 2.987954945687937,
+        "top1_share": 0.1606462246334512,
+        "top2_share": 0.29153933317309344,
+        "top4_share": 0.5509047831610754
+      },
+      "19": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 2,
+            "count": 8241,
+            "probability": 0.14148611063420663
+          },
+          {
+            "expert": 1,
+            "count": 7883,
+            "probability": 0.1353397658208289
+          },
+          {
+            "expert": 7,
+            "count": 7676,
+            "probability": 0.1317858737080658
+          },
+          {
+            "expert": 3,
+            "count": 7573,
+            "probability": 0.13001751193214986
+          },
+          {
+            "expert": 0,
+            "count": 7431,
+            "probability": 0.12757957627991623
+          },
+          {
+            "expert": 6,
+            "count": 7213,
+            "probability": 0.12383682999690966
+          },
+          {
+            "expert": 4,
+            "count": 6730,
+            "probability": 0.11554441506712908
+          },
+          {
+            "expert": 5,
+            "count": 5499,
+            "probability": 0.09440991656079388
+          }
+        ],
+        "entropy_bits": 2.9910118839921545,
+        "top1_share": 0.14148611063420663,
+        "top2_share": 0.27682587645503554,
+        "top4_share": 0.5386292620952512
+      },
+      "20": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 8038,
+            "probability": 0.13800089276516841
+          },
+          {
+            "expert": 5,
+            "count": 7551,
+            "probability": 0.12963980359166294
+          },
+          {
+            "expert": 2,
+            "count": 7412,
+            "probability": 0.127253373622223
+          },
+          {
+            "expert": 6,
+            "count": 7404,
+            "probability": 0.12711602513477321
+          },
+          {
+            "expert": 7,
+            "count": 7318,
+            "probability": 0.12563952889468805
+          },
+          {
+            "expert": 3,
+            "count": 6978,
+            "probability": 0.11980221817807231
+          },
+          {
+            "expert": 4,
+            "count": 6822,
+            "probability": 0.11712392267280157
+          },
+          {
+            "expert": 0,
+            "count": 6723,
+            "probability": 0.11542423514061051
+          }
+        ],
+        "entropy_bits": 2.9978097979351253,
+        "top1_share": 0.13800089276516841,
+        "top2_share": 0.26764069635683135,
+        "top4_share": 0.5220100951138276
+      },
+      "21": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 0,
+            "count": 8953,
+            "probability": 0.15371012601723724
+          },
+          {
+            "expert": 1,
+            "count": 8284,
+            "probability": 0.1422243587542492
+          },
+          {
+            "expert": 4,
+            "count": 7753,
+            "probability": 0.13310785289976995
+          },
+          {
+            "expert": 5,
+            "count": 7139,
+            "probability": 0.12256635648799917
+          },
+          {
+            "expert": 3,
+            "count": 6840,
+            "probability": 0.11743295676956357
+          },
+          {
+            "expert": 7,
+            "count": 6644,
+            "probability": 0.11406791882704392
+          },
+          {
+            "expert": 6,
+            "count": 6517,
+            "probability": 0.11188751158877863
+          },
+          {
+            "expert": 2,
+            "count": 6116,
+            "probability": 0.10500291865535831
+          }
+        ],
+        "entropy_bits": 2.9890079591492675,
+        "top1_share": 0.15371012601723724,
+        "top2_share": 0.29593448477148643,
+        "top4_share": 0.5516086941592556
+      },
+      "22": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 4,
+            "count": 9325,
+            "probability": 0.1600968306836521
+          },
+          {
+            "expert": 1,
+            "count": 9300,
+            "probability": 0.15966761666037152
+          },
+          {
+            "expert": 3,
+            "count": 7880,
+            "probability": 0.13528826013803524
+          },
+          {
+            "expert": 0,
+            "count": 6998,
+            "probability": 0.12014558939669677
+          },
+          {
+            "expert": 2,
+            "count": 6506,
+            "probability": 0.11169865741853517
+          },
+          {
+            "expert": 7,
+            "count": 6472,
+            "probability": 0.1111149263468736
+          },
+          {
+            "expert": 5,
+            "count": 6414,
+            "probability": 0.11011914981286268
+          },
+          {
+            "expert": 6,
+            "count": 5351,
+            "probability": 0.09186896954297291
+          }
+        ],
+        "entropy_bits": 2.9758435674832655,
+        "top1_share": 0.1600968306836521,
+        "top2_share": 0.31976444734402365,
+        "top4_share": 0.5751982968787557
+      },
+      "23": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 4,
+            "count": 8464,
+            "probability": 0.1453146997218693
+          },
+          {
+            "expert": 1,
+            "count": 8277,
+            "probability": 0.14210417882773066
+          },
+          {
+            "expert": 0,
+            "count": 8038,
+            "probability": 0.13800089276516841
+          },
+          {
+            "expert": 6,
+            "count": 7529,
+            "probability": 0.12926209525117605
+          },
+          {
+            "expert": 3,
+            "count": 7385,
+            "probability": 0.12678982247707998
+          },
+          {
+            "expert": 2,
+            "count": 6888,
+            "probability": 0.11825704769426226
+          },
+          {
+            "expert": 7,
+            "count": 6475,
+            "probability": 0.11116643202966728
+          },
+          {
+            "expert": 5,
+            "count": 5190,
+            "probability": 0.08910483123304605
+          }
+        ],
+        "entropy_bits": 2.9853705691941452,
+        "top1_share": 0.1453146997218693,
+        "top2_share": 0.28741887854959997,
+        "top4_share": 0.5546818665659444
+      },
+      "24": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 8817,
+            "probability": 0.15137520173059094
+          },
+          {
+            "expert": 5,
+            "count": 8068,
+            "probability": 0.1385159495931051
+          },
+          {
+            "expert": 2,
+            "count": 7405,
+            "probability": 0.12713319369570442
+          },
+          {
+            "expert": 0,
+            "count": 7348,
+            "probability": 0.12615458572262472
+          },
+          {
+            "expert": 3,
+            "count": 6885,
+            "probability": 0.1182055420114686
+          },
+          {
+            "expert": 7,
+            "count": 6706,
+            "probability": 0.11513236960477972
+          },
+          {
+            "expert": 4,
+            "count": 6697,
+            "probability": 0.11497785255639872
+          },
+          {
+            "expert": 6,
+            "count": 6320,
+            "probability": 0.10850530508532774
+          }
+        ],
+        "entropy_bits": 2.992100948652496,
+        "top1_share": 0.15137520173059094,
+        "top2_share": 0.28989115132369603,
+        "top4_share": 0.5431789307420252
+      },
+      "25": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 3,
+            "count": 9734,
+            "probability": 0.1671187721045222
+          },
+          {
+            "expert": 2,
+            "count": 9117,
+            "probability": 0.15652577000995777
+          },
+          {
+            "expert": 1,
+            "count": 8526,
+            "probability": 0.14637915049960512
+          },
+          {
+            "expert": 0,
+            "count": 6849,
+            "probability": 0.11758747381794458
+          },
+          {
+            "expert": 6,
+            "count": 6791,
+            "probability": 0.11659169728393366
+          },
+          {
+            "expert": 4,
+            "count": 6177,
+            "probability": 0.1060502008721629
+          },
+          {
+            "expert": 5,
+            "count": 6078,
+            "probability": 0.10435051333997185
+          },
+          {
+            "expert": 7,
+            "count": 4974,
+            "probability": 0.08539642207190193
+          }
+        ],
+        "entropy_bits": 2.967215287075119,
+        "top1_share": 0.1671187721045222,
+        "top2_share": 0.32364454211447996,
+        "top4_share": 0.5876111664320297
+      },
+      "26": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 2,
+            "count": 10517,
+            "probability": 0.1805617553136696
+          },
+          {
+            "expert": 3,
+            "count": 7992,
+            "probability": 0.13721113896233217
+          },
+          {
+            "expert": 0,
+            "count": 6957,
+            "probability": 0.11944167839851663
+          },
+          {
+            "expert": 1,
+            "count": 6923,
+            "probability": 0.11885794732685506
+          },
+          {
+            "expert": 5,
+            "count": 6847,
+            "probability": 0.11755313669608214
+          },
+          {
+            "expert": 4,
+            "count": 6618,
+            "probability": 0.11362153624283212
+          },
+          {
+            "expert": 7,
+            "count": 6233,
+            "probability": 0.10701164028431137
+          },
+          {
+            "expert": 6,
+            "count": 6159,
+            "probability": 0.10574116677540088
+          }
+        ],
+        "entropy_bits": 2.9778018533793107,
+        "top1_share": 0.1805617553136696,
+        "top2_share": 0.3177728942760018,
+        "top4_share": 0.5560725200013735
+      },
+      "27": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 7,
+            "count": 9345,
+            "probability": 0.16044020190227656
+          },
+          {
+            "expert": 1,
+            "count": 8918,
+            "probability": 0.15310922638464444
+          },
+          {
+            "expert": 6,
+            "count": 7527,
+            "probability": 0.1292277581293136
+          },
+          {
+            "expert": 5,
+            "count": 7412,
+            "probability": 0.127253373622223
+          },
+          {
+            "expert": 2,
+            "count": 7276,
+            "probability": 0.12491844933557669
+          },
+          {
+            "expert": 0,
+            "count": 6413,
+            "probability": 0.11010198125193146
+          },
+          {
+            "expert": 4,
+            "count": 5914,
+            "probability": 0.10153486934725131
+          },
+          {
+            "expert": 3,
+            "count": 5441,
+            "probability": 0.09341414002678296
+          }
+        ],
+        "entropy_bits": 2.977923651996032,
+        "top1_share": 0.16044020190227656,
+        "top2_share": 0.313549428286921,
+        "top4_share": 0.5700305600384575
+      },
+      "28": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 2,
+            "count": 9265,
+            "probability": 0.15906671702777872
+          },
+          {
+            "expert": 5,
+            "count": 9185,
+            "probability": 0.1576932321532809
+          },
+          {
+            "expert": 3,
+            "count": 8236,
+            "probability": 0.14140026782955054
+          },
+          {
+            "expert": 0,
+            "count": 7519,
+            "probability": 0.12909040964186383
+          },
+          {
+            "expert": 4,
+            "count": 6747,
+            "probability": 0.11583628060295986
+          },
+          {
+            "expert": 7,
+            "count": 6474,
+            "probability": 0.11114926346873605
+          },
+          {
+            "expert": 1,
+            "count": 5549,
+            "probability": 0.09526834460735502
+          },
+          {
+            "expert": 6,
+            "count": 5271,
+            "probability": 0.09049548466847508
+          }
+        ],
+        "entropy_bits": 2.971747713723643,
+        "top1_share": 0.15906671702777872,
+        "top2_share": 0.31675994918105965,
+        "top4_share": 0.587250626652474
+      },
+      "29": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 1,
+            "count": 9591,
+            "probability": 0.16466366789135733
+          },
+          {
+            "expert": 3,
+            "count": 7868,
+            "probability": 0.13508223740686057
+          },
+          {
+            "expert": 4,
+            "count": 7577,
+            "probability": 0.13008618617587475
+          },
+          {
+            "expert": 6,
+            "count": 6957,
+            "probability": 0.11944167839851663
+          },
+          {
+            "expert": 7,
+            "count": 6844,
+            "probability": 0.11750163101328846
+          },
+          {
+            "expert": 2,
+            "count": 6828,
+            "probability": 0.11722693403838891
+          },
+          {
+            "expert": 5,
+            "count": 6714,
+            "probability": 0.11526971809222951
+          },
+          {
+            "expert": 0,
+            "count": 5867,
+            "probability": 0.10072794698348385
+          }
+        ],
+        "entropy_bits": 2.9859610793232227,
+        "top1_share": 0.16466366789135733,
+        "top2_share": 0.29974590529821793,
+        "top4_share": 0.5492737698726092
+      },
+      "30": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 4,
+            "count": 9138,
+            "probability": 0.15688630978951346
+          },
+          {
+            "expert": 2,
+            "count": 8258,
+            "probability": 0.14177797617003743
+          },
+          {
+            "expert": 7,
+            "count": 8188,
+            "probability": 0.14057617690485183
+          },
+          {
+            "expert": 0,
+            "count": 7801,
+            "probability": 0.13393194382446863
+          },
+          {
+            "expert": 3,
+            "count": 7778,
+            "probability": 0.1335370669230505
+          },
+          {
+            "expert": 5,
+            "count": 6736,
+            "probability": 0.11564742643271642
+          },
+          {
+            "expert": 6,
+            "count": 5329,
+            "probability": 0.091491261202486
+          },
+          {
+            "expert": 1,
+            "count": 5018,
+            "probability": 0.08615183875287573
+          }
+        ],
+        "entropy_bits": 2.9733594495504883,
+        "top1_share": 0.15688630978951346,
+        "top2_share": 0.29866428595955086,
+        "top4_share": 0.5731724066888714
+      },
+      "31": {
+        "total_refs": 58246,
+        "experts": [
+          {
+            "expert": 7,
+            "count": 9086,
+            "probability": 0.15599354462108986
+          },
+          {
+            "expert": 5,
+            "count": 8924,
+            "probability": 0.15321223775023177
+          },
+          {
+            "expert": 1,
+            "count": 8619,
+            "probability": 0.14797582666620884
+          },
+          {
+            "expert": 2,
+            "count": 8075,
+            "probability": 0.13863612951962367
+          },
+          {
+            "expert": 0,
+            "count": 6557,
+            "probability": 0.11257425402602754
+          },
+          {
+            "expert": 3,
+            "count": 6209,
+            "probability": 0.10659959482196202
+          },
+          {
+            "expert": 4,
+            "count": 5911,
+            "probability": 0.10148336366445765
+          },
+          {
+            "expert": 6,
+            "count": 4865,
+            "probability": 0.08352504893039865
+          }
+        ],
+        "entropy_bits": 2.969026092169698,
+        "top1_share": 0.15599354462108986,
+        "top2_share": 0.3092057823713216,
+        "top4_share": 0.5958177385571541
+      }
+    }
+  },
+  "static_hot_by_capacity": {
+    "1": {
+      "0": [
+        5
+      ],
+      "1": [
+        0
+      ],
+      "2": [
+        3
+      ],
+      "3": [
+        0
+      ],
+      "4": [
+        4
+      ],
+      "5": [
+        1
+      ],
+      "6": [
+        7
+      ],
+      "7": [
+        5
+      ],
+      "8": [
+        3
+      ],
+      "9": [
+        6
+      ],
+      "10": [
+        7
+      ],
+      "11": [
+        2
+      ],
+      "12": [
+        1
+      ],
+      "13": [
+        1
+      ],
+      "14": [
+        4
+      ],
+      "15": [
+        1
+      ],
+      "16": [
+        1
+      ],
+      "17": [
+        7
+      ],
+      "18": [
+        5
+      ],
+      "19": [
+        2
+      ],
+      "20": [
+        1
+      ],
+      "21": [
+        0
+      ],
+      "22": [
+        4
+      ],
+      "23": [
+        4
+      ],
+      "24": [
+        1
+      ],
+      "25": [
+        3
+      ],
+      "26": [
+        2
+      ],
+      "27": [
+        7
+      ],
+      "28": [
+        2
+      ],
+      "29": [
+        1
+      ],
+      "30": [
+        4
+      ],
+      "31": [
+        7
+      ]
+    },
+    "2": {
+      "0": [
+        1,
+        5
+      ],
+      "1": [
+        0,
+        5
+      ],
+      "2": [
+        0,
+        3
+      ],
+      "3": [
+        0,
+        6
+      ],
+      "4": [
+        3,
+        4
+      ],
+      "5": [
+        1,
+        3
+      ],
+      "6": [
+        2,
+        7
+      ],
+      "7": [
+        1,
+        5
+      ],
+      "8": [
+        3,
+        5
+      ],
+      "9": [
+        5,
+        6
+      ],
+      "10": [
+        3,
+        7
+      ],
+      "11": [
+        2,
+        5
+      ],
+      "12": [
+        1,
+        3
+      ],
+      "13": [
+        0,
+        1
+      ],
+      "14": [
+        4,
+        6
+      ],
+      "15": [
+        1,
+        4
+      ],
+      "16": [
+        0,
+        1
+      ],
+      "17": [
+        6,
+        7
+      ],
+      "18": [
+        0,
+        5
+      ],
+      "19": [
+        1,
+        2
+      ],
+      "20": [
+        1,
+        5
+      ],
+      "21": [
+        0,
+        1
+      ],
+      "22": [
+        1,
+        4
+      ],
+      "23": [
+        1,
+        4
+      ],
+      "24": [
+        1,
+        5
+      ],
+      "25": [
+        2,
+        3
+      ],
+      "26": [
+        2,
+        3
+      ],
+      "27": [
+        1,
+        7
+      ],
+      "28": [
+        2,
+        5
+      ],
+      "29": [
+        1,
+        3
+      ],
+      "30": [
+        2,
+        4
+      ],
+      "31": [
+        5,
+        7
+      ]
+    },
+    "4": {
+      "0": [
+        0,
+        1,
+        5,
+        7
+      ],
+      "1": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "2": [
+        0,
+        1,
+        3,
+        6
+      ],
+      "3": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "4": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "5": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "6": [
+        2,
+        5,
+        6,
+        7
+      ],
+      "7": [
+        1,
+        4,
+        5,
+        6
+      ],
+      "8": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "9": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "10": [
+        1,
+        3,
+        4,
+        7
+      ],
+      "11": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "12": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "13": [
+        0,
+        1,
+        6,
+        7
+      ],
+      "14": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "15": [
+        1,
+        2,
+        4,
+        7
+      ],
+      "16": [
+        0,
+        1,
+        5,
+        6
+      ],
+      "17": [
+        0,
+        5,
+        6,
+        7
+      ],
+      "18": [
+        0,
+        1,
+        5,
+        7
+      ],
+      "19": [
+        1,
+        2,
+        3,
+        7
+      ],
+      "20": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "21": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "22": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "23": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "24": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "25": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "26": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "27": [
+        1,
+        5,
+        6,
+        7
+      ],
+      "28": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "29": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "30": [
+        0,
+        2,
+        4,
+        7
+      ],
+      "31": [
+        1,
+        2,
+        5,
+        7
+      ]
+    }
+  },
+  "train_reuse_distance": {
+    "same_layer_expert_ref_distance": {
+      "count": 1863616,
+      "min": 1.0,
+      "p50": 5.0,
+      "p90": 27.0,
+      "p99": 7097.0,
+      "max": 26054.0,
+      "mean": 255.80965499330335
+    },
+    "same_layer_expert_router_event_distance": {
+      "count": 1863616,
+      "min": 1.0,
+      "p50": 2.0,
+      "p90": 13.0,
+      "p99": 3548.0,
+      "max": 13027.0,
+      "mean": 127.90482535028676
+    },
+    "by_layer_ref_distance": {
+      "0": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 24.0,
+        "p99": 7945.0,
+        "max": 8015.0,
+        "mean": 255.86337099488307
+      },
+      "1": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 7758.0,
+        "max": 9069.0,
+        "mean": 255.86093272433806
+      },
+      "2": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 7566.0,
+        "max": 10103.0,
+        "mean": 255.85844294103507
+      },
+      "3": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 7388.0,
+        "max": 12192.0,
+        "mean": 255.81463992582164
+      },
+      "4": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 26.0,
+        "p99": 7168.629999999997,
+        "max": 8019.0,
+        "mean": 255.85403001476698
+      },
+      "5": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 6985.0,
+        "max": 8632.0,
+        "mean": 255.85147154778667
+      },
+      "6": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 28.0,
+        "p99": 6831.259999999995,
+        "max": 11735.0,
+        "mean": 255.8304028297675
+      },
+      "7": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 29.0,
+        "p99": 6620.629999999997,
+        "max": 10510.0,
+        "mean": 255.82875442151172
+      },
+      "8": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 29.0,
+        "p99": 6444.0,
+        "max": 9934.0,
+        "mean": 255.8451698203922
+      },
+      "9": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 30.0,
+        "p99": 6335.5199999999895,
+        "max": 14036.0,
+        "mean": 255.78060716370754
+      },
+      "10": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 28.0,
+        "p99": 6046.629999999997,
+        "max": 8046.0,
+        "mean": 255.84005288643155
+      },
+      "11": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 22.0,
+        "p99": 6060.259999999995,
+        "max": 26054.0,
+        "mean": 255.63015556852915
+      },
+      "12": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 27.0,
+        "p99": 5779.0,
+        "max": 9262.0,
+        "mean": 255.83601772038875
+      },
+      "13": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 27.0,
+        "p99": 5552.0,
+        "max": 8240.0,
+        "mean": 255.81429650743502
+      },
+      "14": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 27.0,
+        "p99": 5375.889999999992,
+        "max": 8131.0,
+        "mean": 255.81160067310003
+      },
+      "15": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 29.0,
+        "p99": 5253.0,
+        "max": 9042.0,
+        "mean": 255.82980184759091
+      },
+      "16": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 5439.149999999987,
+        "max": 13540.0,
+        "mean": 255.74154332222946
+      },
+      "17": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 5363.259999999995,
+        "max": 8007.0,
+        "mean": 255.82499399017823
+      },
+      "18": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 26.0,
+        "p99": 5417.0,
+        "max": 9045.0,
+        "mean": 255.8238091967444
+      },
+      "19": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 27.0,
+        "p99": 5551.0,
+        "max": 8087.0,
+        "mean": 255.8210446787321
+      },
+      "20": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 27.0,
+        "p99": 5719.629999999997,
+        "max": 8071.0,
+        "mean": 255.81773069130122
+      },
+      "21": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 29.0,
+        "p99": 5919.0,
+        "max": 9047.0,
+        "mean": 255.8158934029328
+      },
+      "22": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 28.0,
+        "p99": 6126.0,
+        "max": 8819.0,
+        "mean": 255.70725299632542
+      },
+      "23": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 28.0,
+        "p99": 6314.0,
+        "max": 8132.0,
+        "mean": 255.81204711700263
+      },
+      "24": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 4.0,
+        "p90": 29.0,
+        "p99": 6520.629999999997,
+        "max": 9331.0,
+        "mean": 255.8096431882963
+      },
+      "25": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 28.0,
+        "p99": 6725.629999999997,
+        "max": 9376.0,
+        "mean": 255.80761701981524
+      },
+      "26": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 28.0,
+        "p99": 6923.629999999997,
+        "max": 9036.0,
+        "mean": 255.80536762938289
+      },
+      "27": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 27.0,
+        "p99": 7128.0,
+        "max": 8682.0,
+        "mean": 255.8032727772245
+      },
+      "28": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 5.0,
+        "p90": 26.0,
+        "p99": 7340.0,
+        "max": 9236.0,
+        "mean": 255.8005082592122
+      },
+      "29": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 25.0,
+        "p99": 7546.0,
+        "max": 10061.0,
+        "mean": 255.77734468903466
+      },
+      "30": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 26.0,
+        "p99": 7747.0,
+        "max": 8900.0,
+        "mean": 255.79643875133075
+      },
+      "31": {
+        "count": 58238,
+        "min": 1.0,
+        "p50": 6.0,
+        "p90": 26.0,
+        "p99": 7943.0,
+        "max": 10252.0,
+        "mean": 255.79470448847832
+      }
+    }
+  },
+  "train_working_set": {
+    "by_request": {
+      "per_request_layer_unique_experts": {
+        "count": 16384,
+        "min": 5.0,
+        "p50": 8.0,
+        "p90": 8.0,
+        "p99": 8.0,
+        "max": 8.0,
+        "mean": 7.8984375
+      },
+      "by_layer": {
+        "0": {
+          "count": 512,
+          "min": 8.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 8.0
+        },
+        "1": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9921875
+        },
+        "2": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.900390625
+        },
+        "3": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.7421875
+        },
+        "4": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9921875
+        },
+        "5": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.966796875
+        },
+        "6": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.7265625
+        },
+        "7": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.845703125
+        },
+        "8": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.830078125
+        },
+        "9": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.638671875
+        },
+        "10": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9765625
+        },
+        "11": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 7.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.330078125
+        },
+        "12": {
+          "count": 512,
+          "min": 5.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.76953125
+        },
+        "13": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.953125
+        },
+        "14": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9765625
+        },
+        "15": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.986328125
+        },
+        "16": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.728515625
+        },
+        "17": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9765625
+        },
+        "18": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.998046875
+        },
+        "19": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.97265625
+        },
+        "20": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.99609375
+        },
+        "21": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9921875
+        },
+        "22": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.935546875
+        },
+        "23": {
+          "count": 512,
+          "min": 8.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 8.0
+        },
+        "24": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.9375
+        },
+        "25": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.912109375
+        },
+        "26": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.99609375
+        },
+        "27": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.978515625
+        },
+        "28": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.875
+        },
+        "29": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.890625
+        },
+        "30": {
+          "count": 512,
+          "min": 7.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.966796875
+        },
+        "31": {
+          "count": 512,
+          "min": 6.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.966796875
+        }
+      }
+    },
+    "by_layer_window": {
+      "4": {
+        "unique_experts_per_layer_window": {
+          "count": 931840,
+          "min": 2.0,
+          "p50": 5.0,
+          "p90": 6.0,
+          "p99": 7.0,
+          "max": 8.0,
+          "mean": 4.950303700206044
+        },
+        "expert_use_probability_per_window": {
+          "count": 931840,
+          "min": 0.25,
+          "p50": 0.625,
+          "p90": 0.75,
+          "p99": 0.875,
+          "max": 1.0,
+          "mean": 0.6187879625257555
+        }
+      },
+      "8": {
+        "unique_experts_per_layer_window": {
+          "count": 931712,
+          "min": 2.0,
+          "p50": 7.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 6.580622552891881
+        },
+        "expert_use_probability_per_window": {
+          "count": 931712,
+          "min": 0.125,
+          "p50": 0.4375,
+          "p90": 0.5,
+          "p99": 0.5,
+          "max": 0.5,
+          "mean": 0.41128890955574254
+        }
+      },
+      "16": {
+        "unique_experts_per_layer_window": {
+          "count": 931456,
+          "min": 2.0,
+          "p50": 8.0,
+          "p90": 8.0,
+          "p99": 8.0,
+          "max": 8.0,
+          "mean": 7.5851194259310155
+        },
+        "expert_use_probability_per_window": {
+          "count": 931456,
+          "min": 0.0625,
+          "p50": 0.25,
+          "p90": 0.25,
+          "p99": 0.25,
+          "max": 0.25,
+          "mean": 0.23703498206034423
+        }
+      }
+    }
+  },
+  "train_eval_hotness_shift": {
+    "total_variation_by_layer": {
+      "count": 32,
+      "min": 0.006846849283634361,
+      "p50": 0.010364997124863724,
+      "p90": 0.016395347295958703,
+      "p99": 0.021318213649475108,
+      "max": 0.022017961559855415,
+      "mean": 0.011252629519170996
+    },
+    "topk_overlap_by_layer": {
+      "1": {
+        "count": 32,
+        "min": 0.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.90625
+      },
+      "2": {
+        "count": 32,
+        "min": 0.5,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.9375
+      },
+      "4": {
+        "count": 32,
+        "min": 0.75,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.9375
+      }
+    },
+    "layers": {
+      "0": {
+        "total_variation": 0.007973891826308914,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "1": {
+        "total_variation": 0.009056776932209402,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "2": {
+        "total_variation": 0.006846849283634361,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "3": {
+        "total_variation": 0.00950465707803775,
+        "top1_overlap": 1.0,
+        "top2_overlap": 0.5,
+        "top4_overlap": 1.0
+      },
+      "4": {
+        "total_variation": 0.009501999330922467,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "5": {
+        "total_variation": 0.012442434866160632,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "6": {
+        "total_variation": 0.016521393440744693,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "7": {
+        "total_variation": 0.019760710236047967,
+        "top1_overlap": 1.0,
+        "top2_overlap": 0.5,
+        "top4_overlap": 1.0
+      },
+      "8": {
+        "total_variation": 0.01360177692457596,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "9": {
+        "total_variation": 0.008840399909533697,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "10": {
+        "total_variation": 0.010761099138479488,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "11": {
+        "total_variation": 0.010429647733629442,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "12": {
+        "total_variation": 0.01526093199288478,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "13": {
+        "total_variation": 0.014118069180167128,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "14": {
+        "total_variation": 0.01124524114905829,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "15": {
+        "total_variation": 0.009195380264644192,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "16": {
+        "total_variation": 0.007854216750383947,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "17": {
+        "total_variation": 0.006860741170039944,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "18": {
+        "total_variation": 0.007080771078020132,
+        "top1_overlap": 1.0,
+        "top2_overlap": 0.5,
+        "top4_overlap": 1.0
+      },
+      "19": {
+        "total_variation": 0.007727994393323459,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "20": {
+        "total_variation": 0.008786260751287918,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "21": {
+        "total_variation": 0.011497255041158318,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "22": {
+        "total_variation": 0.016760917134986182,
+        "top1_overlap": 0.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "23": {
+        "total_variation": 0.010300346516098006,
+        "top1_overlap": 0.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "24": {
+        "total_variation": 0.011996654219195005,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "25": {
+        "total_variation": 0.022017961559855415,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "26": {
+        "total_variation": 0.013661644195325805,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "27": {
+        "total_variation": 0.0110404829715339,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "28": {
+        "total_variation": 0.009399003741916212,
+        "top1_overlap": 0.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      },
+      "29": {
+        "total_variation": 0.009194697017326454,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 0.75
+      },
+      "30": {
+        "total_variation": 0.010631737241790173,
+        "top1_overlap": 1.0,
+        "top2_overlap": 0.5,
+        "top4_overlap": 1.0
+      },
+      "31": {
+        "total_variation": 0.010212201544191842,
+        "top1_overlap": 1.0,
+        "top2_overlap": 1.0,
+        "top4_overlap": 1.0
+      }
+    }
+  }
+}

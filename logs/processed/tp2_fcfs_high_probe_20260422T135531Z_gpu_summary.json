@@ -1,0 +1,23 @@
+{
+  "window_start": 1776866241.1931882,
+  "window_end": 1776866398.2290256,
+  "sample_count": 300,
+  "per_gpu": [
+    {
+      "gpu_index": 0,
+      "sample_count": 150,
+      "memory_total_mib": 24564.0,
+      "peak_memory_used_mib": 21963.0,
+      "avg_memory_used_mib": 21963.0,
+      "peak_memory_utilization": 0.8941133365901319
+    },
+    {
+      "gpu_index": 1,
+      "sample_count": 150,
+      "memory_total_mib": 24564.0,
+      "peak_memory_used_mib": 21949.0,
+      "avg_memory_used_mib": 21949.0,
+      "peak_memory_utilization": 0.8935433968409053
+    }
+  ]
+}

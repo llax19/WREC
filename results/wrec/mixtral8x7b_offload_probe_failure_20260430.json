@@ -1,0 +1,44 @@
+{
+  "model": "mixtral8x7b",
+  "phase": "phase2b_offload_probe",
+  "date": "2026-04-30",
+  "status": "failed",
+  "request_limit": 1,
+  "max_input_tokens": 128,
+  "command": "conda run -n vllm_moe python scripts/moe_affinity/build_moe_router_event_trace.py --model-path models/Mixtral-8x7B-Instruct-v0.1 --model-name mixtral8x7b --request-file data/prompts/wrec_dolly_debug_n64.jsonl --output logs/processed/wrec/mixtral8x7b_dolly_probe_router_events_n1_20260430.jsonl --stats-output results/wrec/mixtral8x7b_offload_probe_n1_20260430.json --failure-output results/wrec/mixtral8x7b_offload_probe_failures_n1_20260430.jsonl --limit 1 --max-input-tokens 128 --phase prefill --dtype float16 --device-map auto --max-memory 0=22GiB,1=22GiB,cpu=96GiB --offload-folder models/offload/mixtral8x7b --continue-on-error",
+  "environment": {
+    "conda_env": "vllm_moe",
+    "gpu": "2x NVIDIA GeForce RTX 3090 Ti 24GB",
+    "torch_dtype": "float16",
+    "device_map": "auto",
+    "max_memory": {
+      "0": "22GiB",
+      "1": "22GiB",
+      "cpu": "96GiB"
+    }
+  },
+  "failure_stage": "AutoModelForCausalLM.from_pretrained weight loading/conversion",
+  "failure_type": "CUDAOutOfMemoryError",
+  "error_summary": "Transformers loaded 291/291 weights, then OOMed on GPU1 during automatic Mixtral expert gate_up_proj conversion/finalization. The run did not reach request prefill or router event extraction.",
+  "observed_peak": {
+    "gpu0_memory_mib_before_failure_approx": 23002,
+    "gpu1_memory_mib_before_failure_approx": 24217,
+    "python_rss_mib_before_failure_approx": 112781
+  },
+  "output_files": {
+    "trace_jsonl": "not_created",
+    "stats_json": "not_created",
+    "request_failure_jsonl": "not_created"
+  },
+  "post_failure_gpu_state": {
+    "gpu0_memory_mib": 21395,
+    "gpu1_memory_mib": 10,
+    "gpu0_compute_app": {
+      "pid": 2867653,
+      "process_name": "[Not Found]",
+      "used_memory_mib": 21366,
+      "visible_in_current_container_proc": false
+    }
+  },
+  "conclusion": "The initial Mixtral probe failed before trace collection because 22GiB per GPU left insufficient headroom for Transformers' loading/conversion step. A retry should wait until GPU0 is fully released and use lower GPU max_memory, for example 0=20GiB,1=20GiB, plus PYTORCH_ALLOC_CONF=expandable_segments:True."
+}

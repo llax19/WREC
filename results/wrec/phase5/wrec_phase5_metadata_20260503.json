@@ -1,0 +1,12 @@
+{
+  "trace": "workspace/logs/processed/wrec/mixtral8x7b_dolly_eval_router_events_n256_mem48_20260501.jsonl",
+  "static_hot_trace": "workspace/logs/processed/wrec/mixtral8x7b_dolly_train_router_events_n512_mem48_20260501.jsonl",
+  "expert_bytes": 352321536.0,
+  "fractions": [
+    0.25,
+    0.375,
+    0.5
+  ],
+  "ablation_rows": 27,
+  "sensitivity_rows": 60
+}

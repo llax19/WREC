@@ -1,0 +1,129 @@
+{
+  "created_at_utc": "2026-05-01T06:56:46.661567+00:00",
+  "workspace": "/root/workspace",
+  "platform": {
+    "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+    "python_executable": "/opt/conda/bin/python",
+    "system": "Linux-6.17.0-1017-oem-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "disk": {
+    "total_bytes": 3936807272448,
+    "used_bytes": 640710955008,
+    "free_bytes": 3096040861696
+  },
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": null,
+    "HF_HOME": null,
+    "HUGGINGFACE_HUB_CACHE": null
+  },
+  "python_modules": {
+    "torch": {
+      "installed": true,
+      "version": "2.10.0+cu128"
+    },
+    "transformers": {
+      "installed": false
+    },
+    "accelerate": {
+      "installed": false
+    },
+    "datasets": {
+      "installed": false
+    },
+    "huggingface_hub": {
+      "installed": false
+    },
+    "safetensors": {
+      "installed": false
+    },
+    "numpy": {
+      "installed": false
+    },
+    "pandas": {
+      "installed": false
+    },
+    "tqdm": {
+      "installed": true,
+      "version": "4.67.3"
+    }
+  },
+  "commands": {
+    "nvidia_smi_query": {
+      "available": true,
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=index,name,memory.total,memory.free,driver_version",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stdout": "0, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887, 96721, 580.126.09",
+      "stderr": ""
+    },
+    "nvidia_smi_topology": {
+      "available": true,
+      "command": [
+        "nvidia-smi",
+        "topo",
+        "-m"
+      ],
+      "returncode": 0,
+      "stdout": "\u001b[4mGPU0\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \t0-23\t0\t\tN/A\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks",
+      "stderr": ""
+    },
+    "nvcc": {
+      "available": false,
+      "command": [
+        "nvcc",
+        "--version"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    "huggingface_cli": {
+      "available": false,
+      "command": [
+        "huggingface-cli",
+        "--version"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    "git_lfs": {
+      "available": false,
+      "command": [
+        "git-lfs",
+        "--version"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "paths": {
+    "qwen_debug_model": {
+      "path": "/root/workspace/qwen1.5-MoE-A2.7B/config.json",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 919
+    },
+    "mixtral_config": {
+      "path": "/root/workspace/models/Mixtral-8x7B-Instruct-v0.1/config.json",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 720
+    },
+    "debug_requests": {
+      "path": "/root/workspace/data/prompts/debug_requests.jsonl",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 13489
+    },
+    "eval_requests": {
+      "path": "/root/workspace/data/prompts/eval_requests.jsonl",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 132342
+    }
+  }
+}

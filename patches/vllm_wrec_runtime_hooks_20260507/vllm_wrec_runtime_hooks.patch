@@ -1,0 +1,784 @@
+diff --git a/vllm/model_executor/layers/fused_moe/layer.py b/vllm/model_executor/layers/fused_moe/layer.py
+index a95481a..aa3e239 100644
+--- a/vllm/model_executor/layers/fused_moe/layer.py
++++ b/vllm/model_executor/layers/fused_moe/layer.py
+@@ -48,6 +48,9 @@ from vllm.model_executor.layers.fused_moe.unquantized_fused_moe_method import (
+ from vllm.model_executor.layers.fused_moe.utils import (
+     disable_inplace,
+ )
++from vllm.model_executor.layers.fused_moe.wrec_expert_residency import (
++    get_wrec_expert_residency_manager,
++)
+ from vllm.model_executor.layers.quantization.base_config import (
+     QuantizationConfig,
+ )
+@@ -1469,6 +1472,10 @@ class FusedMoE(CustomOp):
+         hidden_states: torch.Tensor,
+         router_logits: torch.Tensor,
+     ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
++        get_wrec_expert_residency_manager().maybe_onload_selected_experts(
++            self,
++            router_logits,
++        )
+         return self.runner.forward(
+             hidden_states,
+             router_logits,
+@@ -1476,6 +1483,11 @@ class FusedMoE(CustomOp):
+ 
+     @property
+     def expert_map(self) -> torch.Tensor | None:
++        wrec_expert_map = get_wrec_expert_residency_manager().expert_map_for_layer(
++            self
++        )
++        if wrec_expert_map is not None:
++            return wrec_expert_map
+         return (
+             self._expert_map if not self.rocm_aiter_fmoe_enabled else self.expert_mask
+         )
+diff --git a/vllm/model_executor/offloader/prefetch.py b/vllm/model_executor/offloader/prefetch.py
+index 5bdde8c..2316578 100644
+--- a/vllm/model_executor/offloader/prefetch.py
++++ b/vllm/model_executor/offloader/prefetch.py
+@@ -21,6 +21,7 @@ import torch.nn as nn
+ import vllm.model_executor.offloader.prefetch_ops  # noqa: F401
+ from vllm.logger import init_logger
+ from vllm.model_executor.offloader.base import BaseOffloader
++from vllm.model_executor.offloader.wrec_residency import get_wrec_residency_state
+ from vllm.utils.platform_utils import is_pin_memory_available
+ 
+ logger = init_logger(__name__)
+@@ -198,6 +199,7 @@ class PrefetchOffloader(BaseOffloader):
+                         copy_stream=self.copy_stream,
+                         whitelist_param_names=whitelist,
+                         layer_idx=len(self.module_offloaders),
++                        model_layer_index=module_index,
+                     )
+                 )
+ 
+@@ -225,7 +227,13 @@ class PrefetchOffloader(BaseOffloader):
+ 
+             # Start prefetch for next layer (circular)
+             # mutates_args on output_tensor creates ordering dependency
+-            next_index = (index + self.prefetch_step) % len(self.module_offloaders)
++            default_next_index = (index + self.prefetch_step) % len(
++                self.module_offloaders
++            )
++            next_index = get_wrec_residency_state().choose_next_prefetch_index(
++                default_index=default_next_index,
++                module_offloaders=self.module_offloaders,
++            )
+             # Handle tuple output (e.g., (hidden_states, residual))
+             if isinstance(output, tuple):
+                 torch.ops.vllm.start_prefetch(output[0], next_index)
+@@ -378,12 +386,14 @@ class _ModuleOffloader:
+         copy_stream: torch.cuda.Stream,
+         whitelist_param_names: list[str],
+         layer_idx: int,
++        model_layer_index: int,
+     ):
+         self.mode = mode
+         self.module = module
+         self.device = next(module.parameters()).device
+         self.copy_stream = copy_stream
+         self.layer_idx = layer_idx
++        self.model_layer_index = model_layer_index
+         self.offloaded_bytes = 0
+ 
+         # Event to signal when H2D copy to static buffer is complete.
+@@ -645,6 +655,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
+         self.offloaded_bytes = (
+             self._cpu_storage.numel() * self._cpu_storage.element_size()
+         )
++        param._vllm_cpu_offload_storage = self._cpu_storage
+ 
+         # Point param.data to CPU storage - this allows weight loading to work
+         # and frees GPU memory when the original GPU tensor is garbage collected
+@@ -683,6 +694,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
+             # param.data is on GPU - copy to existing CPU storage
+             assert self._cpu_storage is not None
+             self._cpu_storage.copy_(param.data)
++        param._vllm_cpu_offload_storage = self._cpu_storage
+ 
+     def assign_static_buffer(self, gpu_buffer: torch.Tensor) -> None:
+         """Point parameter data to GPU static buffer.
+diff --git a/vllm/model_executor/offloader/uva.py b/vllm/model_executor/offloader/uva.py
+index c524e43..e835c71 100644
+--- a/vllm/model_executor/offloader/uva.py
++++ b/vllm/model_executor/offloader/uva.py
+@@ -100,6 +100,7 @@ class UVAOffloader(BaseOffloader):
+             cpu_data = p.data.to(device="cpu")
+             if self.pin_memory:
+                 cpu_data = cpu_data.pin_memory()
++            p._vllm_cpu_offload_storage = cpu_data
+ 
+             if not self.uva_offloading:
+                 p.data = cpu_data
+diff --git a/vllm/v1/core/sched/scheduler.py b/vllm/v1/core/sched/scheduler.py
+index fe524cc..35b4444 100644
+--- a/vllm/v1/core/sched/scheduler.py
++++ b/vllm/v1/core/sched/scheduler.py
+@@ -51,6 +51,7 @@ from vllm.v1.core.sched.request_queue import (
+     create_request_queue,
+ )
+ from vllm.v1.core.sched.utils import check_stop, remove_all
++from vllm.v1.core.sched.wrec_sidecar_client import WrecSidecarClient
+ from vllm.v1.engine import EngineCoreEventType, EngineCoreOutput, EngineCoreOutputs
+ from vllm.v1.kv_cache_interface import AttentionSpec, KVCacheConfig
+ from vllm.v1.metrics.perf import ModelMetrics, PerfStats
+@@ -249,6 +250,7 @@ class Scheduler(SchedulerInterface):
+ 
+         self.has_mamba_layers = kv_cache_config.has_mamba_layers
+         self.needs_kv_cache_zeroing = kv_cache_config.needs_kv_cache_zeroing
++        self.wrec_sidecar_client = WrecSidecarClient()
+         self.need_mamba_block_aligned_split = (
+             self.has_mamba_layers and self.cache_config.mamba_cache_mode == "align"
+         )
+@@ -1410,6 +1412,10 @@ class Scheduler(SchedulerInterface):
+             finish_reason = None
+             if stopped:
+                 routed_experts = self._get_routed_experts(request)
++                self.wrec_sidecar_client.submit_routed_experts(
++                    request_id=req_id,
++                    routed_experts=routed_experts,
++                )
+ 
+                 # Capture finish_reason BEFORE _handle_stopped_request, which may
+                 # reset the status to WAITING for streaming requests that continue.
+diff --git a/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py b/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py
+new file mode 100644
+index 0000000..b046ee1
+--- /dev/null
++++ b/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py
+@@ -0,0 +1,418 @@
++# SPDX-License-Identifier: Apache-2.0
++# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
++
++from dataclasses import dataclass, field
++import os
++import re
++from typing import Any
++
++import torch
++
++from vllm.logger import init_logger
++
++logger = init_logger(__name__)
++
++
++def _env_bool(name: str, default: bool = False) -> bool:
++    value = os.getenv(name)
++    if value is None:
++        return default
++    return value.lower() in ("1", "true", "yes", "on")
++
++
++@dataclass
++class _LayerResidencyState:
++    cpu_w13_weight: torch.Tensor
++    cpu_w2_weight: torch.Tensor
++    resident_experts: set[int] = field(default_factory=set)
++    finite_slots: bool = False
++    expert_map: torch.Tensor | None = None
++    logical_to_slot: dict[int, int] = field(default_factory=dict)
++    slot_to_logical: list[int | None] = field(default_factory=list)
++
++
++class WrecExpertResidencyManager:
++    """Experimental expert-slice residency hook for FusedMoE.
++
++    With WREC_EXPERT_RESIDENCY_SLOT_CAPACITY unset or 0, this stays in a
++    state-only mode by default: sidecar decisions are recorded, but full expert
++    CPU backing is not duplicated. Set WREC_EXPERT_RESIDENCY_ROW_COPY=1 to
++    enable the old full-shape row-copy skeleton. When
++    WREC_EXPERT_RESIDENCY_SLOT_CAPACITY is set below the model's global expert
++    count, the manager replaces the layer weights with finite GPU slot tensors
++    and exposes a global-logical-expert to slot expert_map for the MoE kernel.
++    """
++
++    def __init__(self) -> None:
++        self.enabled = _env_bool("WREC_EXPERT_RESIDENCY", False)
++        self.max_experts_per_layer = int(
++            os.getenv("WREC_EXPERT_RESIDENCY_MAX_EXPERTS_PER_LAYER", "0")
++        )
++        self.slot_capacity = int(
++            os.getenv("WREC_EXPERT_RESIDENCY_SLOT_CAPACITY", "0")
++        )
++        self.row_copy_full_tensor = _env_bool(
++            "WREC_EXPERT_RESIDENCY_ROW_COPY", False
++        )
++        self._layers: dict[int, _LayerResidencyState] = {}
++        self._layers_by_model_index: dict[int, _LayerResidencyState] = {}
++        self._desired_experts_by_layer: dict[int, dict[int, int]] = {}
++        self._warned_unsupported: set[int] = set()
++
++    def maybe_onload_selected_experts(
++        self,
++        layer: Any,
++        router_logits: torch.Tensor,
++    ) -> None:
++        if not self.enabled:
++            return
++        if not self._supports_layer(layer):
++            layer_id = id(layer)
++            if layer_id not in self._warned_unsupported:
++                self._warned_unsupported.add(layer_id)
++                logger.warning(
++                    "WREC expert residency disabled for unsupported FusedMoE layer %s",
++                    getattr(layer, "layer_name", "<unknown>"),
++                )
++            return
++
++        current_experts = self._select_experts(layer, router_logits)
++        if not current_experts:
++            return
++
++        selected_experts = self._selected_experts_for_layer(layer)
++        selected_experts.extend(current_experts)
++        selected_experts = list(dict.fromkeys(selected_experts))
++
++        state = self._get_or_create_layer_state(layer, current_experts)
++        if not state.finite_slots and not self.row_copy_full_tensor:
++            return
++        selected_experts = self._bounded_prefetch_experts(
++            layer=layer,
++            state=state,
++            selected_experts=selected_experts,
++            current_experts=current_experts,
++        )
++        self._onload_experts(layer, state, selected_experts)
++
++    def record_sidecar_response(self, response: dict[str, Any] | None) -> None:
++        if not self.enabled or not response:
++            return
++        decisions = response.get("decisions")
++        if not isinstance(decisions, list):
++            return
++        for decision in decisions:
++            if not isinstance(decision, dict):
++                continue
++            layer = decision.get("layer")
++            expert = decision.get("expert")
++            if layer is None or expert is None:
++                continue
++            layer_id = int(layer)
++            expert_id = int(expert)
++            if decision.get("would_admit"):
++                self._increment_desired_expert(layer_id, expert_id)
++
++            evicted = decision.get("would_evict")
++            if isinstance(evicted, (list, tuple)) and len(evicted) >= 2:
++                evicted_layer = int(evicted[0])
++                evicted_expert = int(evicted[1])
++                self._decrement_desired_expert(evicted_layer, evicted_expert)
++                state = self._layers_by_model_index.get(evicted_layer)
++                if state is not None and state.finite_slots:
++                    self._evict_expert(state, evicted_expert)
++
++    def expert_map_for_layer(self, layer: Any) -> torch.Tensor | None:
++        if not self.enabled:
++            return None
++        state = self._layers.get(id(layer))
++        if state is None or not state.finite_slots:
++            return None
++        return state.expert_map
++
++    def _supports_layer(self, layer: Any) -> bool:
++        w13_weight = getattr(layer, "w13_weight", None)
++        w2_weight = getattr(layer, "w2_weight", None)
++        if not isinstance(w13_weight, torch.Tensor):
++            return False
++        if not isinstance(w2_weight, torch.Tensor):
++            return False
++        if w13_weight.ndim != 3 or w2_weight.ndim != 3:
++            return False
++        if w13_weight.shape[0] != w2_weight.shape[0]:
++            return False
++        if getattr(layer, "enable_eplb", False):
++            return False
++        if int(getattr(layer, "ep_size", 1)) != 1:
++            return False
++        if int(getattr(layer, "num_fused_shared_experts", 0)) != 0:
++            return False
++        if getattr(layer, "rocm_aiter_fmoe_enabled", False):
++            return False
++        if hasattr(layer, "w13_bias") or hasattr(layer, "w2_bias"):
++            return False
++        if getattr(layer, "custom_routing_function", None) is not None:
++            return False
++        if getattr(layer, "use_grouped_topk", False):
++            return False
++        if getattr(layer, "scoring_func", "softmax") != "softmax":
++            return False
++        global_num_experts = getattr(layer, "global_num_experts", None)
++        state = self._layers.get(id(layer))
++        if state is not None and state.finite_slots:
++            return True
++        if global_num_experts is not None and w13_weight.shape[0] < global_num_experts:
++            return False
++        return True
++
++    def _select_experts(self, layer: Any, router_logits: torch.Tensor) -> list[int]:
++        if router_logits.numel() == 0:
++            return []
++        if router_logits.ndim < 2:
++            return []
++
++        top_k = min(int(getattr(layer, "top_k", 1)), router_logits.shape[-1])
++        if top_k <= 0:
++            return []
++
++        with torch.no_grad():
++            topk_ids = torch.topk(router_logits.float(), k=top_k, dim=-1).indices
++            unique_ids = torch.unique(topk_ids.detach().cpu(), sorted=True)
++
++        num_experts = int(getattr(layer, "global_num_experts", router_logits.shape[-1]))
++        return [
++            int(expert_id)
++            for expert_id in unique_ids.tolist()
++            if 0 <= int(expert_id) < num_experts
++        ]
++
++    def _selected_experts_for_layer(self, layer: Any) -> list[int]:
++        layer_index = self._layer_index(layer)
++        if layer_index is None:
++            return []
++        desired = self._desired_experts_by_layer.get(layer_index)
++        if not desired:
++            return []
++        return [
++            expert_id
++            for expert_id, count in sorted(desired.items())
++            if count > 0
++        ]
++
++    def _layer_index(self, layer: Any) -> int | None:
++        layer_name = getattr(layer, "layer_name", None)
++        if not isinstance(layer_name, str):
++            return None
++        match = re.search(r"(?:^|\.)layers\.(\d+)(?:\.|$)", layer_name)
++        if match is None:
++            return None
++        return int(match.group(1))
++
++    def _increment_desired_expert(self, layer_id: int, expert_id: int) -> None:
++        experts = self._desired_experts_by_layer.setdefault(layer_id, {})
++        experts[expert_id] = experts.get(expert_id, 0) + 1
++
++    def _decrement_desired_expert(self, layer_id: int, expert_id: int) -> None:
++        experts = self._desired_experts_by_layer.get(layer_id)
++        if not experts:
++            return
++        if experts.get(expert_id, 0) <= 1:
++            experts.pop(expert_id, None)
++        else:
++            experts[expert_id] -= 1
++        if not experts:
++            self._desired_experts_by_layer.pop(layer_id, None)
++
++    def _get_or_create_layer_state(
++        self,
++        layer: Any,
++        current_experts: list[int],
++    ) -> _LayerResidencyState:
++        layer_id = id(layer)
++        state = self._layers.get(layer_id)
++        if state is not None:
++            return state
++
++        finite_slots = self._use_finite_slots(layer)
++        if not finite_slots and not self.row_copy_full_tensor:
++            state = _LayerResidencyState(
++                cpu_w13_weight=torch.empty(0),
++                cpu_w2_weight=torch.empty(0),
++            )
++            self._layers[layer_id] = state
++            layer_index = self._layer_index(layer)
++            if layer_index is not None:
++                self._layers_by_model_index[layer_index] = state
++            return state
++        if finite_slots and len(current_experts) > self.slot_capacity:
++            raise RuntimeError(
++                "WREC expert residency slot overflow before initialization: "
++                f"{len(current_experts)} experts needed but capacity is "
++                f"{self.slot_capacity} for layer {getattr(layer, 'layer_name', '<unknown>')}"
++            )
++
++        with torch.no_grad():
++            state = _LayerResidencyState(
++                cpu_w13_weight=self._cpu_backing_for_weight(layer.w13_weight),
++                cpu_w2_weight=self._cpu_backing_for_weight(layer.w2_weight),
++            )
++            if finite_slots:
++                self._install_finite_slot_tensors(layer, state)
++        self._layers[layer_id] = state
++        layer_index = self._layer_index(layer)
++        if layer_index is not None:
++            self._layers_by_model_index[layer_index] = state
++        logger.info(
++            "WREC expert residency created CPU backing for FusedMoE layer %s",
++            getattr(layer, "layer_name", "<unknown>"),
++        )
++        return state
++
++    def _cpu_backing_for_weight(self, weight: torch.Tensor) -> torch.Tensor:
++        offload_storage = getattr(weight, "_vllm_cpu_offload_storage", None)
++        if (
++            isinstance(offload_storage, torch.Tensor)
++            and offload_storage.device.type == "cpu"
++            and offload_storage.shape == weight.shape
++            and offload_storage.dtype == weight.dtype
++        ):
++            return offload_storage.detach()
++        return weight.detach().to("cpu", copy=True)
++
++    def _use_finite_slots(self, layer: Any) -> bool:
++        global_num_experts = int(getattr(layer, "global_num_experts", 0))
++        return 0 < self.slot_capacity < global_num_experts
++
++    def _install_finite_slot_tensors(
++        self,
++        layer: Any,
++        state: _LayerResidencyState,
++    ) -> None:
++        slot_capacity = self.slot_capacity
++        w13_slots = torch.empty(
++            (slot_capacity, *state.cpu_w13_weight.shape[1:]),
++            dtype=layer.w13_weight.dtype,
++            device=layer.w13_weight.device,
++        )
++        w2_slots = torch.empty(
++            (slot_capacity, *state.cpu_w2_weight.shape[1:]),
++            dtype=layer.w2_weight.dtype,
++            device=layer.w2_weight.device,
++        )
++        layer.w13_weight = torch.nn.Parameter(w13_slots, requires_grad=False)
++        layer.w2_weight = torch.nn.Parameter(w2_slots, requires_grad=False)
++
++        global_num_experts = int(getattr(layer, "global_num_experts"))
++        state.finite_slots = True
++        state.expert_map = torch.full(
++            (global_num_experts,),
++            -1,
++            dtype=torch.int32,
++            device=w13_slots.device,
++        )
++        state.slot_to_logical = [None for _ in range(slot_capacity)]
++
++    def _bounded_prefetch_experts(
++        self,
++        *,
++        layer: Any,
++        state: _LayerResidencyState,
++        selected_experts: list[int],
++        current_experts: list[int],
++    ) -> list[int]:
++        if not state.finite_slots:
++            if self.max_experts_per_layer > 0:
++                return selected_experts[: self.max_experts_per_layer]
++            return selected_experts
++
++        if len(current_experts) > self.slot_capacity:
++            raise RuntimeError(
++                "WREC expert residency slot overflow: "
++                f"{len(current_experts)} experts needed but capacity is "
++                f"{self.slot_capacity} for layer {getattr(layer, 'layer_name', '<unknown>')}"
++            )
++
++        bounded = list(current_experts)
++        for expert_id in selected_experts:
++            if len(bounded) >= self.slot_capacity:
++                break
++            if expert_id not in bounded:
++                bounded.append(expert_id)
++        return bounded
++
++    def _onload_experts(
++        self,
++        layer: Any,
++        state: _LayerResidencyState,
++        expert_ids: list[int],
++    ) -> None:
++        with torch.no_grad():
++            for expert_id in expert_ids:
++                if expert_id in state.resident_experts:
++                    continue
++                if state.finite_slots:
++                    slot_id = self._slot_for_onload(state, expert_id, expert_ids)
++                    layer.w13_weight[slot_id].copy_(
++                        state.cpu_w13_weight[expert_id],
++                        non_blocking=True,
++                    )
++                    layer.w2_weight[slot_id].copy_(
++                        state.cpu_w2_weight[expert_id],
++                        non_blocking=True,
++                    )
++                    state.logical_to_slot[expert_id] = slot_id
++                    state.slot_to_logical[slot_id] = expert_id
++                    assert state.expert_map is not None
++                    state.expert_map[expert_id] = slot_id
++                    state.resident_experts.add(expert_id)
++                else:
++                    layer.w13_weight[expert_id].copy_(
++                        state.cpu_w13_weight[expert_id],
++                        non_blocking=True,
++                    )
++                    layer.w2_weight[expert_id].copy_(
++                        state.cpu_w2_weight[expert_id],
++                        non_blocking=True,
++                    )
++                    state.resident_experts.add(expert_id)
++
++    def _slot_for_onload(
++        self,
++        state: _LayerResidencyState,
++        expert_id: int,
++        protected_experts: list[int],
++    ) -> int:
++        if expert_id in state.logical_to_slot:
++            return state.logical_to_slot[expert_id]
++
++        for slot_id, logical_id in enumerate(state.slot_to_logical):
++            if logical_id is None:
++                return slot_id
++
++        protected = set(protected_experts)
++        for slot_id, logical_id in enumerate(state.slot_to_logical):
++            if logical_id is not None and logical_id not in protected:
++                self._evict_expert(state, logical_id)
++                return slot_id
++
++        raise RuntimeError(
++            "WREC expert residency cannot find a free GPU expert slot. "
++            f"capacity={len(state.slot_to_logical)}, protected={sorted(protected)}"
++        )
++
++    def _evict_expert(self, state: _LayerResidencyState, expert_id: int) -> None:
++        slot_id = state.logical_to_slot.pop(expert_id, None)
++        if slot_id is None:
++            return
++        if 0 <= slot_id < len(state.slot_to_logical):
++            state.slot_to_logical[slot_id] = None
++        if state.expert_map is not None:
++            state.expert_map[expert_id] = -1
++        state.resident_experts.discard(expert_id)
++
++
++_WREC_EXPERT_RESIDENCY_MANAGER = WrecExpertResidencyManager()
++
++
++def get_wrec_expert_residency_manager() -> WrecExpertResidencyManager:
++    return _WREC_EXPERT_RESIDENCY_MANAGER
+diff --git a/vllm/model_executor/offloader/wrec_residency.py b/vllm/model_executor/offloader/wrec_residency.py
+new file mode 100644
+index 0000000..e9cec3a
+--- /dev/null
++++ b/vllm/model_executor/offloader/wrec_residency.py
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: Apache-2.0
++# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
++"""WREC-guided residency hints for the real weight offloader.
++
++WREC decisions are expert-granular, while vLLM's current prefetch offloader is
++module/layer-granular. This state object bridges the two conservatively: any
++admitted expert marks its layer as desirable for prefetch. The offloader still
++owns the real H2D copy and buffer residency.
++"""
++
++from __future__ import annotations
++
++import os
++from collections import Counter, deque
++from typing import Any
++
++
++def _env_bool(name: str, default: bool = False) -> bool:
++    value = os.getenv(name)
++    if value is None or value == "":
++        return default
++    return value.lower() in ("1", "true", "yes", "on")
++
++
++class WrecResidencyState:
++    def __init__(self) -> None:
++        self.enabled = _env_bool("WREC_RESIDENCY_MANAGER", False)
++        self.desired_layer_counts: Counter[int] = Counter()
++        self.recent_layers: deque[int] = deque(maxlen=256)
++
++    def record_sidecar_response(self, response: dict[str, Any] | None) -> None:
++        if not self.enabled or not response:
++            return
++        decisions = response.get("decisions")
++        if not isinstance(decisions, list):
++            return
++        for decision in decisions:
++            if not isinstance(decision, dict):
++                continue
++            layer = decision.get("layer")
++            if layer is None:
++                continue
++            layer_id = int(layer)
++            if decision.get("would_admit"):
++                self.desired_layer_counts[layer_id] += 1
++                self.recent_layers.append(layer_id)
++
++            evicted = decision.get("would_evict")
++            if isinstance(evicted, (list, tuple)) and evicted:
++                evicted_layer = int(evicted[0])
++                if self.desired_layer_counts[evicted_layer] > 0:
++                    self.desired_layer_counts[evicted_layer] -= 1
++                    if self.desired_layer_counts[evicted_layer] <= 0:
++                        del self.desired_layer_counts[evicted_layer]
++
++    def choose_next_prefetch_index(
++        self,
++        *,
++        default_index: int,
++        module_offloaders: list[Any],
++    ) -> int:
++        if not self.enabled or not module_offloaders or not self.desired_layer_counts:
++            return default_index
++
++        layer_to_index = {
++            int(getattr(offloader, "model_layer_index", -1)): index
++            for index, offloader in enumerate(module_offloaders)
++        }
++        while self.recent_layers:
++            layer = self.recent_layers.pop()
++            if layer in layer_to_index and self.desired_layer_counts[layer] > 0:
++                return layer_to_index[layer]
++        return default_index
++
++
++_GLOBAL_WREC_RESIDENCY_STATE = WrecResidencyState()
++
++
++def get_wrec_residency_state() -> WrecResidencyState:
++    return _GLOBAL_WREC_RESIDENCY_STATE
+diff --git a/vllm/v1/core/sched/wrec_sidecar_client.py b/vllm/v1/core/sched/wrec_sidecar_client.py
+new file mode 100644
+index 0000000..9101899
+--- /dev/null
++++ b/vllm/v1/core/sched/wrec_sidecar_client.py
+@@ -0,0 +1,122 @@
++# SPDX-License-Identifier: Apache-2.0
++# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
++"""Optional WREC sidecar bridge for routed expert events.
++
++This bridge is intentionally fail-open and disabled unless WREC_SIDECAR_URL is
++set. It exports routed expert arrays using the same event contract as the WREC
++runtime sidecar prototype.
++"""
++
++from __future__ import annotations
++
++import http.client
++import json
++import logging
++import os
++from urllib.parse import urlparse
++
++import numpy as np
++
++from vllm.model_executor.layers.fused_moe.wrec_expert_residency import (
++    get_wrec_expert_residency_manager,
++)
++from vllm.model_executor.offloader.wrec_residency import get_wrec_residency_state
++
++logger = logging.getLogger(__name__)
++
++
++class WrecSidecarClient:
++    """Best-effort HTTP client for WREC routed expert events."""
++
++    def __init__(self) -> None:
++        self.url = os.getenv("WREC_SIDECAR_URL", "")
++        self.enabled = bool(self.url)
++        self.timeout = float(os.getenv("WREC_SIDECAR_TIMEOUT_SECONDS", "0.05"))
++        self.max_events_per_request = int(
++            os.getenv("WREC_SIDECAR_MAX_EVENTS_PER_REQUEST", "0")
++        )
++        self._event_index = 0
++        self._disabled_after_error = bool(
++            int(os.getenv("WREC_SIDECAR_DISABLE_AFTER_ERROR", "1"))
++        )
++        self._conn: http.client.HTTPConnection | None = None
++        self._path = "/event"
++
++        if not self.enabled:
++            return
++
++        parsed = urlparse(self.url)
++        host = parsed.hostname or "127.0.0.1"
++        port = parsed.port or 80
++        self._path = parsed.path or "/event"
++        self._conn = http.client.HTTPConnection(host, port, timeout=self.timeout)
++        logger.info("WREC sidecar event bridge enabled: %s", self.url)
++
++    def submit_routed_experts(
++        self,
++        *,
++        request_id: str,
++        routed_experts: np.ndarray | None,
++    ) -> None:
++        if not self.enabled or routed_experts is None:
++            return
++        if self._conn is None:
++            return
++
++        array = np.asarray(routed_experts)
++        if array.ndim != 3:
++            logger.warning("WREC sidecar skipped unexpected shape: %s", array.shape)
++            return
++
++        sent = 0
++        try:
++            seq_len, num_layers, _topk = array.shape
++            for token_pos in range(int(seq_len)):
++                for layer in range(int(num_layers)):
++                    selected = [
++                        int(expert)
++                        for expert in array[token_pos, layer].tolist()
++                        if int(expert) >= 0
++                    ]
++                    if not selected:
++                        continue
++                    if (
++                        self.max_events_per_request > 0
++                        and sent >= self.max_events_per_request
++                    ):
++                        return
++                    payload = {
++                        "request_id": request_id,
++                        "event_index": self._event_index,
++                        "layer": layer,
++                        "token_pos": token_pos,
++                        "selected_experts": selected,
++                    }
++                    body = json.dumps(payload).encode("utf-8")
++                    self._conn.request(
++                        "POST",
++                        self._path,
++                        body=body,
++                        headers={"Content-Type": "application/json"},
++                    )
++                    response = self._conn.getresponse()
++                    raw = response.read()
++                    if response.status >= 400:
++                        raise RuntimeError(f"WREC sidecar HTTP {response.status}")
++                    if raw:
++                        response_payload = json.loads(raw.decode("utf-8"))
++                        get_wrec_residency_state().record_sidecar_response(
++                            response_payload
++                        )
++                        get_wrec_expert_residency_manager().record_sidecar_response(
++                            response_payload
++                        )
++                    self._event_index += 1
++                    sent += 1
++        except Exception:
++            logger.warning("WREC sidecar bridge failed", exc_info=True)
++            if self._disabled_after_error:
++                self.enabled = False
++                if self._conn is not None:
++                    self._conn.close()
++                    self._conn = None

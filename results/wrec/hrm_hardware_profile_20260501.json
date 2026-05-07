@@ -1,0 +1,108 @@
+{
+  "created_at_utc": "2026-05-01T06:56:46.850416+00:00",
+  "units": {
+    "bandwidth": "GB/s decimal",
+    "compute": "TFLOP/s"
+  },
+  "benchmarks": {
+    "cpu_bandwidth": {
+      "available": false,
+      "reason": "numpy is not installed"
+    },
+    "cpu_flops": {
+      "available": false,
+      "reason": "numpy is not installed"
+    },
+    "gpu_bandwidth": {
+      "available": true,
+      "device": "cuda:0",
+      "size_mib": 512,
+      "repeats": 5,
+      "copy_ms": {
+        "min": 0.7375680208206177,
+        "median": 0.7399359941482544,
+        "mean": 6.517856192588806,
+        "p90": 18.07372217178345,
+        "max": 29.622880935668945
+      },
+      "hbm_copy_gbps": {
+        "min": 36.24704249164052,
+        "median": 1451.1279793004148,
+        "mean": 1165.5974253324382,
+        "p90": 1454.7277081185748,
+        "max": 1455.7868477070842
+      },
+      "recommended_gpu_bandwidth_gbps": 1451.1279793004148
+    },
+    "cpu_gpu_bandwidth": {
+      "available": true,
+      "device": "cuda:0",
+      "size_mib": 512,
+      "repeats": 5,
+      "pageable": {
+        "available": true,
+        "copy_ms": {
+          "min": 37.06643295288086,
+          "median": 38.04518508911133,
+          "mean": 38.794560241699216,
+          "p90": 40.868256378173825,
+          "max": 42.236576080322266
+        },
+        "h2d_gbps": {
+          "min": 12.71104246184682,
+          "median": 14.111402290263912,
+          "mean": 13.867467152359904,
+          "p90": 14.37025811673931,
+          "max": 14.48401880705582
+        },
+        "recommended_cpu_gpu_bandwidth_gbps": 14.111402290263912
+      },
+      "pinned": {
+        "available": true,
+        "copy_ms": {
+          "min": 12.960160255432129,
+          "median": 12.976608276367188,
+          "mean": 12.985894584655762,
+          "p90": 13.012460899353027,
+          "max": 13.028512001037598
+        },
+        "h2d_gbps": {
+          "min": 41.207385153211916,
+          "median": 41.37220609315469,
+          "mean": 41.34275135346542,
+          "p90": 41.404730373228745,
+          "max": 41.42471245870402
+        },
+        "recommended_cpu_gpu_bandwidth_gbps": 41.37220609315469
+      },
+      "recommended_cpu_gpu_bandwidth_gbps": 41.37220609315469
+    },
+    "gpu_flops": {
+      "available": true,
+      "device": "cuda:0",
+      "dtype": "bf16",
+      "matrix_size": 4096,
+      "repeats": 5,
+      "matmul_ms": {
+        "min": 0.3511039912700653,
+        "median": 0.359360009431839,
+        "mean": 0.3762175977230072,
+        "p90": 0.4164095997810364,
+        "max": 0.44569599628448486
+      },
+      "tflops": {
+        "min": 308.3692799974663,
+        "median": 382.45478034491344,
+        "mean": 368.2421551345086,
+        "p90": 390.85090928422005,
+        "max": 391.44799515048373
+      },
+      "recommended_gpu_tflops": 382.45478034491344
+    }
+  },
+  "recommended_hrm_constants": {
+    "gpu_bandwidth_gbps": 1451.1279793004148,
+    "cpu_gpu_bandwidth_gbps": 41.37220609315469,
+    "gpu_tflops": 382.45478034491344
+  }
+}

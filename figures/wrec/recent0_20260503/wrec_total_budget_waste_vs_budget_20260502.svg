@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="450.0" y="30" text-anchor="middle" font-family="Arial" font-size="20">Prefetch Waste vs Total Expert-Cache Budget</text>
+<line x1="90" y1="60" x2="90" y2="440" stroke="#333"/>
+<line x1="90" y1="440" x2="680" y2="440" stroke="#333"/>
+<text x="20" y="250.0" transform="rotate(-90 20 250.0)" text-anchor="middle" font-family="Arial" font-size="13">log10(waste bytes / input token + 1)</text>
+<text x="385.0" y="495" text-anchor="middle" font-family="Arial" font-size="13">total expert-cache slots</text>
+<line x1="90.00" y1="440" x2="90.00" y2="446" stroke="#333"/>
+<text x="90.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">32</text>
+<line x1="237.50" y1="440" x2="237.50" y2="446" stroke="#333"/>
+<text x="237.50" y="464" text-anchor="middle" font-family="Arial" font-size="12">64</text>
+<line x1="385.00" y1="440" x2="385.00" y2="446" stroke="#333"/>
+<text x="385.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">96</text>
+<line x1="532.50" y1="440" x2="532.50" y2="446" stroke="#333"/>
+<text x="532.50" y="464" text-anchor="middle" font-family="Arial" font-size="12">128</text>
+<line x1="680.00" y1="440" x2="680.00" y2="446" stroke="#333"/>
+<text x="680.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">192</text>
+<line x1="85" y1="440.00" x2="680" y2="440.00" stroke="#eee"/>
+<text x="80" y="444.00" text-anchor="end" font-family="Arial" font-size="11">0.00</text>
+<line x1="85" y1="345.00" x2="680" y2="345.00" stroke="#eee"/>
+<text x="80" y="349.00" text-anchor="end" font-family="Arial" font-size="11">2.57</text>
+<line x1="85" y1="250.00" x2="680" y2="250.00" stroke="#eee"/>
+<text x="80" y="254.00" text-anchor="end" font-family="Arial" font-size="11">5.14</text>
+<line x1="85" y1="155.00" x2="680" y2="155.00" stroke="#eee"/>
+<text x="80" y="159.00" text-anchor="end" font-family="Arial" font-size="11">7.71</text>
+<line x1="85" y1="60.00" x2="680" y2="60.00" stroke="#eee"/>
+<text x="80" y="64.00" text-anchor="end" font-family="Arial" font-size="11">10.28</text>
+<polyline fill="none" stroke="#E45756" stroke-width="2.5" points="90.00,60.00 237.50,61.15 385.00,70.71 532.50,77.19 680.00,122.22"/>
+<circle cx="90.00" cy="60.00" r="3.5" fill="#E45756"/>
+<circle cx="237.50" cy="61.15" r="3.5" fill="#E45756"/>
+<circle cx="385.00" cy="70.71" r="3.5" fill="#E45756"/>
+<circle cx="532.50" cy="77.19" r="3.5" fill="#E45756"/>
+<circle cx="680.00" cy="122.22" r="3.5" fill="#E45756"/>
+<polyline fill="none" stroke="#B279A2" stroke-width="2.5" points="90.00,440.00 237.50,440.00 385.00,440.00 532.50,440.00 680.00,440.00"/>
+<circle cx="90.00" cy="440.00" r="3.5" fill="#B279A2"/>
+<circle cx="237.50" cy="440.00" r="3.5" fill="#B279A2"/>
+<circle cx="385.00" cy="440.00" r="3.5" fill="#B279A2"/>
+<circle cx="532.50" cy="440.00" r="3.5" fill="#B279A2"/>
+<circle cx="680.00" cy="440.00" r="3.5" fill="#B279A2"/>
+<line x1="705" y1="60" x2="730" y2="60" stroke="#E45756" stroke-width="3"/>
+<text x="737" y="64" font-family="Arial" font-size="12">route_window_prefetch</text>
+<line x1="705" y1="84" x2="730" y2="84" stroke="#B279A2" stroke-width="3"/>
+<text x="737" y="88" font-family="Arial" font-size="12">wrec_h2</text>
+</svg>

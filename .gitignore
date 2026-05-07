@@ -1,0 +1,51 @@
+# Python/cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local environment and credentials
+.env
+.env.*
+*.key
+*.pem
+
+# Large model/checkpoint artifacts
+/models/*
+!/models/README.md
+/qwen1.5-MoE-A2.7B/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Downloaded datasets and reference papers
+/data/external/
+/*.pdf
+/paper_extracted.txt
+
+# Raw/generated logs. Keep only lightweight documentation in git.
+/logs/raw/
+/logs/server/
+/logs/runs/
+/logs/processed/**/*.jsonl
+/logs/processed/**/*.log
+!/logs/processed/
+!/logs/processed/wrec/
+!/logs/processed/wrec/README.md
+
+# External source trees and runtime overlays are represented by patches/docs.
+/external/
+/runtime/vllm_patch_overlay/
+
+# Local scratch and generated archives
+/test.py
+*.tar
+*.tar.gz
+*.tgz
+*.zip

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="450.0" y="30" text-anchor="middle" font-family="Arial" font-size="20">Stall Proxy vs Total Expert-Cache Budget</text>
+<line x1="90" y1="60" x2="90" y2="440" stroke="#333"/>
+<line x1="90" y1="440" x2="680" y2="440" stroke="#333"/>
+<text x="20" y="250.0" transform="rotate(-90 20 250.0)" text-anchor="middle" font-family="Arial" font-size="13">stall ms / input token</text>
+<text x="385.0" y="495" text-anchor="middle" font-family="Arial" font-size="13">total expert-cache slots</text>
+<line x1="90.00" y1="440" x2="90.00" y2="446" stroke="#333"/>
+<text x="90.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">32</text>
+<line x1="237.50" y1="440" x2="237.50" y2="446" stroke="#333"/>
+<text x="237.50" y="464" text-anchor="middle" font-family="Arial" font-size="12">64</text>
+<line x1="385.00" y1="440" x2="385.00" y2="446" stroke="#333"/>
+<text x="385.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">96</text>
+<line x1="532.50" y1="440" x2="532.50" y2="446" stroke="#333"/>
+<text x="532.50" y="464" text-anchor="middle" font-family="Arial" font-size="12">128</text>
+<line x1="680.00" y1="440" x2="680.00" y2="446" stroke="#333"/>
+<text x="680.00" y="464" text-anchor="middle" font-family="Arial" font-size="12">192</text>
+<line x1="85" y1="440.00" x2="680" y2="440.00" stroke="#eee"/>
+<text x="80" y="444.00" text-anchor="end" font-family="Arial" font-size="11">0.00</text>
+<line x1="85" y1="345.00" x2="680" y2="345.00" stroke="#eee"/>
+<text x="80" y="349.00" text-anchor="end" font-family="Arial" font-size="11">125.50</text>
+<line x1="85" y1="250.00" x2="680" y2="250.00" stroke="#eee"/>
+<text x="80" y="254.00" text-anchor="end" font-family="Arial" font-size="11">251.01</text>
+<line x1="85" y1="155.00" x2="680" y2="155.00" stroke="#eee"/>
+<text x="80" y="159.00" text-anchor="end" font-family="Arial" font-size="11">376.51</text>
+<line x1="85" y1="60.00" x2="680" y2="60.00" stroke="#eee"/>
+<text x="80" y="64.00" text-anchor="end" font-family="Arial" font-size="11">502.01</text>
+<polyline fill="none" stroke="#4C78A8" stroke-width="2.5" points="90.00,60.00 237.50,154.14 385.00,213.06 532.50,267.16 680.00,362.38"/>
+<circle cx="90.00" cy="60.00" r="3.5" fill="#4C78A8"/>
+<circle cx="237.50" cy="154.14" r="3.5" fill="#4C78A8"/>
+<circle cx="385.00" cy="213.06" r="3.5" fill="#4C78A8"/>
+<circle cx="532.50" cy="267.16" r="3.5" fill="#4C78A8"/>
+<circle cx="680.00" cy="362.38" r="3.5" fill="#4C78A8"/>
+<polyline fill="none" stroke="#F58518" stroke-width="2.5" points="90.00,95.91 237.50,156.31 385.00,211.29 532.50,263.62 680.00,360.58"/>
+<circle cx="90.00" cy="95.91" r="3.5" fill="#F58518"/>
+<circle cx="237.50" cy="156.31" r="3.5" fill="#F58518"/>
+<circle cx="385.00" cy="211.29" r="3.5" fill="#F58518"/>
+<circle cx="532.50" cy="263.62" r="3.5" fill="#F58518"/>
+<circle cx="680.00" cy="360.58" r="3.5" fill="#F58518"/>
+<polyline fill="none" stroke="#B279A2" stroke-width="2.5" points="90.00,314.97 237.50,364.22 385.00,392.30 532.50,407.03 680.00,422.07"/>
+<circle cx="90.00" cy="314.97" r="3.5" fill="#B279A2"/>
+<circle cx="237.50" cy="364.22" r="3.5" fill="#B279A2"/>
+<circle cx="385.00" cy="392.30" r="3.5" fill="#B279A2"/>
+<circle cx="532.50" cy="407.03" r="3.5" fill="#B279A2"/>
+<circle cx="680.00" cy="422.07" r="3.5" fill="#B279A2"/>
+<polyline fill="none" stroke="#2F855A" stroke-width="2.5" points="90.00,294.29 237.50,351.27 385.00,383.02 532.50,401.61 680.00,421.43"/>
+<circle cx="90.00" cy="294.29" r="3.5" fill="#2F855A"/>
+<circle cx="237.50" cy="351.27" r="3.5" fill="#2F855A"/>
+<circle cx="385.00" cy="383.02" r="3.5" fill="#2F855A"/>
+<circle cx="532.50" cy="401.61" r="3.5" fill="#2F855A"/>
+<circle cx="680.00" cy="421.43" r="3.5" fill="#2F855A"/>
+<polyline fill="none" stroke="#72B7B2" stroke-width="2.5" points="90.00,413.47 237.50,417.34 385.00,421.20 532.50,425.05 680.00,432.74"/>
+<circle cx="90.00" cy="413.47" r="3.5" fill="#72B7B2"/>
+<circle cx="237.50" cy="417.34" r="3.5" fill="#72B7B2"/>
+<circle cx="385.00" cy="421.20" r="3.5" fill="#72B7B2"/>
+<circle cx="532.50" cy="425.05" r="3.5" fill="#72B7B2"/>
+<circle cx="680.00" cy="432.74" r="3.5" fill="#72B7B2"/>
+<line x1="705" y1="60" x2="730" y2="60" stroke="#4C78A8" stroke-width="3"/>
+<text x="737" y="64" font-family="Arial" font-size="12">lru</text>
+<line x1="705" y1="84" x2="730" y2="84" stroke="#F58518" stroke-width="3"/>
+<text x="737" y="88" font-family="Arial" font-size="12">static_hot</text>
+<line x1="705" y1="108" x2="730" y2="108" stroke="#B279A2" stroke-width="3"/>
+<text x="737" y="112" font-family="Arial" font-size="12">wrec_h2</text>
+<line x1="705" y1="132" x2="730" y2="132" stroke="#2F855A" stroke-width="3"/>
+<text x="737" y="136" font-family="Arial" font-size="12">wrec_c</text>
+<line x1="705" y1="156" x2="730" y2="156" stroke="#72B7B2" stroke-width="3"/>
+<text x="737" y="160" font-family="Arial" font-size="12">belady_oracle</text>
+</svg>

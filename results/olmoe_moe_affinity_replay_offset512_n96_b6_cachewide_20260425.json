@@ -1,0 +1,291 @@
+{
+  "signature_file": "logs/processed/olmoe_trace_signatures_offset512_n96_20260425.jsonl",
+  "num_requests": 96,
+  "num_layers": 16,
+  "num_experts": 64,
+  "batch_size": 6,
+  "affinity_topk": 32,
+  "affinity_base_policy": "length",
+  "length_bucket_size": 0,
+  "cache_capacities": [
+    16,
+    32,
+    48,
+    64
+  ],
+  "random_seed": 20260425,
+  "policies": {
+    "fcfs": {
+      "num_batches": 16,
+      "num_requests": 96,
+      "avg_batch_pairwise_cosine": 0.4986752058635209,
+      "p50_batch_pairwise_cosine": 0.4890208738420728,
+      "p90_batch_pairwise_cosine": 0.5673750773950917,
+      "avg_adjacent_cosine": 0.5421055734089013,
+      "avg_unique_experts_per_layer_per_batch": 37.71875,
+      "p90_unique_experts_per_layer_per_batch": 40.375,
+      "avg_abs_reorder_displacement": 0.0,
+      "max_abs_reorder_displacement": 0,
+      "cache": {
+        "16": {
+          "capacity": 16,
+          "lookups": 9656,
+          "hits": 0,
+          "misses": 9656,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 603.5
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 9656,
+          "hits": 693,
+          "misses": 8963,
+          "hit_rate": 0.0717688483844242,
+          "miss_rate": 0.9282311516155758,
+          "misses_per_batch": 560.1875
+        },
+        "48": {
+          "capacity": 48,
+          "lookups": 9656,
+          "hits": 7873,
+          "misses": 1783,
+          "hit_rate": 0.8153479701739851,
+          "miss_rate": 0.18465202982601492,
+          "misses_per_batch": 111.4375
+        },
+        "64": {
+          "capacity": 64,
+          "lookups": 9656,
+          "hits": 8728,
+          "misses": 928,
+          "hit_rate": 0.903893951946976,
+          "miss_rate": 0.09610604805302403,
+          "misses_per_batch": 58.0
+        }
+      },
+      "first_16_request_ids": [
+        "olmoe-train-o512-000512",
+        "olmoe-train-o512-000513",
+        "olmoe-train-o512-000514",
+        "olmoe-train-o512-000515",
+        "olmoe-train-o512-000516",
+        "olmoe-train-o512-000517",
+        "olmoe-train-o512-000518",
+        "olmoe-train-o512-000519",
+        "olmoe-train-o512-000520",
+        "olmoe-train-o512-000521",
+        "olmoe-train-o512-000522",
+        "olmoe-train-o512-000523",
+        "olmoe-train-o512-000524",
+        "olmoe-train-o512-000525",
+        "olmoe-train-o512-000526",
+        "olmoe-train-o512-000527"
+      ]
+    },
+    "length": {
+      "num_batches": 16,
+      "num_requests": 96,
+      "avg_batch_pairwise_cosine": 0.4986752058635209,
+      "p50_batch_pairwise_cosine": 0.4890208738420728,
+      "p90_batch_pairwise_cosine": 0.5673750773950917,
+      "avg_adjacent_cosine": 0.5421055734089013,
+      "avg_unique_experts_per_layer_per_batch": 37.71875,
+      "p90_unique_experts_per_layer_per_batch": 40.375,
+      "avg_abs_reorder_displacement": 0.0,
+      "max_abs_reorder_displacement": 0,
+      "cache": {
+        "16": {
+          "capacity": 16,
+          "lookups": 9656,
+          "hits": 0,
+          "misses": 9656,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 603.5
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 9656,
+          "hits": 693,
+          "misses": 8963,
+          "hit_rate": 0.0717688483844242,
+          "miss_rate": 0.9282311516155758,
+          "misses_per_batch": 560.1875
+        },
+        "48": {
+          "capacity": 48,
+          "lookups": 9656,
+          "hits": 7873,
+          "misses": 1783,
+          "hit_rate": 0.8153479701739851,
+          "miss_rate": 0.18465202982601492,
+          "misses_per_batch": 111.4375
+        },
+        "64": {
+          "capacity": 64,
+          "lookups": 9656,
+          "hits": 8728,
+          "misses": 928,
+          "hit_rate": 0.903893951946976,
+          "miss_rate": 0.09610604805302403,
+          "misses_per_batch": 58.0
+        }
+      },
+      "first_16_request_ids": [
+        "olmoe-train-o512-000512",
+        "olmoe-train-o512-000513",
+        "olmoe-train-o512-000514",
+        "olmoe-train-o512-000515",
+        "olmoe-train-o512-000516",
+        "olmoe-train-o512-000517",
+        "olmoe-train-o512-000518",
+        "olmoe-train-o512-000519",
+        "olmoe-train-o512-000520",
+        "olmoe-train-o512-000521",
+        "olmoe-train-o512-000522",
+        "olmoe-train-o512-000523",
+        "olmoe-train-o512-000524",
+        "olmoe-train-o512-000525",
+        "olmoe-train-o512-000526",
+        "olmoe-train-o512-000527"
+      ]
+    },
+    "random": {
+      "num_batches": 16,
+      "num_requests": 96,
+      "avg_batch_pairwise_cosine": 0.48101640636458276,
+      "p50_batch_pairwise_cosine": 0.49675195900686137,
+      "p90_batch_pairwise_cosine": 0.5612051997845862,
+      "avg_adjacent_cosine": 0.47582950403658925,
+      "avg_unique_experts_per_layer_per_batch": 38.57421875,
+      "p90_unique_experts_per_layer_per_batch": 40.9375,
+      "avg_abs_reorder_displacement": 29.833333333333332,
+      "max_abs_reorder_displacement": 87,
+      "cache": {
+        "16": {
+          "capacity": 16,
+          "lookups": 9875,
+          "hits": 0,
+          "misses": 9875,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 617.1875
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 9875,
+          "hits": 517,
+          "misses": 9358,
+          "hit_rate": 0.05235443037974684,
+          "miss_rate": 0.9476455696202531,
+          "misses_per_batch": 584.875
+        },
+        "48": {
+          "capacity": 48,
+          "lookups": 9875,
+          "hits": 8103,
+          "misses": 1772,
+          "hit_rate": 0.8205569620253165,
+          "miss_rate": 0.17944303797468353,
+          "misses_per_batch": 110.75
+        },
+        "64": {
+          "capacity": 64,
+          "lookups": 9875,
+          "hits": 8947,
+          "misses": 928,
+          "hit_rate": 0.9060253164556962,
+          "miss_rate": 0.09397468354430383,
+          "misses_per_batch": 58.0
+        }
+      },
+      "first_16_request_ids": [
+        "olmoe-train-o512-000599",
+        "olmoe-train-o512-000530",
+        "olmoe-train-o512-000545",
+        "olmoe-train-o512-000579",
+        "olmoe-train-o512-000516",
+        "olmoe-train-o512-000568",
+        "olmoe-train-o512-000542",
+        "olmoe-train-o512-000604",
+        "olmoe-train-o512-000526",
+        "olmoe-train-o512-000520",
+        "olmoe-train-o512-000586",
+        "olmoe-train-o512-000585",
+        "olmoe-train-o512-000580",
+        "olmoe-train-o512-000543",
+        "olmoe-train-o512-000527",
+        "olmoe-train-o512-000553"
+      ]
+    },
+    "affinity": {
+      "num_batches": 16,
+      "num_requests": 96,
+      "avg_batch_pairwise_cosine": 0.6084207157582339,
+      "p50_batch_pairwise_cosine": 0.637716885711486,
+      "p90_batch_pairwise_cosine": 0.6861901382685468,
+      "avg_adjacent_cosine": 0.6263476833708291,
+      "avg_unique_experts_per_layer_per_batch": 34.06640625,
+      "p90_unique_experts_per_layer_per_batch": 38.6875,
+      "avg_abs_reorder_displacement": 16.604166666666668,
+      "max_abs_reorder_displacement": 38,
+      "cache": {
+        "16": {
+          "capacity": 16,
+          "lookups": 8721,
+          "hits": 0,
+          "misses": 8721,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 545.0625
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 8721,
+          "hits": 2146,
+          "misses": 6575,
+          "hit_rate": 0.24607269808508198,
+          "miss_rate": 0.753927301914918,
+          "misses_per_batch": 410.9375
+        },
+        "48": {
+          "capacity": 48,
+          "lookups": 8721,
+          "hits": 7117,
+          "misses": 1604,
+          "hit_rate": 0.8160761380575622,
+          "miss_rate": 0.18392386194243782,
+          "misses_per_batch": 100.25
+        },
+        "64": {
+          "capacity": 64,
+          "lookups": 8721,
+          "hits": 7793,
+          "misses": 928,
+          "hit_rate": 0.8935901846118565,
+          "miss_rate": 0.10640981538814354,
+          "misses_per_batch": 58.0
+        }
+      },
+      "first_16_request_ids": [
+        "olmoe-train-o512-000512",
+        "olmoe-train-o512-000526",
+        "olmoe-train-o512-000523",
+        "olmoe-train-o512-000533",
+        "olmoe-train-o512-000537",
+        "olmoe-train-o512-000543",
+        "olmoe-train-o512-000513",
+        "olmoe-train-o512-000519",
+        "olmoe-train-o512-000551",
+        "olmoe-train-o512-000515",
+        "olmoe-train-o512-000553",
+        "olmoe-train-o512-000528",
+        "olmoe-train-o512-000514",
+        "olmoe-train-o512-000525",
+        "olmoe-train-o512-000529",
+        "olmoe-train-o512-000558"
+      ]
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "created_at_utc": "2026-04-27T13:01:02.463242+00:00",
+  "workspace": "/root/workspace",
+  "platform": {
+    "python": "3.13.12 | packaged by Anaconda, Inc. | (main, Feb 24 2026, 16:13:31) [GCC 14.3.0]",
+    "python_executable": "/root/miniconda3/bin/python",
+    "system": "Linux-5.15.0-139-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "disk": {
+    "total_bytes": 7937303777280,
+    "used_bytes": 7149246439424,
+    "free_bytes": 387962400768
+  },
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": null,
+    "HF_HOME": null,
+    "HUGGINGFACE_HUB_CACHE": null
+  },
+  "python_modules": {
+    "torch": {
+      "installed": false
+    },
+    "transformers": {
+      "installed": true,
+      "version": "5.6.2"
+    },
+    "accelerate": {
+      "installed": false
+    },
+    "datasets": {
+      "installed": true,
+      "version": "4.8.4"
+    },
+    "huggingface_hub": {
+      "installed": true,
+      "version": "1.12.0"
+    },
+    "safetensors": {
+      "installed": true,
+      "version": "0.7.0"
+    },
+    "numpy": {
+      "installed": true,
+      "version": "2.4.4"
+    },
+    "pandas": {
+      "installed": true,
+      "version": "3.0.2"
+    },
+    "tqdm": {
+      "installed": true,
+      "version": "4.67.3"
+    }
+  },
+  "commands": {
+    "nvidia_smi_query": {
+      "available": true,
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=index,name,memory.total,memory.free,driver_version",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stdout": "0, NVIDIA GeForce RTX 3090 Ti, 24564, 24223, 535.261.03\n1, NVIDIA GeForce RTX 3090 Ti, 24564, 24237, 535.261.03",
+      "stderr": ""
+    },
+    "nvidia_smi_topology": {
+      "available": true,
+      "command": [
+        "nvidia-smi",
+        "topo",
+        "-m"
+      ],
+      "returncode": 0,
+      "stdout": "\u001b[4mGPU0\tGPU1\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \tPHB\t0-19\t0\t\tN/A\nGPU1\tPHB\t X \t0-19\t0\t\tN/A\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks",
+      "stderr": ""
+    },
+    "nvcc": {
+      "available": false,
+      "command": [
+        "nvcc",
+        "--version"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    "huggingface_cli": {
+      "available": true,
+      "command": [
+        "huggingface-cli",
+        "--version"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Warning: `huggingface-cli` is deprecated and no longer works. Use `hf` instead.\n\nHint: `hf` is already installed! Use it directly.\n\nHint: Examples:\n  hf auth login\n  hf download unsloth/gemma-4-31B-it-GGUF\n  hf upload my-cool-model . .\n  hf models ls --search \"gemma\"\n  hf repos ls --format json\n  hf jobs run python:3.12 python -c 'print(\"Hello!\")'\n  hf --help"
+    },
+    "git_lfs": {
+      "available": false,
+      "command": [
+        "git-lfs",
+        "--version"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "paths": {
+    "qwen_debug_model": {
+      "path": "/root/workspace/qwen1.5-MoE-A2.7B/config.json",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 919
+    },
+    "mixtral_config": {
+      "path": "/root/workspace/models/Mixtral-8x7B-Instruct-v0.1/config.json",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 720
+    },
+    "debug_requests": {
+      "path": "/root/workspace/data/prompts/debug_requests.jsonl",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 13489
+    },
+    "eval_requests": {
+      "path": "/root/workspace/data/prompts/eval_requests.jsonl",
+      "exists": true,
+      "is_dir": false,
+      "size_bytes": 132342
+    }
+  }
+}

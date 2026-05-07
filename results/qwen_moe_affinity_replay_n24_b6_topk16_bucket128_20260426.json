@@ -1,0 +1,254 @@
+{
+  "signature_file": "logs/processed/qwen_router_trace_signatures_eval_n24_20260426.jsonl",
+  "num_requests": 24,
+  "num_layers": 24,
+  "num_experts": 60,
+  "batch_size": 6,
+  "affinity_topk": 16,
+  "affinity_base_policy": "length",
+  "length_bucket_size": 128,
+  "cache_capacities": [
+    8,
+    16,
+    32
+  ],
+  "random_seed": 20260425,
+  "policies": {
+    "fcfs": {
+      "num_batches": 4,
+      "num_requests": 24,
+      "avg_batch_pairwise_cosine": 0.5529476103702536,
+      "p50_batch_pairwise_cosine": 0.5443816275996425,
+      "p90_batch_pairwise_cosine": 0.5697641802376102,
+      "avg_adjacent_cosine": 0.5524828935038664,
+      "avg_unique_experts_per_layer_per_batch": 35.63541666666667,
+      "p90_unique_experts_per_layer_per_batch": 36.833333333333336,
+      "avg_abs_reorder_displacement": 0.0,
+      "max_abs_reorder_displacement": 0,
+      "cache": {
+        "8": {
+          "capacity": 8,
+          "lookups": 3421,
+          "hits": 0,
+          "misses": 3421,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 855.25
+        },
+        "16": {
+          "capacity": 16,
+          "lookups": 3421,
+          "hits": 0,
+          "misses": 3421,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 855.25
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 3421,
+          "hits": 265,
+          "misses": 3156,
+          "hit_rate": 0.07746273019584916,
+          "miss_rate": 0.9225372698041509,
+          "misses_per_batch": 789.0
+        }
+      },
+      "first_16_request_ids": [
+        "eval-0001",
+        "eval-0002",
+        "eval-0003",
+        "eval-0004",
+        "eval-0005",
+        "eval-0006",
+        "eval-0007",
+        "eval-0008",
+        "eval-0009",
+        "eval-0010",
+        "eval-0011",
+        "eval-0012",
+        "eval-0013",
+        "eval-0014",
+        "eval-0015",
+        "eval-0016"
+      ]
+    },
+    "length": {
+      "num_batches": 4,
+      "num_requests": 24,
+      "avg_batch_pairwise_cosine": 0.5851216447361929,
+      "p50_batch_pairwise_cosine": 0.5905745455034691,
+      "p90_batch_pairwise_cosine": 0.6104593289911501,
+      "avg_adjacent_cosine": 0.5798229213543118,
+      "avg_unique_experts_per_layer_per_batch": 34.38541666666667,
+      "p90_unique_experts_per_layer_per_batch": 35.625,
+      "avg_abs_reorder_displacement": 8.5,
+      "max_abs_reorder_displacement": 21,
+      "cache": {
+        "8": {
+          "capacity": 8,
+          "lookups": 3301,
+          "hits": 0,
+          "misses": 3301,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 825.25
+        },
+        "16": {
+          "capacity": 16,
+          "lookups": 3301,
+          "hits": 0,
+          "misses": 3301,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 825.25
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 3301,
+          "hits": 450,
+          "misses": 2851,
+          "hit_rate": 0.13632232656770676,
+          "miss_rate": 0.8636776734322933,
+          "misses_per_batch": 712.75
+        }
+      },
+      "first_16_request_ids": [
+        "eval-0007",
+        "eval-0008",
+        "eval-0024",
+        "eval-0006",
+        "eval-0010",
+        "eval-0014",
+        "eval-0017",
+        "eval-0021",
+        "eval-0023",
+        "eval-0013",
+        "eval-0022",
+        "eval-0005",
+        "eval-0009",
+        "eval-0012",
+        "eval-0016",
+        "eval-0001"
+      ]
+    },
+    "random": {
+      "num_batches": 4,
+      "num_requests": 24,
+      "avg_batch_pairwise_cosine": 0.5668896774105361,
+      "p50_batch_pairwise_cosine": 0.5655275475706656,
+      "p90_batch_pairwise_cosine": 0.5700095293585125,
+      "avg_adjacent_cosine": 0.5752595903711595,
+      "avg_unique_experts_per_layer_per_batch": 35.145833333333336,
+      "p90_unique_experts_per_layer_per_batch": 35.958333333333336,
+      "avg_abs_reorder_displacement": 7.583333333333333,
+      "max_abs_reorder_displacement": 21,
+      "cache": {
+        "8": {
+          "capacity": 8,
+          "lookups": 3374,
+          "hits": 0,
+          "misses": 3374,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 843.5
+        },
+        "16": {
+          "capacity": 16,
+          "lookups": 3374,
+          "hits": 0,
+          "misses": 3374,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 843.5
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 3374,
+          "hits": 350,
+          "misses": 3024,
+          "hit_rate": 0.1037344398340249,
+          "miss_rate": 0.8962655601659751,
+          "misses_per_batch": 756.0
+        }
+      },
+      "first_16_request_ids": [
+        "eval-0001",
+        "eval-0004",
+        "eval-0008",
+        "eval-0006",
+        "eval-0017",
+        "eval-0018",
+        "eval-0011",
+        "eval-0005",
+        "eval-0015",
+        "eval-0019",
+        "eval-0022",
+        "eval-0020",
+        "eval-0016",
+        "eval-0023",
+        "eval-0007",
+        "eval-0024"
+      ]
+    },
+    "affinity": {
+      "num_batches": 4,
+      "num_requests": 24,
+      "avg_batch_pairwise_cosine": 0.610430471730271,
+      "p50_batch_pairwise_cosine": 0.6043293722108333,
+      "p90_batch_pairwise_cosine": 0.6581885601659084,
+      "avg_adjacent_cosine": 0.6615522509375594,
+      "avg_unique_experts_per_layer_per_batch": 33.20833333333333,
+      "p90_unique_experts_per_layer_per_batch": 35.291666666666664,
+      "avg_abs_reorder_displacement": 7.5,
+      "max_abs_reorder_displacement": 21,
+      "cache": {
+        "8": {
+          "capacity": 8,
+          "lookups": 3188,
+          "hits": 0,
+          "misses": 3188,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 797.0
+        },
+        "16": {
+          "capacity": 16,
+          "lookups": 3188,
+          "hits": 0,
+          "misses": 3188,
+          "hit_rate": 0.0,
+          "miss_rate": 1.0,
+          "misses_per_batch": 797.0
+        },
+        "32": {
+          "capacity": 32,
+          "lookups": 3188,
+          "hits": 779,
+          "misses": 2409,
+          "hit_rate": 0.2443538268506901,
+          "miss_rate": 0.7556461731493099,
+          "misses_per_batch": 602.25
+        }
+      },
+      "first_16_request_ids": [
+        "eval-0007",
+        "eval-0023",
+        "eval-0015",
+        "eval-0009",
+        "eval-0011",
+        "eval-0003",
+        "eval-0008",
+        "eval-0006",
+        "eval-0022",
+        "eval-0014",
+        "eval-0024",
+        "eval-0010",
+        "eval-0017",
+        "eval-0001",
+        "eval-0013",
+        "eval-0021"
+      ]
+    }
+  }
+}

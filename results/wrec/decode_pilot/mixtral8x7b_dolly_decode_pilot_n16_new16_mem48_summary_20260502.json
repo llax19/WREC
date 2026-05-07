@@ -1,0 +1,110 @@
+{
+  "trace": "/root/workspace/logs/processed/wrec/decode_pilot/mixtral8x7b_dolly_decode_pilot_n16_new16_mem48_20260502.jsonl",
+  "stats": "/root/workspace/results/wrec/decode_pilot/router_trace_stats_mixtral8x7b_dolly_decode_pilot_n16_new16_mem48_20260502.json",
+  "num_requests": 16,
+  "num_failures": 0,
+  "total_input_tokens": 742,
+  "total_decode_tokens": 256,
+  "total_events": 31936,
+  "phase_events": {
+    "prefill": 23744,
+    "decode": 8192
+  },
+  "step_events": {
+    "0": 23744,
+    "1": 512,
+    "2": 512,
+    "3": 512,
+    "4": 512,
+    "5": 512,
+    "6": 512,
+    "7": 512,
+    "8": 512,
+    "9": 512,
+    "10": 512,
+    "11": 512,
+    "12": 512,
+    "13": 512,
+    "14": 512,
+    "15": 512,
+    "16": 512
+  },
+  "decode_steps_per_request_min": 16,
+  "decode_steps_per_request_max": 16,
+  "router_events_per_decode_token": 32.0,
+  "expert_refs_per_decode_token": 64.0,
+  "prefill_decode_hotness_shift": {
+    "tv_p50": 0.07946481216307277,
+    "tv_p90": 0.12753169221698113,
+    "tv_max": 0.14931140498652293,
+    "top2_overlap_mean": 0.46875,
+    "top2_overlap_min": 0.0
+  },
+  "largest_shift_layers": [
+    {
+      "layer": 6,
+      "tv": 0.14931140498652293,
+      "top2_overlap": 0.0,
+      "prefill_top2": [
+        2,
+        7
+      ],
+      "decode_top2": [
+        5,
+        6
+      ]
+    },
+    {
+      "layer": 13,
+      "tv": 0.1485164673180593,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        1,
+        7
+      ],
+      "decode_top2": [
+        1,
+        2
+      ]
+    },
+    {
+      "layer": 10,
+      "tv": 0.1407039673180593,
+      "top2_overlap": 0.0,
+      "prefill_top2": [
+        3,
+        7
+      ],
+      "decode_top2": [
+        0,
+        1
+      ]
+    },
+    {
+      "layer": 12,
+      "tv": 0.127700682277628,
+      "top2_overlap": 0.5,
+      "prefill_top2": [
+        1,
+        3
+      ],
+      "decode_top2": [
+        0,
+        1
+      ]
+    },
+    {
+      "layer": 9,
+      "tv": 0.12601078167115903,
+      "top2_overlap": 0.0,
+      "prefill_top2": [
+        6,
+        7
+      ],
+      "decode_top2": [
+        0,
+        4
+      ]
+    }
+  ]
+}

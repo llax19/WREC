@@ -1,0 +1,16 @@
+[
+  {
+    "strategy": "fcfs",
+    "load_level": "high",
+    "num_requests": 24,
+    "throughput_tokens_per_s": 15.713059035782695,
+    "avg_ttft": 1.3869324227174122,
+    "p95_ttft": 1.6566306948661804,
+    "p99_ttft": 1.857601554393768,
+    "avg_tpot": 0.30157731030020135,
+    "p95_tpot": 0.35389036366509063,
+    "p99_tpot": 0.35640143447452116,
+    "total_output_tokens": 1278,
+    "wall_time": 81.33362174034119
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "strategy": "moe_affinity",
+    "load_level": "high",
+    "num_requests": 24,
+    "throughput_tokens_per_s": 15.703416800818621,
+    "avg_ttft": 1.37517049908638,
+    "p95_ttft": 1.7682133913040161,
+    "p99_ttft": 1.7687140250205993,
+    "avg_tpot": 0.30071902998813754,
+    "p95_tpot": 0.3570915898633381,
+    "p99_tpot": 0.3589134042805058,
+    "total_output_tokens": 1280,
+    "wall_time": 81.51092314720154
+  }
+]

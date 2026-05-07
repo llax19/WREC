@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="620" viewBox="0 0 1160 620">
+<rect width="100%" height="100%" fill="white"/>
+<text x="580" y="32" text-anchor="middle" font-family="Arial" font-size="22">Mixtral Prefill Expert Locality Summary</text>
+<text x="580" y="56" text-anchor="middle" font-family="Arial" font-size="13">Train trace: 29,123 input tokens, 931,936 router events, 1,863,872 expert refs</text>
+<text x="305.0" y="96" text-anchor="middle" font-family="Arial" font-size="15">Top-2 expert share by layer</text>
+<line x1="70" y1="110" x2="70" y2="330" stroke="#333"/>
+<line x1="70" y1="330" x2="540" y2="330" stroke="#333"/>
+<text x="70.00" y="348" text-anchor="middle" font-family="Arial" font-size="11">0</text>
+<text x="297.42" y="348" text-anchor="middle" font-family="Arial" font-size="11">15</text>
+<text x="540.00" y="348" text-anchor="middle" font-family="Arial" font-size="11">31</text>
+<line x1="65" y1="275.00" x2="540" y2="275.00" stroke="#eee"/>
+<text x="60" y="279.00" text-anchor="end" font-family="Arial" font-size="11">0.25</text>
+<line x1="65" y1="220.00" x2="540" y2="220.00" stroke="#eee"/>
+<text x="60" y="224.00" text-anchor="end" font-family="Arial" font-size="11">0.50</text>
+<line x1="65" y1="165.00" x2="540" y2="165.00" stroke="#eee"/>
+<text x="60" y="169.00" text-anchor="end" font-family="Arial" font-size="11">0.75</text>
+<line x1="65" y1="110.00" x2="540" y2="110.00" stroke="#eee"/>
+<text x="60" y="114.00" text-anchor="end" font-family="Arial" font-size="11">1.00</text>
+<polyline fill="none" stroke="#4C78A8" stroke-width="2.5" points="70.00,263.32 85.16,265.03 100.32,267.42 115.48,265.72 130.65,264.34 145.81,265.80 160.97,251.49 176.13,261.48 191.29,259.76 206.45,259.90 221.61,259.30 236.77,256.66 251.94,253.96 267.10,261.68 282.26,260.33 297.42,262.49 312.58,255.87 327.74,259.33 342.90,265.86 358.06,269.10 373.23,271.12 388.39,264.89 403.55,259.65 418.71,266.77 433.87,266.22 449.03,258.80 464.19,260.09 479.35,261.02 494.52,260.31 509.68,264.06 524.84,264.29 540.00,261.97"/>
+<text x="735.0" y="96" text-anchor="middle" font-family="Arial" font-size="15">Reuse distance quantiles</text>
+<line x1="620" y1="110" x2="620" y2="330" stroke="#333"/>
+<line x1="620" y1="330" x2="850" y2="330" stroke="#333"/>
+<rect x="655" y="329.85" width="42" height="0.15" fill="#F58518"/>
+<text x="676" y="323.85" text-anchor="middle" font-family="Arial" font-size="11">5</text>
+<text x="676" y="348" text-anchor="middle" font-family="Arial" font-size="11">p50</text>
+<rect x="720" y="329.16" width="42" height="0.84" fill="#F58518"/>
+<text x="741" y="323.16" text-anchor="middle" font-family="Arial" font-size="11">27</text>
+<text x="741" y="348" text-anchor="middle" font-family="Arial" font-size="11">p90</text>
+<rect x="785" y="110.00" width="42" height="220.00" fill="#F58518"/>
+<text x="806" y="104.00" text-anchor="middle" font-family="Arial" font-size="11">7097</text>
+<text x="806" y="348" text-anchor="middle" font-family="Arial" font-size="11">p99</text>
+<text x="735.0" y="368" text-anchor="middle" font-family="Arial" font-size="11">same-layer expert ref distance</text>
+<text x="305.0" y="376" text-anchor="middle" font-family="Arial" font-size="15">Short-window locality</text>
+<line x1="70" y1="390" x2="70" y2="560" stroke="#333"/>
+<line x1="70" y1="560" x2="540" y2="560" stroke="#333"/>
+<text x="70.00" y="578" text-anchor="middle" font-family="Arial" font-size="11">4</text>
+<text x="305.00" y="578" text-anchor="middle" font-family="Arial" font-size="11">8</text>
+<text x="540.00" y="578" text-anchor="middle" font-family="Arial" font-size="11">16</text>
+<polyline fill="none" stroke="#54A24B" stroke-width="2.5" points="70.00,453.75 305.00,411.25 540.00,390.00"/>
+<polyline fill="none" stroke="#E45756" stroke-width="2.5" points="70.00,453.75 305.00,485.62 540.00,517.50"/>
+<text x="88" y="408" font-family="Arial" font-size="11" fill="#54A24B">p50 unique experts / window</text>
+<text x="88" y="426" font-family="Arial" font-size="11" fill="#E45756">p50 expert-use probability</text>
+<text x="735.0" y="376" text-anchor="middle" font-family="Arial" font-size="15">Train/eval hotness stability</text>
+<line x1="620" y1="390" x2="620" y2="560" stroke="#333"/>
+<line x1="620" y1="560" x2="850" y2="560" stroke="#333"/>
+<rect x="665" y="400.62" width="48" height="159.38" fill="#B279A2"/>
+<text x="689" y="394.62" text-anchor="middle" font-family="Arial" font-size="11">0.938</text>
+<text x="689" y="578" text-anchor="middle" font-family="Arial" font-size="11">top2</text>
+<rect x="750" y="400.62" width="48" height="159.38" fill="#B279A2"/>
+<text x="774" y="394.62" text-anchor="middle" font-family="Arial" font-size="11">0.938</text>
+<text x="774" y="578" text-anchor="middle" font-family="Arial" font-size="11">top4</text>
+<text x="735.0" y="598" text-anchor="middle" font-family="Arial" font-size="11">mean train/eval overlap by layer</text>
+<text x="910" y="148" font-family="Arial" font-size="14">Key numbers</text>
+<text x="910" y="172" font-family="Arial" font-size="12">reuse p50/p90/p99: 5 / 27 / 7097</text>
+<text x="910" y="194" font-family="Arial" font-size="12">window-4 unique experts p50: 5</text>
+<text x="910" y="216" font-family="Arial" font-size="12">window-4 use probability p50: 0.625</text>
+<text x="910" y="238" font-family="Arial" font-size="12">top-2 overlap mean: 0.938</text>
+<text x="910" y="260" font-family="Arial" font-size="12">top-4 overlap mean: 0.938</text>
+</svg>

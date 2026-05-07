@@ -1,0 +1,47 @@
+{
+  "created_at_utc": "2026-05-05T07:11:53.838116+00:00",
+  "inputs": {
+    "model": "/root/workspace/qwen1.5-MoE-A2.7B",
+    "prompt": "请用一句话解释什么是混合专家模型。",
+    "request_id": "vllm-qwen-smoke-000000",
+    "max_tokens": 1,
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.82,
+    "cpu_offload_gb": 0.0,
+    "dtype": "auto",
+    "max_model_len": 512,
+    "trust_remote_code": false,
+    "enforce_eager": false,
+    "sidecar_url": null
+  },
+  "timing": {
+    "load_seconds": 268.57533619599417,
+    "generate_seconds": 18.557284014998004
+  },
+  "generation": {
+    "generated_text": "你",
+    "generated_token_count": 1,
+    "token_ids": [
+      56568
+    ],
+    "finish_reason": "length"
+  },
+  "routed_experts": {
+    "shape": [
+      9,
+      24,
+      4
+    ],
+    "seq_len": 9,
+    "layer_num": 24,
+    "topk": 4,
+    "router_events": 216,
+    "expert_refs": 864
+  },
+  "outputs": {
+    "json": "/root/workspace/results/wrec/runtime_vllm/vllm_routed_experts_qwen_smoke_20260505.json",
+    "events_jsonl": "/root/workspace/results/wrec/runtime_vllm/vllm_routed_experts_qwen_events_20260505.jsonl",
+    "markdown": "/root/workspace/results/wrec/runtime_vllm/vllm_routed_experts_qwen_smoke_20260505.md"
+  },
+  "sidecar": null
+}

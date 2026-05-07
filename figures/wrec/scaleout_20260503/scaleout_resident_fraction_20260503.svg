@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="520" viewBox="0 0 1040 520">
+<rect width="100%" height="100%" fill="white"/>
+<text x="520.0" y="34" text-anchor="middle" font-family="Arial" font-size="22">Max Feasible Expert Resident Fraction at Fixed GPU Budget</text>
+<line x1="90" y1="70" x2="90" y2="410" stroke="#333"/>
+<line x1="90" y1="410" x2="1000" y2="410" stroke="#333"/>
+<text x="24" y="240.0" transform="rotate(-90 24 240.0)" text-anchor="middle" font-family="Arial" font-size="13">max effective resident fraction</text>
+<line x1="85" y1="410.00" x2="1000" y2="410.00" stroke="#eee"/>
+<text x="80" y="414.00" text-anchor="end" font-family="Arial" font-size="11">0%</text>
+<line x1="85" y1="325.00" x2="1000" y2="325.00" stroke="#eee"/>
+<text x="80" y="329.00" text-anchor="end" font-family="Arial" font-size="11">25%</text>
+<line x1="85" y1="240.00" x2="1000" y2="240.00" stroke="#eee"/>
+<text x="80" y="244.00" text-anchor="end" font-family="Arial" font-size="11">50%</text>
+<line x1="85" y1="155.00" x2="1000" y2="155.00" stroke="#eee"/>
+<text x="80" y="159.00" text-anchor="end" font-family="Arial" font-size="11">75%</text>
+<line x1="85" y1="70.00" x2="1000" y2="70.00" stroke="#eee"/>
+<text x="80" y="74.00" text-anchor="end" font-family="Arial" font-size="11">100%</text>
+<text x="203.75" y="432" text-anchor="middle" font-family="Arial" font-size="12">Mixtral-8x7B</text>
+<rect x="118.44" y="367.50" width="45.50" height="42.50" fill="#4C78A8"/>
+<text x="141.19" y="361.50" text-anchor="middle" font-family="Arial" font-size="10">12%</text>
+<rect x="175.31" y="282.50" width="45.50" height="127.50" fill="#F58518"/>
+<text x="198.06" y="276.50" text-anchor="middle" font-family="Arial" font-size="10">38%</text>
+<rect x="232.19" y="70.00" width="45.50" height="340.00" fill="#54A24B"/>
+<text x="254.94" y="64.00" text-anchor="middle" font-family="Arial" font-size="10">100%</text>
+<text x="431.25" y="432" text-anchor="middle" font-family="Arial" font-size="12">Mixtral-8x22B</text>
+<rect x="345.94" y="410.00" width="45.50" height="0.00" fill="#4C78A8"/>
+<text x="368.69" y="404.00" text-anchor="middle" font-family="Arial" font-size="10">0%</text>
+<rect x="402.81" y="410.00" width="45.50" height="0.00" fill="#F58518"/>
+<text x="425.56" y="404.00" text-anchor="middle" font-family="Arial" font-size="10">0%</text>
+<rect x="459.69" y="325.00" width="45.50" height="85.00" fill="#54A24B"/>
+<text x="482.44" y="319.00" text-anchor="middle" font-family="Arial" font-size="10">25%</text>
+<text x="658.75" y="432" text-anchor="middle" font-family="Arial" font-size="12">DBRX</text>
+<rect x="573.44" y="410.00" width="45.50" height="0.00" fill="#4C78A8"/>
+<text x="596.19" y="404.00" text-anchor="middle" font-family="Arial" font-size="10">0%</text>
+<rect x="630.31" y="367.50" width="45.50" height="42.50" fill="#F58518"/>
+<text x="653.06" y="361.50" text-anchor="middle" font-family="Arial" font-size="10">12%</text>
+<rect x="687.19" y="303.75" width="45.50" height="106.25" fill="#54A24B"/>
+<text x="709.94" y="297.75" text-anchor="middle" font-family="Arial" font-size="10">31%</text>
+<text x="886.25" y="432" text-anchor="middle" font-family="Arial" font-size="12">DeepSeek-MoE-16B</text>
+<rect x="800.94" y="255.94" width="45.50" height="154.06" fill="#4C78A8"/>
+<text x="823.69" y="249.94" text-anchor="middle" font-family="Arial" font-size="10">45%</text>
+<rect x="857.81" y="70.00" width="45.50" height="340.00" fill="#F58518"/>
+<text x="880.56" y="64.00" text-anchor="middle" font-family="Arial" font-size="10">100%</text>
+<rect x="914.69" y="70.00" width="45.50" height="340.00" fill="#54A24B"/>
+<text x="937.44" y="64.00" text-anchor="middle" font-family="Arial" font-size="10">100%</text>
+<rect x="870" y="74" width="18" height="12" fill="#4C78A8"/>
+<text x="898" y="84" font-family="Arial" font-size="12">24 GB GPU</text>
+<rect x="870" y="98" width="18" height="12" fill="#F58518"/>
+<text x="898" y="108" font-family="Arial" font-size="12">48 GB GPU</text>
+<rect x="870" y="122" width="18" height="12" fill="#54A24B"/>
+<text x="898" y="132" font-family="Arial" font-size="12">96 GB GPU</text>
+</svg>

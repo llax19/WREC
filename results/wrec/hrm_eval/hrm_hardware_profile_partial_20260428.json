@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-04-28T05:41:24.418213+00:00",
+  "units": {
+    "bandwidth": "GB/s decimal",
+    "compute": "TFLOP/s"
+  },
+  "benchmarks": {
+    "cpu_bandwidth": {
+      "available": true,
+      "size_mib": 256,
+      "repeats": 5,
+      "copy_gbps": {
+        "min": 31.375698561138417,
+        "median": 31.468390063817957,
+        "mean": 31.47865508475213,
+        "p90": 31.566642467386487,
+        "max": 31.60899431719998
+      },
+      "triad_gbps": {
+        "min": 10.483194872858107,
+        "median": 10.629550316054244,
+        "mean": 10.61467452070028,
+        "p90": 10.683845448014866,
+        "max": 10.706641747747188
+      },
+      "recommended_cpu_bandwidth_gbps": 31.468390063817957
+    },
+    "cpu_flops": {
+      "available": true,
+      "matrix_size": 1024,
+      "repeats": 5,
+      "tflops": {
+        "min": 0.42846012712227516,
+        "median": 1.0456816255033508,
+        "mean": 0.9144137776291575,
+        "p90": 1.0957940789241483,
+        "max": 1.101640155374179
+      },
+      "recommended_cpu_tflops": 1.0456816255033508
+    },
+    "gpu_bandwidth": {
+      "available": false,
+      "reason": "torch is not installed"
+    },
+    "cpu_gpu_bandwidth": {
+      "available": false,
+      "reason": "torch is not installed"
+    },
+    "gpu_flops": {
+      "available": false,
+      "reason": "torch is not installed"
+    }
+  },
+  "recommended_hrm_constants": {
+    "cpu_bandwidth_gbps": 31.468390063817957,
+    "cpu_tflops": 1.0456816255033508
+  }
+}
