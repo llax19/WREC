@@ -49,3 +49,6 @@ venv/
 *.tar.gz
 *.tgz
 *.zip
+
+# Local backups
+/backups/

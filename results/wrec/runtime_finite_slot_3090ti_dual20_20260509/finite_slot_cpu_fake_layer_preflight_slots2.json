@@ -1,0 +1,32 @@
+{
+  "created_at_utc": "2026-05-09T02:05:21.350819+00:00",
+  "test": "finite_slot_cpu_fake_layer_preflight",
+  "slot_capacity": 2,
+  "enabled": true,
+  "slot_shape_after_install": [
+    2,
+    3,
+    2
+  ],
+  "resident_experts": [
+    1,
+    2
+  ],
+  "logical_to_slot": {
+    "1": 0,
+    "2": 1
+  },
+  "slot_to_logical": [
+    1,
+    2
+  ],
+  "expert_map": [
+    -1,
+    0,
+    1,
+    -1
+  ],
+  "overflow_guard_triggered": true,
+  "overflow_error": "WREC expert residency slot overflow before initialization: 3 experts needed but capacity is 2 for layer model.layers.1.block_sparse_moe",
+  "claim_boundary": "CPU fake-layer preflight only; no Mixtral serving, no CUDA FusedMoE kernel execution, no latency claim"
+}

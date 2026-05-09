@@ -1,0 +1,117 @@
+{
+  "created_at_utc": "2026-05-09T02:01:08.899036+00:00",
+  "inputs": {
+    "trace": "logs/processed/wrec/3090ti_dual20_20260509/eval_n256.jsonl",
+    "sidecar_url": "http://127.0.0.1:18765"
+  },
+  "config": {
+    "max_events": 4096
+  },
+  "health": {
+    "status": "ok",
+    "total_slots": 64
+  },
+  "client": {
+    "events_sent": 4096,
+    "expert_refs_sent": 8192,
+    "elapsed_seconds": 1.9730184134095907,
+    "us_per_event": 481.69394858632586
+  },
+  "last_response": {
+    "request_id": "dolly-eval-000000",
+    "event_index": 4095,
+    "decisions": [
+      {
+        "layer": 31,
+        "expert": 0,
+        "shadow_hit": true,
+        "would_admit": false,
+        "would_bypass": false,
+        "would_evict": null
+      },
+      {
+        "layer": 31,
+        "expert": 6,
+        "shadow_hit": false,
+        "would_admit": true,
+        "would_bypass": false,
+        "would_evict": [
+          31,
+          2
+        ]
+      }
+    ],
+    "metrics": {
+      "created_at_utc": "2026-05-09T01:59:42.124845+00:00",
+      "train_trace": "logs/processed/wrec/3090ti_dual20_20260509/train_n512.jsonl",
+      "model_path": "models/Mixtral-8x7B-Instruct-v0.1",
+      "total_slots": 64,
+      "num_layers": 32,
+      "num_experts": 8,
+      "expert_bytes": 352321536.0,
+      "bandwidth_gbps": 41.37220609315469,
+      "expert_refs": 8192,
+      "router_events": 4096,
+      "shadow_hits": 7232,
+      "shadow_misses": 960,
+      "shadow_hit_rate": 0.8828125,
+      "shadow_miss_rate": 0.1171875,
+      "would_admit": 659,
+      "would_bypass": 301,
+      "would_evict": 659,
+      "final_resident": 64,
+      "demand_transfer_bytes": 338228674560.0,
+      "stall_ms": 8175.263214111327,
+      "timing": {
+        "load_seconds": 6.8931719698011875,
+        "prior_seconds": 5.581991812214255,
+        "online_loop_seconds": 0.342179249,
+        "online_loop_us_per_expert_ref": 41.769927856445314,
+        "online_loop_us_per_router_event": 83.53985571289063,
+        "history_update_us_per_expert_ref": 3.37693115234375,
+        "decision_us_per_miss": 268.46992604166667
+      },
+      "claim_boundary": {
+        "does_control_real_expert_loading": false,
+        "does_measure_end_to_end_latency": false,
+        "integration_boundary": "HTTP sidecar /event API for runtime hooks"
+      }
+    }
+  },
+  "sidecar_metrics": {
+    "created_at_utc": "2026-05-09T01:59:42.124845+00:00",
+    "train_trace": "logs/processed/wrec/3090ti_dual20_20260509/train_n512.jsonl",
+    "model_path": "models/Mixtral-8x7B-Instruct-v0.1",
+    "total_slots": 64,
+    "num_layers": 32,
+    "num_experts": 8,
+    "expert_bytes": 352321536.0,
+    "bandwidth_gbps": 41.37220609315469,
+    "expert_refs": 8192,
+    "router_events": 4096,
+    "shadow_hits": 7232,
+    "shadow_misses": 960,
+    "shadow_hit_rate": 0.8828125,
+    "shadow_miss_rate": 0.1171875,
+    "would_admit": 659,
+    "would_bypass": 301,
+    "would_evict": 659,
+    "final_resident": 64,
+    "demand_transfer_bytes": 338228674560.0,
+    "stall_ms": 8175.263214111327,
+    "timing": {
+      "load_seconds": 6.8931719698011875,
+      "prior_seconds": 5.581991812214255,
+      "online_loop_seconds": 0.342179249,
+      "online_loop_us_per_expert_ref": 41.769927856445314,
+      "online_loop_us_per_router_event": 83.53985571289063,
+      "history_update_us_per_expert_ref": 3.37693115234375,
+      "decision_us_per_miss": 268.46992604166667
+    },
+    "claim_boundary": {
+      "does_control_real_expert_loading": false,
+      "does_measure_end_to_end_latency": false,
+      "integration_boundary": "HTTP sidecar /event API for runtime hooks"
+    }
+  }
+}

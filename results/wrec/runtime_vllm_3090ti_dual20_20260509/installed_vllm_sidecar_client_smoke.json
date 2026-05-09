@@ -1,0 +1,16 @@
+{
+  "created_at_utc": "2026-05-09T02:04:25.094957+00:00",
+  "test": "installed_vllm_wrec_sidecar_client_local_smoke",
+  "sidecar_url": "http://127.0.0.1:18765/event",
+  "routed_experts_shape": [
+    2,
+    2,
+    2
+  ],
+  "enabled_after_submit": true,
+  "events_delta": 4,
+  "expert_refs_delta": 8,
+  "total_router_events": 4100,
+  "total_expert_refs": 8200,
+  "claim_boundary": "state-only hook client smoke; no model serving and no real expert loading control"
+}

@@ -1,0 +1,94 @@
+{
+  "created_at_utc": "2026-05-09T01:09:53.880184+00:00",
+  "inputs": {
+    "shadow_result": "results/wrec/runtime_shadow_3090ti_dual20_20260509/shadow_slots64.json",
+    "replay_csv": "results/wrec/wrec_total_budget_3090ti_dual20_20260509/main_recent0.csv"
+  },
+  "config": {
+    "replay_policy": "wrec_h2",
+    "total_slots": 64,
+    "rate_tolerance": 1e-12,
+    "count_tolerance": 0.0,
+    "float_tolerance": 1e-06
+  },
+  "overall_pass": true,
+  "metrics": [
+    {
+      "name": "expert_refs",
+      "shadow": 905408.0,
+      "replay": 905408.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "demand_hits",
+      "shadow": 757395.0,
+      "replay": 757395.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "demand_misses",
+      "shadow": 148013.0,
+      "replay": 148013.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 0.0,
+      "pass": true
+    },
+    {
+      "name": "hit_rate",
+      "shadow": 0.8365234236940694,
+      "replay": 0.8365234236940694,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-12,
+      "pass": true
+    },
+    {
+      "name": "miss_rate",
+      "shadow": 0.1634765763059306,
+      "replay": 0.1634765763059306,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-12,
+      "pass": true
+    },
+    {
+      "name": "demand_transfer_bytes",
+      "shadow": 52148167507968.0,
+      "replay": 52148167507968.0,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    {
+      "name": "stall_ms",
+      "shadow": 1260463.7855315206,
+      "replay": 1260463.7855315206,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    {
+      "name": "stall_ms_per_input_token",
+      "shadow": 89.09760270951584,
+      "replay": 89.09760270951584,
+      "delta": 0.0,
+      "abs_delta": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    }
+  ],
+  "claim_boundary": {
+    "validates_shadow_replay_alignment": true,
+    "does_control_real_expert_loading": false,
+    "does_measure_end_to_end_latency": false
+  }
+}

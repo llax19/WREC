@@ -1,0 +1,65 @@
+{
+  "created_at_utc": "2026-05-09T01:09:44.070100+00:00",
+  "inputs": {
+    "event_stream": "logs/processed/wrec/3090ti_dual20_20260509/eval_n256.jsonl",
+    "train_trace": "logs/processed/wrec/3090ti_dual20_20260509/train_n512.jsonl",
+    "model_path": "models/Mixtral-8x7B-Instruct-v0.1",
+    "decision_log": "results/wrec/runtime_shadow_3090ti_dual20_20260509/shadow_slots64_decisions.jsonl"
+  },
+  "config": {
+    "policy": "wrec_h2_shadow",
+    "streaming_contract": "sequential routed expert refs; no future accesses",
+    "total_slots": 64,
+    "window_size": 4,
+    "history_size": 8,
+    "recent_weight": 0.0,
+    "request_weight": 1024.0,
+    "cross_layer_weight": 1024.0,
+    "contention_penalty": 0.0,
+    "bandwidth_gbps": 41.37220609315469,
+    "dtype": "float16",
+    "max_refs": 0
+  },
+  "metadata": {
+    "trace_path": "logs/processed/wrec/3090ti_dual20_20260509/eval_n256.jsonl",
+    "num_expert_refs": 905408,
+    "num_router_events": 452704,
+    "num_input_tokens": 14147,
+    "num_token_layer_events": 452704,
+    "num_layers": 32,
+    "num_experts": 8
+  },
+  "counts": {
+    "expert_refs": 905408,
+    "router_events": 452704,
+    "shadow_hits": 757395,
+    "shadow_misses": 148013,
+    "shadow_hit_rate": 0.8365234236940694,
+    "shadow_miss_rate": 0.1634765763059306,
+    "would_admit": 112458,
+    "would_bypass": 35555,
+    "would_evict": 112458,
+    "final_resident": 64,
+    "decision_records_written": 0
+  },
+  "transfer": {
+    "expert_bytes": 352321536.0,
+    "demand_transfer_bytes": 52148167507968.0,
+    "stall_ms": 1260463.7855315206,
+    "stall_ms_per_input_token": 89.09760270951584
+  },
+  "timing": {
+    "trace_load_seconds": 8.927438413724303,
+    "prior_build_seconds": 4.470702104270458,
+    "shadow_loop_seconds": 27.645532348,
+    "shadow_loop_us_per_expert_ref": 30.533784048738248,
+    "shadow_loop_us_per_router_event": 61.067568097476496,
+    "history_update_us_per_expert_ref": 1.0854732573602177,
+    "decision_us_per_miss": 173.28881105713685
+  },
+  "claim_boundary": {
+    "does_control_real_expert_loading": false,
+    "does_measure_end_to_end_latency": false,
+    "purpose": "validate online WREC policy/state interface against runtime-style routed expert events"
+  }
+}

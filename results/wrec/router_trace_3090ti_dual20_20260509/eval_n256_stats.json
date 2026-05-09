@@ -1,0 +1,2938 @@
+{
+  "model": "mixtral8x7b",
+  "model_path": "models/Mixtral-8x7B-Instruct-v0.1",
+  "request_file": "data/prompts/wrec_dolly_eval_n256.jsonl",
+  "output": "logs/processed/wrec/3090ti_dual20_20260509/eval_n256.jsonl",
+  "phase": "prefill",
+  "num_requests": 256,
+  "num_failures": 0,
+  "total_input_tokens": 14147,
+  "total_decode_tokens": 0,
+  "max_new_tokens": 0,
+  "stop_on_eos": false,
+  "total_events": 452704,
+  "num_experts": 8,
+  "num_experts_per_tok": 2,
+  "router_top_k": 2,
+  "num_router_layers": 32,
+  "elapsed_seconds": 2663.6184339839965,
+  "request_summaries": [
+    {
+      "request_id": "dolly-eval-000000",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 17.21803947724402
+    },
+    {
+      "request_id": "dolly-eval-000001",
+      "input_tokens": 26,
+      "decode_tokens": 0,
+      "events": 832,
+      "trace_seconds": 10.515110768377781
+    },
+    {
+      "request_id": "dolly-eval-000002",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.400857960805297
+    },
+    {
+      "request_id": "dolly-eval-000003",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.353210063651204
+    },
+    {
+      "request_id": "dolly-eval-000004",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.584679994732141
+    },
+    {
+      "request_id": "dolly-eval-000005",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.40894778072834
+    },
+    {
+      "request_id": "dolly-eval-000006",
+      "input_tokens": 31,
+      "decode_tokens": 0,
+      "events": 992,
+      "trace_seconds": 10.355703135952353
+    },
+    {
+      "request_id": "dolly-eval-000007",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.472058957442641
+    },
+    {
+      "request_id": "dolly-eval-000008",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408572955057025
+    },
+    {
+      "request_id": "dolly-eval-000009",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.343606937676668
+    },
+    {
+      "request_id": "dolly-eval-000010",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.354654202237725
+    },
+    {
+      "request_id": "dolly-eval-000011",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.357291836291552
+    },
+    {
+      "request_id": "dolly-eval-000012",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.34818534553051
+    },
+    {
+      "request_id": "dolly-eval-000013",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.336379768326879
+    },
+    {
+      "request_id": "dolly-eval-000014",
+      "input_tokens": 39,
+      "decode_tokens": 0,
+      "events": 1248,
+      "trace_seconds": 10.35989723727107
+    },
+    {
+      "request_id": "dolly-eval-000015",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.397483121603727
+    },
+    {
+      "request_id": "dolly-eval-000016",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.327683487907052
+    },
+    {
+      "request_id": "dolly-eval-000017",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.337010137736797
+    },
+    {
+      "request_id": "dolly-eval-000018",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.404902514070272
+    },
+    {
+      "request_id": "dolly-eval-000019",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.332264643162489
+    },
+    {
+      "request_id": "dolly-eval-000020",
+      "input_tokens": 43,
+      "decode_tokens": 0,
+      "events": 1376,
+      "trace_seconds": 10.352872673422098
+    },
+    {
+      "request_id": "dolly-eval-000021",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.400394374504685
+    },
+    {
+      "request_id": "dolly-eval-000022",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.40085168555379
+    },
+    {
+      "request_id": "dolly-eval-000023",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.396380199119449
+    },
+    {
+      "request_id": "dolly-eval-000024",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.34186945296824
+    },
+    {
+      "request_id": "dolly-eval-000025",
+      "input_tokens": 80,
+      "decode_tokens": 0,
+      "events": 2560,
+      "trace_seconds": 10.379232147708535
+    },
+    {
+      "request_id": "dolly-eval-000026",
+      "input_tokens": 27,
+      "decode_tokens": 0,
+      "events": 864,
+      "trace_seconds": 10.353792455047369
+    },
+    {
+      "request_id": "dolly-eval-000027",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.400852251797915
+    },
+    {
+      "request_id": "dolly-eval-000028",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.409580634906888
+    },
+    {
+      "request_id": "dolly-eval-000029",
+      "input_tokens": 44,
+      "decode_tokens": 0,
+      "events": 1408,
+      "trace_seconds": 10.360289417207241
+    },
+    {
+      "request_id": "dolly-eval-000030",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.351708844304085
+    },
+    {
+      "request_id": "dolly-eval-000031",
+      "input_tokens": 33,
+      "decode_tokens": 0,
+      "events": 1056,
+      "trace_seconds": 10.360934844240546
+    },
+    {
+      "request_id": "dolly-eval-000032",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.335734935477376
+    },
+    {
+      "request_id": "dolly-eval-000033",
+      "input_tokens": 28,
+      "decode_tokens": 0,
+      "events": 896,
+      "trace_seconds": 10.365631828084588
+    },
+    {
+      "request_id": "dolly-eval-000034",
+      "input_tokens": 102,
+      "decode_tokens": 0,
+      "events": 3264,
+      "trace_seconds": 10.461885329335928
+    },
+    {
+      "request_id": "dolly-eval-000035",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.395650040358305
+    },
+    {
+      "request_id": "dolly-eval-000036",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.333285879343748
+    },
+    {
+      "request_id": "dolly-eval-000037",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.399002615362406
+    },
+    {
+      "request_id": "dolly-eval-000038",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.337378647178411
+    },
+    {
+      "request_id": "dolly-eval-000039",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.36672011576593
+    },
+    {
+      "request_id": "dolly-eval-000040",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.363365858793259
+    },
+    {
+      "request_id": "dolly-eval-000041",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.345487009733915
+    },
+    {
+      "request_id": "dolly-eval-000042",
+      "input_tokens": 28,
+      "decode_tokens": 0,
+      "events": 896,
+      "trace_seconds": 10.368711506947875
+    },
+    {
+      "request_id": "dolly-eval-000043",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.352400248870254
+    },
+    {
+      "request_id": "dolly-eval-000044",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.358698096126318
+    },
+    {
+      "request_id": "dolly-eval-000045",
+      "input_tokens": 28,
+      "decode_tokens": 0,
+      "events": 896,
+      "trace_seconds": 10.37290440686047
+    },
+    {
+      "request_id": "dolly-eval-000046",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.386189566925168
+    },
+    {
+      "request_id": "dolly-eval-000047",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.37904261238873
+    },
+    {
+      "request_id": "dolly-eval-000048",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.34722245298326
+    },
+    {
+      "request_id": "dolly-eval-000049",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.412861848250031
+    },
+    {
+      "request_id": "dolly-eval-000050",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.354821460321546
+    },
+    {
+      "request_id": "dolly-eval-000051",
+      "input_tokens": 35,
+      "decode_tokens": 0,
+      "events": 1120,
+      "trace_seconds": 10.36187376640737
+    },
+    {
+      "request_id": "dolly-eval-000052",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.346812998875976
+    },
+    {
+      "request_id": "dolly-eval-000053",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.37571251951158
+    },
+    {
+      "request_id": "dolly-eval-000054",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408608680590987
+    },
+    {
+      "request_id": "dolly-eval-000055",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.411071792244911
+    },
+    {
+      "request_id": "dolly-eval-000056",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.373580077663064
+    },
+    {
+      "request_id": "dolly-eval-000057",
+      "input_tokens": 117,
+      "decode_tokens": 0,
+      "events": 3744,
+      "trace_seconds": 10.417111659422517
+    },
+    {
+      "request_id": "dolly-eval-000058",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.362606190145016
+    },
+    {
+      "request_id": "dolly-eval-000059",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.419170774519444
+    },
+    {
+      "request_id": "dolly-eval-000060",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.432747211307287
+    },
+    {
+      "request_id": "dolly-eval-000061",
+      "input_tokens": 118,
+      "decode_tokens": 0,
+      "events": 3776,
+      "trace_seconds": 10.412779692560434
+    },
+    {
+      "request_id": "dolly-eval-000062",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.470716604962945
+    },
+    {
+      "request_id": "dolly-eval-000063",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.341147961094975
+    },
+    {
+      "request_id": "dolly-eval-000064",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.355398759245872
+    },
+    {
+      "request_id": "dolly-eval-000065",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.347134292125702
+    },
+    {
+      "request_id": "dolly-eval-000066",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.416825572028756
+    },
+    {
+      "request_id": "dolly-eval-000067",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.339792590588331
+    },
+    {
+      "request_id": "dolly-eval-000068",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.436854803934693
+    },
+    {
+      "request_id": "dolly-eval-000069",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.441649552434683
+    },
+    {
+      "request_id": "dolly-eval-000070",
+      "input_tokens": 35,
+      "decode_tokens": 0,
+      "events": 1120,
+      "trace_seconds": 10.353247048333287
+    },
+    {
+      "request_id": "dolly-eval-000071",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.342212269082665
+    },
+    {
+      "request_id": "dolly-eval-000072",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.355645978823304
+    },
+    {
+      "request_id": "dolly-eval-000073",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.411615217104554
+    },
+    {
+      "request_id": "dolly-eval-000074",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.349327268078923
+    },
+    {
+      "request_id": "dolly-eval-000075",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.350373543798923
+    },
+    {
+      "request_id": "dolly-eval-000076",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.348014464601874
+    },
+    {
+      "request_id": "dolly-eval-000077",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.345457760617137
+    },
+    {
+      "request_id": "dolly-eval-000078",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.355281990021467
+    },
+    {
+      "request_id": "dolly-eval-000079",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.364398296922445
+    },
+    {
+      "request_id": "dolly-eval-000080",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.351425958797336
+    },
+    {
+      "request_id": "dolly-eval-000081",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.34628345631063
+    },
+    {
+      "request_id": "dolly-eval-000082",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.37615780159831
+    },
+    {
+      "request_id": "dolly-eval-000083",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.407270420342684
+    },
+    {
+      "request_id": "dolly-eval-000084",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.371436435729265
+    },
+    {
+      "request_id": "dolly-eval-000085",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.348522240296006
+    },
+    {
+      "request_id": "dolly-eval-000086",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415384326130152
+    },
+    {
+      "request_id": "dolly-eval-000087",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.360279764980078
+    },
+    {
+      "request_id": "dolly-eval-000088",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415639743208885
+    },
+    {
+      "request_id": "dolly-eval-000089",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.353680914267898
+    },
+    {
+      "request_id": "dolly-eval-000090",
+      "input_tokens": 53,
+      "decode_tokens": 0,
+      "events": 1696,
+      "trace_seconds": 10.382196819409728
+    },
+    {
+      "request_id": "dolly-eval-000091",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.373594591394067
+    },
+    {
+      "request_id": "dolly-eval-000092",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.34458846412599
+    },
+    {
+      "request_id": "dolly-eval-000093",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.352759290486574
+    },
+    {
+      "request_id": "dolly-eval-000094",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.352608818560839
+    },
+    {
+      "request_id": "dolly-eval-000095",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.360555063933134
+    },
+    {
+      "request_id": "dolly-eval-000096",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.35427951067686
+    },
+    {
+      "request_id": "dolly-eval-000097",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.365567134693265
+    },
+    {
+      "request_id": "dolly-eval-000098",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.381113002076745
+    },
+    {
+      "request_id": "dolly-eval-000099",
+      "input_tokens": 26,
+      "decode_tokens": 0,
+      "events": 832,
+      "trace_seconds": 10.376146299764514
+    },
+    {
+      "request_id": "dolly-eval-000100",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.358184687793255
+    },
+    {
+      "request_id": "dolly-eval-000101",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.362177336588502
+    },
+    {
+      "request_id": "dolly-eval-000102",
+      "input_tokens": 38,
+      "decode_tokens": 0,
+      "events": 1216,
+      "trace_seconds": 10.365304555743933
+    },
+    {
+      "request_id": "dolly-eval-000103",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.481450088322163
+    },
+    {
+      "request_id": "dolly-eval-000104",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.366688311100006
+    },
+    {
+      "request_id": "dolly-eval-000105",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415077567100525
+    },
+    {
+      "request_id": "dolly-eval-000106",
+      "input_tokens": 23,
+      "decode_tokens": 0,
+      "events": 736,
+      "trace_seconds": 10.351267099380493
+    },
+    {
+      "request_id": "dolly-eval-000107",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.34585701674223
+    },
+    {
+      "request_id": "dolly-eval-000108",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.348215367645025
+    },
+    {
+      "request_id": "dolly-eval-000109",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.411319440230727
+    },
+    {
+      "request_id": "dolly-eval-000110",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.340172549709678
+    },
+    {
+      "request_id": "dolly-eval-000111",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.33409495279193
+    },
+    {
+      "request_id": "dolly-eval-000112",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.407647993415594
+    },
+    {
+      "request_id": "dolly-eval-000113",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415435314178467
+    },
+    {
+      "request_id": "dolly-eval-000114",
+      "input_tokens": 31,
+      "decode_tokens": 0,
+      "events": 992,
+      "trace_seconds": 10.350231451913714
+    },
+    {
+      "request_id": "dolly-eval-000115",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.399673009291291
+    },
+    {
+      "request_id": "dolly-eval-000116",
+      "input_tokens": 29,
+      "decode_tokens": 0,
+      "events": 928,
+      "trace_seconds": 10.356069263070822
+    },
+    {
+      "request_id": "dolly-eval-000117",
+      "input_tokens": 115,
+      "decode_tokens": 0,
+      "events": 3680,
+      "trace_seconds": 10.397105673328042
+    },
+    {
+      "request_id": "dolly-eval-000118",
+      "input_tokens": 31,
+      "decode_tokens": 0,
+      "events": 992,
+      "trace_seconds": 10.361559377983212
+    },
+    {
+      "request_id": "dolly-eval-000119",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.343320736661553
+    },
+    {
+      "request_id": "dolly-eval-000120",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.406189383938909
+    },
+    {
+      "request_id": "dolly-eval-000121",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.364558411762118
+    },
+    {
+      "request_id": "dolly-eval-000122",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.35447796061635
+    },
+    {
+      "request_id": "dolly-eval-000123",
+      "input_tokens": 44,
+      "decode_tokens": 0,
+      "events": 1408,
+      "trace_seconds": 10.362218888476491
+    },
+    {
+      "request_id": "dolly-eval-000124",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.357879059389234
+    },
+    {
+      "request_id": "dolly-eval-000125",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.345529356971383
+    },
+    {
+      "request_id": "dolly-eval-000126",
+      "input_tokens": 38,
+      "decode_tokens": 0,
+      "events": 1216,
+      "trace_seconds": 10.380373124033213
+    },
+    {
+      "request_id": "dolly-eval-000127",
+      "input_tokens": 29,
+      "decode_tokens": 0,
+      "events": 928,
+      "trace_seconds": 10.377491580322385
+    },
+    {
+      "request_id": "dolly-eval-000128",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.351137358695269
+    },
+    {
+      "request_id": "dolly-eval-000129",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415290521457791
+    },
+    {
+      "request_id": "dolly-eval-000130",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.489310471341014
+    },
+    {
+      "request_id": "dolly-eval-000131",
+      "input_tokens": 23,
+      "decode_tokens": 0,
+      "events": 736,
+      "trace_seconds": 10.350948210805655
+    },
+    {
+      "request_id": "dolly-eval-000132",
+      "input_tokens": 48,
+      "decode_tokens": 0,
+      "events": 1536,
+      "trace_seconds": 10.382058221846819
+    },
+    {
+      "request_id": "dolly-eval-000133",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.360816156491637
+    },
+    {
+      "request_id": "dolly-eval-000134",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.367408815771341
+    },
+    {
+      "request_id": "dolly-eval-000135",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.356388105079532
+    },
+    {
+      "request_id": "dolly-eval-000136",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.420503145083785
+    },
+    {
+      "request_id": "dolly-eval-000137",
+      "input_tokens": 26,
+      "decode_tokens": 0,
+      "events": 832,
+      "trace_seconds": 10.34984764829278
+    },
+    {
+      "request_id": "dolly-eval-000138",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.348653700202703
+    },
+    {
+      "request_id": "dolly-eval-000139",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.35545427724719
+    },
+    {
+      "request_id": "dolly-eval-000140",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.412507032975554
+    },
+    {
+      "request_id": "dolly-eval-000141",
+      "input_tokens": 27,
+      "decode_tokens": 0,
+      "events": 864,
+      "trace_seconds": 10.368117537349463
+    },
+    {
+      "request_id": "dolly-eval-000142",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.405089357867837
+    },
+    {
+      "request_id": "dolly-eval-000143",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.406060755252838
+    },
+    {
+      "request_id": "dolly-eval-000144",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.345647264271975
+    },
+    {
+      "request_id": "dolly-eval-000145",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.347809860482812
+    },
+    {
+      "request_id": "dolly-eval-000146",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408412067219615
+    },
+    {
+      "request_id": "dolly-eval-000147",
+      "input_tokens": 23,
+      "decode_tokens": 0,
+      "events": 736,
+      "trace_seconds": 10.364362416788936
+    },
+    {
+      "request_id": "dolly-eval-000148",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.370402131229639
+    },
+    {
+      "request_id": "dolly-eval-000149",
+      "input_tokens": 31,
+      "decode_tokens": 0,
+      "events": 992,
+      "trace_seconds": 10.371659774333239
+    },
+    {
+      "request_id": "dolly-eval-000150",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.347054770216346
+    },
+    {
+      "request_id": "dolly-eval-000151",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.380562288686633
+    },
+    {
+      "request_id": "dolly-eval-000152",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.356133783236146
+    },
+    {
+      "request_id": "dolly-eval-000153",
+      "input_tokens": 29,
+      "decode_tokens": 0,
+      "events": 928,
+      "trace_seconds": 10.377440681681037
+    },
+    {
+      "request_id": "dolly-eval-000154",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.350558567792177
+    },
+    {
+      "request_id": "dolly-eval-000155",
+      "input_tokens": 30,
+      "decode_tokens": 0,
+      "events": 960,
+      "trace_seconds": 10.38558042049408
+    },
+    {
+      "request_id": "dolly-eval-000156",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.427914254367352
+    },
+    {
+      "request_id": "dolly-eval-000157",
+      "input_tokens": 55,
+      "decode_tokens": 0,
+      "events": 1760,
+      "trace_seconds": 10.383414916694164
+    },
+    {
+      "request_id": "dolly-eval-000158",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.411857306957245
+    },
+    {
+      "request_id": "dolly-eval-000159",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.348075609654188
+    },
+    {
+      "request_id": "dolly-eval-000160",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408360516652465
+    },
+    {
+      "request_id": "dolly-eval-000161",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.4827186986804
+    },
+    {
+      "request_id": "dolly-eval-000162",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.374925881624222
+    },
+    {
+      "request_id": "dolly-eval-000163",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.360285993665457
+    },
+    {
+      "request_id": "dolly-eval-000164",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.349618349224329
+    },
+    {
+      "request_id": "dolly-eval-000165",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.410521665588021
+    },
+    {
+      "request_id": "dolly-eval-000166",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.406895879656076
+    },
+    {
+      "request_id": "dolly-eval-000167",
+      "input_tokens": 71,
+      "decode_tokens": 0,
+      "events": 2272,
+      "trace_seconds": 10.38027511164546
+    },
+    {
+      "request_id": "dolly-eval-000168",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.337019758298993
+    },
+    {
+      "request_id": "dolly-eval-000169",
+      "input_tokens": 40,
+      "decode_tokens": 0,
+      "events": 1280,
+      "trace_seconds": 10.361949684098363
+    },
+    {
+      "request_id": "dolly-eval-000170",
+      "input_tokens": 39,
+      "decode_tokens": 0,
+      "events": 1248,
+      "trace_seconds": 10.357235949486494
+    },
+    {
+      "request_id": "dolly-eval-000171",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.417693447321653
+    },
+    {
+      "request_id": "dolly-eval-000172",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.411698831245303
+    },
+    {
+      "request_id": "dolly-eval-000173",
+      "input_tokens": 21,
+      "decode_tokens": 0,
+      "events": 672,
+      "trace_seconds": 10.347718633711338
+    },
+    {
+      "request_id": "dolly-eval-000174",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.354642571881413
+    },
+    {
+      "request_id": "dolly-eval-000175",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.369553619995713
+    },
+    {
+      "request_id": "dolly-eval-000176",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.410994565114379
+    },
+    {
+      "request_id": "dolly-eval-000177",
+      "input_tokens": 13,
+      "decode_tokens": 0,
+      "events": 416,
+      "trace_seconds": 10.345321100205183
+    },
+    {
+      "request_id": "dolly-eval-000178",
+      "input_tokens": 65,
+      "decode_tokens": 0,
+      "events": 2080,
+      "trace_seconds": 10.376177920028567
+    },
+    {
+      "request_id": "dolly-eval-000179",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.41004802659154
+    },
+    {
+      "request_id": "dolly-eval-000180",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.359505020081997
+    },
+    {
+      "request_id": "dolly-eval-000181",
+      "input_tokens": 70,
+      "decode_tokens": 0,
+      "events": 2240,
+      "trace_seconds": 10.398174855858088
+    },
+    {
+      "request_id": "dolly-eval-000182",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.491283725947142
+    },
+    {
+      "request_id": "dolly-eval-000183",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.417730851098895
+    },
+    {
+      "request_id": "dolly-eval-000184",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.378574550151825
+    },
+    {
+      "request_id": "dolly-eval-000185",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.363361636176705
+    },
+    {
+      "request_id": "dolly-eval-000186",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.40985513292253
+    },
+    {
+      "request_id": "dolly-eval-000187",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.352285876870155
+    },
+    {
+      "request_id": "dolly-eval-000188",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.410220861434937
+    },
+    {
+      "request_id": "dolly-eval-000189",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.352987075224519
+    },
+    {
+      "request_id": "dolly-eval-000190",
+      "input_tokens": 31,
+      "decode_tokens": 0,
+      "events": 992,
+      "trace_seconds": 10.35560735501349
+    },
+    {
+      "request_id": "dolly-eval-000191",
+      "input_tokens": 42,
+      "decode_tokens": 0,
+      "events": 1344,
+      "trace_seconds": 10.364987332373857
+    },
+    {
+      "request_id": "dolly-eval-000192",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408453702926636
+    },
+    {
+      "request_id": "dolly-eval-000193",
+      "input_tokens": 46,
+      "decode_tokens": 0,
+      "events": 1472,
+      "trace_seconds": 10.369866767898202
+    },
+    {
+      "request_id": "dolly-eval-000194",
+      "input_tokens": 62,
+      "decode_tokens": 0,
+      "events": 1984,
+      "trace_seconds": 10.386094508692622
+    },
+    {
+      "request_id": "dolly-eval-000195",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.344024207442999
+    },
+    {
+      "request_id": "dolly-eval-000196",
+      "input_tokens": 28,
+      "decode_tokens": 0,
+      "events": 896,
+      "trace_seconds": 10.360284505411983
+    },
+    {
+      "request_id": "dolly-eval-000197",
+      "input_tokens": 78,
+      "decode_tokens": 0,
+      "events": 2496,
+      "trace_seconds": 10.381537916138768
+    },
+    {
+      "request_id": "dolly-eval-000198",
+      "input_tokens": 36,
+      "decode_tokens": 0,
+      "events": 1152,
+      "trace_seconds": 10.366666682064533
+    },
+    {
+      "request_id": "dolly-eval-000199",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.36587549559772
+    },
+    {
+      "request_id": "dolly-eval-000200",
+      "input_tokens": 36,
+      "decode_tokens": 0,
+      "events": 1152,
+      "trace_seconds": 10.370870903134346
+    },
+    {
+      "request_id": "dolly-eval-000201",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.40691944397986
+    },
+    {
+      "request_id": "dolly-eval-000202",
+      "input_tokens": 42,
+      "decode_tokens": 0,
+      "events": 1344,
+      "trace_seconds": 10.370246212929487
+    },
+    {
+      "request_id": "dolly-eval-000203",
+      "input_tokens": 27,
+      "decode_tokens": 0,
+      "events": 864,
+      "trace_seconds": 10.366764841601253
+    },
+    {
+      "request_id": "dolly-eval-000204",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.356577180325985
+    },
+    {
+      "request_id": "dolly-eval-000205",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.354246133938432
+    },
+    {
+      "request_id": "dolly-eval-000206",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.351634720340371
+    },
+    {
+      "request_id": "dolly-eval-000207",
+      "input_tokens": 16,
+      "decode_tokens": 0,
+      "events": 512,
+      "trace_seconds": 10.343691866844893
+    },
+    {
+      "request_id": "dolly-eval-000208",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.373948430642486
+    },
+    {
+      "request_id": "dolly-eval-000209",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.350605817511678
+    },
+    {
+      "request_id": "dolly-eval-000210",
+      "input_tokens": 43,
+      "decode_tokens": 0,
+      "events": 1376,
+      "trace_seconds": 10.362719079479575
+    },
+    {
+      "request_id": "dolly-eval-000211",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.384657425805926
+    },
+    {
+      "request_id": "dolly-eval-000212",
+      "input_tokens": 39,
+      "decode_tokens": 0,
+      "events": 1248,
+      "trace_seconds": 10.378162933513522
+    },
+    {
+      "request_id": "dolly-eval-000213",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.371601797640324
+    },
+    {
+      "request_id": "dolly-eval-000214",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.427194712683558
+    },
+    {
+      "request_id": "dolly-eval-000215",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.354590946808457
+    },
+    {
+      "request_id": "dolly-eval-000216",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.478451132774353
+    },
+    {
+      "request_id": "dolly-eval-000217",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.415469581261277
+    },
+    {
+      "request_id": "dolly-eval-000218",
+      "input_tokens": 26,
+      "decode_tokens": 0,
+      "events": 832,
+      "trace_seconds": 10.353193890303373
+    },
+    {
+      "request_id": "dolly-eval-000219",
+      "input_tokens": 48,
+      "decode_tokens": 0,
+      "events": 1536,
+      "trace_seconds": 10.365498101338744
+    },
+    {
+      "request_id": "dolly-eval-000220",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.339310981333256
+    },
+    {
+      "request_id": "dolly-eval-000221",
+      "input_tokens": 25,
+      "decode_tokens": 0,
+      "events": 800,
+      "trace_seconds": 10.351461950689554
+    },
+    {
+      "request_id": "dolly-eval-000222",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.406478637829423
+    },
+    {
+      "request_id": "dolly-eval-000223",
+      "input_tokens": 30,
+      "decode_tokens": 0,
+      "events": 960,
+      "trace_seconds": 10.358338905498385
+    },
+    {
+      "request_id": "dolly-eval-000224",
+      "input_tokens": 30,
+      "decode_tokens": 0,
+      "events": 960,
+      "trace_seconds": 10.359955253079534
+    },
+    {
+      "request_id": "dolly-eval-000225",
+      "input_tokens": 82,
+      "decode_tokens": 0,
+      "events": 2624,
+      "trace_seconds": 10.389422906562686
+    },
+    {
+      "request_id": "dolly-eval-000226",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.42268525250256
+    },
+    {
+      "request_id": "dolly-eval-000227",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.347464574500918
+    },
+    {
+      "request_id": "dolly-eval-000228",
+      "input_tokens": 66,
+      "decode_tokens": 0,
+      "events": 2112,
+      "trace_seconds": 10.379874411970377
+    },
+    {
+      "request_id": "dolly-eval-000229",
+      "input_tokens": 26,
+      "decode_tokens": 0,
+      "events": 832,
+      "trace_seconds": 10.363367423415184
+    },
+    {
+      "request_id": "dolly-eval-000230",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.404999822378159
+    },
+    {
+      "request_id": "dolly-eval-000231",
+      "input_tokens": 18,
+      "decode_tokens": 0,
+      "events": 576,
+      "trace_seconds": 10.352544479072094
+    },
+    {
+      "request_id": "dolly-eval-000232",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.349687339738011
+    },
+    {
+      "request_id": "dolly-eval-000233",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.353311643004417
+    },
+    {
+      "request_id": "dolly-eval-000234",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.408903159201145
+    },
+    {
+      "request_id": "dolly-eval-000235",
+      "input_tokens": 14,
+      "decode_tokens": 0,
+      "events": 448,
+      "trace_seconds": 10.350581089034677
+    },
+    {
+      "request_id": "dolly-eval-000236",
+      "input_tokens": 20,
+      "decode_tokens": 0,
+      "events": 640,
+      "trace_seconds": 10.353998916223645
+    },
+    {
+      "request_id": "dolly-eval-000237",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.413173569366336
+    },
+    {
+      "request_id": "dolly-eval-000238",
+      "input_tokens": 24,
+      "decode_tokens": 0,
+      "events": 768,
+      "trace_seconds": 10.35715514048934
+    },
+    {
+      "request_id": "dolly-eval-000239",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.42656751908362
+    },
+    {
+      "request_id": "dolly-eval-000240",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.348902462050319
+    },
+    {
+      "request_id": "dolly-eval-000241",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.354987256228924
+    },
+    {
+      "request_id": "dolly-eval-000242",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.376951478421688
+    },
+    {
+      "request_id": "dolly-eval-000243",
+      "input_tokens": 71,
+      "decode_tokens": 0,
+      "events": 2272,
+      "trace_seconds": 10.394328309223056
+    },
+    {
+      "request_id": "dolly-eval-000244",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.479408890008926
+    },
+    {
+      "request_id": "dolly-eval-000245",
+      "input_tokens": 114,
+      "decode_tokens": 0,
+      "events": 3648,
+      "trace_seconds": 10.403714314103127
+    },
+    {
+      "request_id": "dolly-eval-000246",
+      "input_tokens": 29,
+      "decode_tokens": 0,
+      "events": 928,
+      "trace_seconds": 10.373511103913188
+    },
+    {
+      "request_id": "dolly-eval-000247",
+      "input_tokens": 23,
+      "decode_tokens": 0,
+      "events": 736,
+      "trace_seconds": 10.363128611817956
+    },
+    {
+      "request_id": "dolly-eval-000248",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.347788566723466
+    },
+    {
+      "request_id": "dolly-eval-000249",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.418260771781206
+    },
+    {
+      "request_id": "dolly-eval-000250",
+      "input_tokens": 22,
+      "decode_tokens": 0,
+      "events": 704,
+      "trace_seconds": 10.357310650870204
+    },
+    {
+      "request_id": "dolly-eval-000251",
+      "input_tokens": 17,
+      "decode_tokens": 0,
+      "events": 544,
+      "trace_seconds": 10.353125674650073
+    },
+    {
+      "request_id": "dolly-eval-000252",
+      "input_tokens": 15,
+      "decode_tokens": 0,
+      "events": 480,
+      "trace_seconds": 10.363998277112842
+    },
+    {
+      "request_id": "dolly-eval-000253",
+      "input_tokens": 19,
+      "decode_tokens": 0,
+      "events": 608,
+      "trace_seconds": 10.356688592582941
+    },
+    {
+      "request_id": "dolly-eval-000254",
+      "input_tokens": 128,
+      "decode_tokens": 0,
+      "events": 4096,
+      "trace_seconds": 10.418562944978476
+    },
+    {
+      "request_id": "dolly-eval-000255",
+      "input_tokens": 68,
+      "decode_tokens": 0,
+      "events": 2176,
+      "trace_seconds": 10.380165535956621
+    }
+  ],
+  "layer_event_counts": {
+    "0": 14147,
+    "1": 14147,
+    "2": 14147,
+    "3": 14147,
+    "4": 14147,
+    "5": 14147,
+    "6": 14147,
+    "7": 14147,
+    "8": 14147,
+    "9": 14147,
+    "10": 14147,
+    "11": 14147,
+    "12": 14147,
+    "13": 14147,
+    "14": 14147,
+    "15": 14147,
+    "16": 14147,
+    "17": 14147,
+    "18": 14147,
+    "19": 14147,
+    "20": 14147,
+    "21": 14147,
+    "22": 14147,
+    "23": 14147,
+    "24": 14147,
+    "25": 14147,
+    "26": 14147,
+    "27": 14147,
+    "28": 14147,
+    "29": 14147,
+    "30": 14147,
+    "31": 14147
+  },
+  "top_experts_by_layer": {
+    "0": [
+      [
+        5,
+        4886
+      ],
+      [
+        1,
+        3663
+      ],
+      [
+        7,
+        3612
+      ],
+      [
+        0,
+        3596
+      ],
+      [
+        4,
+        3476
+      ],
+      [
+        2,
+        3311
+      ],
+      [
+        6,
+        2965
+      ],
+      [
+        3,
+        2785
+      ]
+    ],
+    "1": [
+      [
+        0,
+        4457
+      ],
+      [
+        5,
+        4021
+      ],
+      [
+        4,
+        3752
+      ],
+      [
+        2,
+        3575
+      ],
+      [
+        7,
+        3357
+      ],
+      [
+        1,
+        3241
+      ],
+      [
+        3,
+        3095
+      ],
+      [
+        6,
+        2796
+      ]
+    ],
+    "2": [
+      [
+        3,
+        4011
+      ],
+      [
+        0,
+        3942
+      ],
+      [
+        1,
+        3715
+      ],
+      [
+        6,
+        3633
+      ],
+      [
+        4,
+        3513
+      ],
+      [
+        7,
+        3346
+      ],
+      [
+        5,
+        3332
+      ],
+      [
+        2,
+        2802
+      ]
+    ],
+    "3": [
+      [
+        0,
+        4633
+      ],
+      [
+        3,
+        3794
+      ],
+      [
+        5,
+        3757
+      ],
+      [
+        6,
+        3717
+      ],
+      [
+        7,
+        3632
+      ],
+      [
+        1,
+        3439
+      ],
+      [
+        4,
+        3240
+      ],
+      [
+        2,
+        2082
+      ]
+    ],
+    "4": [
+      [
+        4,
+        4670
+      ],
+      [
+        3,
+        3857
+      ],
+      [
+        1,
+        3597
+      ],
+      [
+        7,
+        3553
+      ],
+      [
+        0,
+        3344
+      ],
+      [
+        5,
+        3213
+      ],
+      [
+        2,
+        3192
+      ],
+      [
+        6,
+        2868
+      ]
+    ],
+    "5": [
+      [
+        1,
+        4206
+      ],
+      [
+        3,
+        3920
+      ],
+      [
+        7,
+        3739
+      ],
+      [
+        5,
+        3518
+      ],
+      [
+        6,
+        3504
+      ],
+      [
+        0,
+        3307
+      ],
+      [
+        4,
+        3139
+      ],
+      [
+        2,
+        2961
+      ]
+    ],
+    "6": [
+      [
+        7,
+        5630
+      ],
+      [
+        2,
+        4576
+      ],
+      [
+        5,
+        3647
+      ],
+      [
+        6,
+        3560
+      ],
+      [
+        3,
+        3414
+      ],
+      [
+        0,
+        2642
+      ],
+      [
+        1,
+        2603
+      ],
+      [
+        4,
+        2222
+      ]
+    ],
+    "7": [
+      [
+        5,
+        4977
+      ],
+      [
+        4,
+        3791
+      ],
+      [
+        1,
+        3762
+      ],
+      [
+        6,
+        3415
+      ],
+      [
+        2,
+        3347
+      ],
+      [
+        3,
+        3251
+      ],
+      [
+        0,
+        2993
+      ],
+      [
+        7,
+        2758
+      ]
+    ],
+    "8": [
+      [
+        3,
+        4596
+      ],
+      [
+        5,
+        4329
+      ],
+      [
+        6,
+        4096
+      ],
+      [
+        4,
+        4011
+      ],
+      [
+        7,
+        3180
+      ],
+      [
+        0,
+        3023
+      ],
+      [
+        1,
+        2650
+      ],
+      [
+        2,
+        2409
+      ]
+    ],
+    "9": [
+      [
+        6,
+        4802
+      ],
+      [
+        5,
+        4246
+      ],
+      [
+        0,
+        4180
+      ],
+      [
+        4,
+        4000
+      ],
+      [
+        7,
+        3410
+      ],
+      [
+        1,
+        2886
+      ],
+      [
+        2,
+        2635
+      ],
+      [
+        3,
+        2135
+      ]
+    ],
+    "10": [
+      [
+        7,
+        4645
+      ],
+      [
+        3,
+        4429
+      ],
+      [
+        4,
+        3932
+      ],
+      [
+        0,
+        3776
+      ],
+      [
+        1,
+        3765
+      ],
+      [
+        2,
+        2978
+      ],
+      [
+        5,
+        2549
+      ],
+      [
+        6,
+        2220
+      ]
+    ],
+    "11": [
+      [
+        2,
+        4869
+      ],
+      [
+        5,
+        4519
+      ],
+      [
+        6,
+        4451
+      ],
+      [
+        1,
+        3778
+      ],
+      [
+        0,
+        3483
+      ],
+      [
+        7,
+        3207
+      ],
+      [
+        4,
+        2965
+      ],
+      [
+        3,
+        1022
+      ]
+    ],
+    "12": [
+      [
+        1,
+        5265
+      ],
+      [
+        3,
+        4652
+      ],
+      [
+        0,
+        3873
+      ],
+      [
+        4,
+        3721
+      ],
+      [
+        2,
+        3251
+      ],
+      [
+        5,
+        2961
+      ],
+      [
+        6,
+        2371
+      ],
+      [
+        7,
+        2200
+      ]
+    ],
+    "13": [
+      [
+        1,
+        4500
+      ],
+      [
+        0,
+        4278
+      ],
+      [
+        6,
+        3797
+      ],
+      [
+        7,
+        3556
+      ],
+      [
+        2,
+        3433
+      ],
+      [
+        5,
+        3321
+      ],
+      [
+        3,
+        3262
+      ],
+      [
+        4,
+        2147
+      ]
+    ],
+    "14": [
+      [
+        4,
+        4759
+      ],
+      [
+        6,
+        4462
+      ],
+      [
+        5,
+        3614
+      ],
+      [
+        7,
+        3476
+      ],
+      [
+        0,
+        3253
+      ],
+      [
+        2,
+        3184
+      ],
+      [
+        3,
+        3131
+      ],
+      [
+        1,
+        2415
+      ]
+    ],
+    "15": [
+      [
+        1,
+        4698
+      ],
+      [
+        4,
+        3973
+      ],
+      [
+        7,
+        3605
+      ],
+      [
+        2,
+        3589
+      ],
+      [
+        0,
+        3313
+      ],
+      [
+        5,
+        3232
+      ],
+      [
+        3,
+        2955
+      ],
+      [
+        6,
+        2929
+      ]
+    ],
+    "16": [
+      [
+        1,
+        4934
+      ],
+      [
+        0,
+        4499
+      ],
+      [
+        6,
+        4097
+      ],
+      [
+        5,
+        3744
+      ],
+      [
+        7,
+        3597
+      ],
+      [
+        2,
+        2754
+      ],
+      [
+        4,
+        2639
+      ],
+      [
+        3,
+        2030
+      ]
+    ],
+    "17": [
+      [
+        7,
+        4890
+      ],
+      [
+        6,
+        4276
+      ],
+      [
+        5,
+        3851
+      ],
+      [
+        0,
+        3560
+      ],
+      [
+        3,
+        3292
+      ],
+      [
+        2,
+        3171
+      ],
+      [
+        4,
+        2688
+      ],
+      [
+        1,
+        2566
+      ]
+    ],
+    "18": [
+      [
+        5,
+        4540
+      ],
+      [
+        7,
+        3774
+      ],
+      [
+        1,
+        3681
+      ],
+      [
+        0,
+        3590
+      ],
+      [
+        2,
+        3324
+      ],
+      [
+        6,
+        3281
+      ],
+      [
+        4,
+        3092
+      ],
+      [
+        3,
+        3012
+      ]
+    ],
+    "19": [
+      [
+        2,
+        3969
+      ],
+      [
+        1,
+        3930
+      ],
+      [
+        7,
+        3747
+      ],
+      [
+        3,
+        3688
+      ],
+      [
+        0,
+        3688
+      ],
+      [
+        6,
+        3515
+      ],
+      [
+        4,
+        3156
+      ],
+      [
+        5,
+        2601
+      ]
+    ],
+    "20": [
+      [
+        1,
+        3852
+      ],
+      [
+        5,
+        3651
+      ],
+      [
+        2,
+        3553
+      ],
+      [
+        6,
+        3527
+      ],
+      [
+        7,
+        3479
+      ],
+      [
+        0,
+        3428
+      ],
+      [
+        4,
+        3407
+      ],
+      [
+        3,
+        3397
+      ]
+    ],
+    "21": [
+      [
+        0,
+        4321
+      ],
+      [
+        1,
+        4094
+      ],
+      [
+        4,
+        3712
+      ],
+      [
+        3,
+        3339
+      ],
+      [
+        5,
+        3334
+      ],
+      [
+        2,
+        3209
+      ],
+      [
+        7,
+        3206
+      ],
+      [
+        6,
+        3079
+      ]
+    ],
+    "22": [
+      [
+        1,
+        4690
+      ],
+      [
+        4,
+        4328
+      ],
+      [
+        3,
+        3975
+      ],
+      [
+        0,
+        3419
+      ],
+      [
+        7,
+        3282
+      ],
+      [
+        5,
+        3067
+      ],
+      [
+        2,
+        2985
+      ],
+      [
+        6,
+        2548
+      ]
+    ],
+    "23": [
+      [
+        1,
+        4110
+      ],
+      [
+        4,
+        4015
+      ],
+      [
+        0,
+        3814
+      ],
+      [
+        3,
+        3596
+      ],
+      [
+        6,
+        3566
+      ],
+      [
+        2,
+        3337
+      ],
+      [
+        7,
+        3314
+      ],
+      [
+        5,
+        2542
+      ]
+    ],
+    "24": [
+      [
+        1,
+        4399
+      ],
+      [
+        5,
+        3843
+      ],
+      [
+        2,
+        3562
+      ],
+      [
+        3,
+        3546
+      ],
+      [
+        0,
+        3394
+      ],
+      [
+        7,
+        3250
+      ],
+      [
+        4,
+        3215
+      ],
+      [
+        6,
+        3085
+      ]
+    ],
+    "25": [
+      [
+        3,
+        4919
+      ],
+      [
+        2,
+        4275
+      ],
+      [
+        1,
+        3916
+      ],
+      [
+        6,
+        3476
+      ],
+      [
+        0,
+        3401
+      ],
+      [
+        5,
+        3014
+      ],
+      [
+        4,
+        2760
+      ],
+      [
+        7,
+        2533
+      ]
+    ],
+    "26": [
+      [
+        2,
+        5155
+      ],
+      [
+        3,
+        3838
+      ],
+      [
+        1,
+        3502
+      ],
+      [
+        5,
+        3490
+      ],
+      [
+        0,
+        3237
+      ],
+      [
+        7,
+        3057
+      ],
+      [
+        4,
+        3025
+      ],
+      [
+        6,
+        2990
+      ]
+    ],
+    "27": [
+      [
+        7,
+        4570
+      ],
+      [
+        1,
+        4380
+      ],
+      [
+        6,
+        3543
+      ],
+      [
+        2,
+        3508
+      ],
+      [
+        5,
+        3439
+      ],
+      [
+        0,
+        3325
+      ],
+      [
+        4,
+        2893
+      ],
+      [
+        3,
+        2636
+      ]
+    ],
+    "28": [
+      [
+        5,
+        4479
+      ],
+      [
+        2,
+        4406
+      ],
+      [
+        3,
+        3993
+      ],
+      [
+        0,
+        3704
+      ],
+      [
+        4,
+        3310
+      ],
+      [
+        7,
+        3155
+      ],
+      [
+        6,
+        2712
+      ],
+      [
+        1,
+        2535
+      ]
+    ],
+    "29": [
+      [
+        1,
+        4666
+      ],
+      [
+        3,
+        3807
+      ],
+      [
+        4,
+        3637
+      ],
+      [
+        2,
+        3465
+      ],
+      [
+        7,
+        3393
+      ],
+      [
+        5,
+        3300
+      ],
+      [
+        6,
+        3195
+      ],
+      [
+        0,
+        2831
+      ]
+    ],
+    "30": [
+      [
+        4,
+        4481
+      ],
+      [
+        7,
+        4173
+      ],
+      [
+        2,
+        4003
+      ],
+      [
+        0,
+        3705
+      ],
+      [
+        3,
+        3658
+      ],
+      [
+        5,
+        3310
+      ],
+      [
+        6,
+        2617
+      ],
+      [
+        1,
+        2347
+      ]
+    ],
+    "31": [
+      [
+        7,
+        4430
+      ],
+      [
+        5,
+        4182
+      ],
+      [
+        1,
+        4150
+      ],
+      [
+        2,
+        4017
+      ],
+      [
+        0,
+        3217
+      ],
+      [
+        4,
+        2960
+      ],
+      [
+        3,
+        2923
+      ],
+      [
+        6,
+        2415
+      ]
+    ]
+  },
+  "failures": []
+}
