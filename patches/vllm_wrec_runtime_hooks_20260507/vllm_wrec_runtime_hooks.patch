@@ -35,121 +35,12 @@ index a95481a..aa3e239 100644
          return (
              self._expert_map if not self.rocm_aiter_fmoe_enabled else self.expert_mask
          )
-diff --git a/vllm/model_executor/offloader/prefetch.py b/vllm/model_executor/offloader/prefetch.py
-index 5bdde8c..2316578 100644
---- a/vllm/model_executor/offloader/prefetch.py
-+++ b/vllm/model_executor/offloader/prefetch.py
-@@ -21,6 +21,7 @@ import torch.nn as nn
- import vllm.model_executor.offloader.prefetch_ops  # noqa: F401
- from vllm.logger import init_logger
- from vllm.model_executor.offloader.base import BaseOffloader
-+from vllm.model_executor.offloader.wrec_residency import get_wrec_residency_state
- from vllm.utils.platform_utils import is_pin_memory_available
- 
- logger = init_logger(__name__)
-@@ -198,6 +199,7 @@ class PrefetchOffloader(BaseOffloader):
-                         copy_stream=self.copy_stream,
-                         whitelist_param_names=whitelist,
-                         layer_idx=len(self.module_offloaders),
-+                        model_layer_index=module_index,
-                     )
-                 )
- 
-@@ -225,7 +227,13 @@ class PrefetchOffloader(BaseOffloader):
- 
-             # Start prefetch for next layer (circular)
-             # mutates_args on output_tensor creates ordering dependency
--            next_index = (index + self.prefetch_step) % len(self.module_offloaders)
-+            default_next_index = (index + self.prefetch_step) % len(
-+                self.module_offloaders
-+            )
-+            next_index = get_wrec_residency_state().choose_next_prefetch_index(
-+                default_index=default_next_index,
-+                module_offloaders=self.module_offloaders,
-+            )
-             # Handle tuple output (e.g., (hidden_states, residual))
-             if isinstance(output, tuple):
-                 torch.ops.vllm.start_prefetch(output[0], next_index)
-@@ -378,12 +386,14 @@ class _ModuleOffloader:
-         copy_stream: torch.cuda.Stream,
-         whitelist_param_names: list[str],
-         layer_idx: int,
-+        model_layer_index: int,
-     ):
-         self.mode = mode
-         self.module = module
-         self.device = next(module.parameters()).device
-         self.copy_stream = copy_stream
-         self.layer_idx = layer_idx
-+        self.model_layer_index = model_layer_index
-         self.offloaded_bytes = 0
- 
-         # Event to signal when H2D copy to static buffer is complete.
-@@ -645,6 +655,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
-         self.offloaded_bytes = (
-             self._cpu_storage.numel() * self._cpu_storage.element_size()
-         )
-+        param._vllm_cpu_offload_storage = self._cpu_storage
- 
-         # Point param.data to CPU storage - this allows weight loading to work
-         # and frees GPU memory when the original GPU tensor is garbage collected
-@@ -683,6 +694,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
-             # param.data is on GPU - copy to existing CPU storage
-             assert self._cpu_storage is not None
-             self._cpu_storage.copy_(param.data)
-+        param._vllm_cpu_offload_storage = self._cpu_storage
- 
-     def assign_static_buffer(self, gpu_buffer: torch.Tensor) -> None:
-         """Point parameter data to GPU static buffer.
-diff --git a/vllm/model_executor/offloader/uva.py b/vllm/model_executor/offloader/uva.py
-index c524e43..e835c71 100644
---- a/vllm/model_executor/offloader/uva.py
-+++ b/vllm/model_executor/offloader/uva.py
-@@ -100,6 +100,7 @@ class UVAOffloader(BaseOffloader):
-             cpu_data = p.data.to(device="cpu")
-             if self.pin_memory:
-                 cpu_data = cpu_data.pin_memory()
-+            p._vllm_cpu_offload_storage = cpu_data
- 
-             if not self.uva_offloading:
-                 p.data = cpu_data
-diff --git a/vllm/v1/core/sched/scheduler.py b/vllm/v1/core/sched/scheduler.py
-index fe524cc..35b4444 100644
---- a/vllm/v1/core/sched/scheduler.py
-+++ b/vllm/v1/core/sched/scheduler.py
-@@ -51,6 +51,7 @@ from vllm.v1.core.sched.request_queue import (
-     create_request_queue,
- )
- from vllm.v1.core.sched.utils import check_stop, remove_all
-+from vllm.v1.core.sched.wrec_sidecar_client import WrecSidecarClient
- from vllm.v1.engine import EngineCoreEventType, EngineCoreOutput, EngineCoreOutputs
- from vllm.v1.kv_cache_interface import AttentionSpec, KVCacheConfig
- from vllm.v1.metrics.perf import ModelMetrics, PerfStats
-@@ -249,6 +250,7 @@ class Scheduler(SchedulerInterface):
- 
-         self.has_mamba_layers = kv_cache_config.has_mamba_layers
-         self.needs_kv_cache_zeroing = kv_cache_config.needs_kv_cache_zeroing
-+        self.wrec_sidecar_client = WrecSidecarClient()
-         self.need_mamba_block_aligned_split = (
-             self.has_mamba_layers and self.cache_config.mamba_cache_mode == "align"
-         )
-@@ -1410,6 +1412,10 @@ class Scheduler(SchedulerInterface):
-             finish_reason = None
-             if stopped:
-                 routed_experts = self._get_routed_experts(request)
-+                self.wrec_sidecar_client.submit_routed_experts(
-+                    request_id=req_id,
-+                    routed_experts=routed_experts,
-+                )
- 
-                 # Capture finish_reason BEFORE _handle_stopped_request, which may
-                 # reset the status to WAITING for streaming requests that continue.
 diff --git a/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py b/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py
 new file mode 100644
-index 0000000..b046ee1
+index 0000000..c9ac390
 --- /dev/null
 +++ b/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py
-@@ -0,0 +1,418 @@
+@@ -0,0 +1,481 @@
 +# SPDX-License-Identifier: Apache-2.0
 +# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 +
@@ -210,6 +101,9 @@ index 0000000..b046ee1
 +        self._layers_by_model_index: dict[int, _LayerResidencyState] = {}
 +        self._desired_experts_by_layer: dict[int, dict[int, int]] = {}
 +        self._warned_unsupported: set[int] = set()
++        self._logged_state_only_layers: set[int] = set()
++        self._logged_finite_slot_layers: set[int] = set()
++        self._logged_cpu_backing_sources: set[int] = set()
 +
 +    def maybe_onload_selected_experts(
 +        self,
@@ -222,9 +116,23 @@ index 0000000..b046ee1
 +            layer_id = id(layer)
 +            if layer_id not in self._warned_unsupported:
 +                self._warned_unsupported.add(layer_id)
++                w13_weight = getattr(layer, "w13_weight", None)
++                w2_weight = getattr(layer, "w2_weight", None)
 +                logger.warning(
-+                    "WREC expert residency disabled for unsupported FusedMoE layer %s",
++                    "WREC expert residency disabled for unsupported FusedMoE layer "
++                    "%s: w13=%s shape=%s dtype=%s, w2=%s shape=%s dtype=%s, "
++                    "ep_size=%s, shared_experts=%s, grouped_topk=%s, scoring=%s",
 +                    getattr(layer, "layer_name", "<unknown>"),
++                    type(w13_weight).__name__,
++                    getattr(w13_weight, "shape", None),
++                    getattr(w13_weight, "dtype", None),
++                    type(w2_weight).__name__,
++                    getattr(w2_weight, "shape", None),
++                    getattr(w2_weight, "dtype", None),
++                    getattr(layer, "ep_size", None),
++                    getattr(layer, "num_fused_shared_experts", None),
++                    getattr(layer, "use_grouped_topk", None),
++                    getattr(layer, "scoring_func", None),
 +                )
 +            return
 +
@@ -395,6 +303,17 @@ index 0000000..b046ee1
 +            layer_index = self._layer_index(layer)
 +            if layer_index is not None:
 +                self._layers_by_model_index[layer_index] = state
++            if layer_id not in self._logged_state_only_layers:
++                self._logged_state_only_layers.add(layer_id)
++                logger.info(
++                    "WREC expert residency initialized state-only layer %s: "
++                    "slot_capacity=%d, global_num_experts=%s, row_copy=%s, "
++                    "cpu_backing=empty",
++                    getattr(layer, "layer_name", "<unknown>"),
++                    self.slot_capacity,
++                    getattr(layer, "global_num_experts", None),
++                    self.row_copy_full_tensor,
++                )
 +            return state
 +        if finite_slots and len(current_experts) > self.slot_capacity:
 +            raise RuntimeError(
@@ -415,20 +334,41 @@ index 0000000..b046ee1
 +        if layer_index is not None:
 +            self._layers_by_model_index[layer_index] = state
 +        logger.info(
-+            "WREC expert residency created CPU backing for FusedMoE layer %s",
++            "WREC expert residency created CPU backing for FusedMoE layer %s "
++            "(finite_slots=%s, row_copy=%s)",
 +            getattr(layer, "layer_name", "<unknown>"),
++            state.finite_slots,
++            self.row_copy_full_tensor,
 +        )
 +        return state
 +
 +    def _cpu_backing_for_weight(self, weight: torch.Tensor) -> torch.Tensor:
 +        offload_storage = getattr(weight, "_vllm_cpu_offload_storage", None)
++        weight_id = id(weight)
 +        if (
 +            isinstance(offload_storage, torch.Tensor)
 +            and offload_storage.device.type == "cpu"
 +            and offload_storage.shape == weight.shape
 +            and offload_storage.dtype == weight.dtype
 +        ):
++            if weight_id not in self._logged_cpu_backing_sources:
++                self._logged_cpu_backing_sources.add(weight_id)
++                logger.info(
++                    "WREC expert residency reusing vLLM CPU offload storage: "
++                    "shape=%s dtype=%s",
++                    tuple(weight.shape),
++                    weight.dtype,
++                )
 +            return offload_storage.detach()
++        if weight_id not in self._logged_cpu_backing_sources:
++            self._logged_cpu_backing_sources.add(weight_id)
++            logger.warning(
++                "WREC expert residency falling back to an extra CPU copy: "
++                "shape=%s dtype=%s. This is expected only for toy tests or "
++                "non-offloaded paths.",
++                tuple(weight.shape),
++                weight.dtype,
++            )
 +        return weight.detach().to("cpu", copy=True)
 +
 +    def _use_finite_slots(self, layer: Any) -> bool:
@@ -463,6 +403,20 @@ index 0000000..b046ee1
 +            device=w13_slots.device,
 +        )
 +        state.slot_to_logical = [None for _ in range(slot_capacity)]
++        layer_id = id(layer)
++        if layer_id not in self._logged_finite_slot_layers:
++            self._logged_finite_slot_layers.add(layer_id)
++            logger.info(
++                "WREC finite expert slots installed for layer %s: "
++                "slot_capacity=%d, global_num_experts=%d, "
++                "w13_slot_shape=%s, w2_slot_shape=%s, expert_map_shape=%s",
++                getattr(layer, "layer_name", "<unknown>"),
++                slot_capacity,
++                global_num_experts,
++                tuple(w13_slots.shape),
++                tuple(w2_slots.shape),
++                tuple(state.expert_map.shape),
++            )
 +
 +    def _bounded_prefetch_experts(
 +        self,
@@ -568,6 +522,84 @@ index 0000000..b046ee1
 +
 +def get_wrec_expert_residency_manager() -> WrecExpertResidencyManager:
 +    return _WREC_EXPERT_RESIDENCY_MANAGER
+diff --git a/vllm/model_executor/offloader/prefetch.py b/vllm/model_executor/offloader/prefetch.py
+index 5bdde8c..2316578 100644
+--- a/vllm/model_executor/offloader/prefetch.py
++++ b/vllm/model_executor/offloader/prefetch.py
+@@ -21,6 +21,7 @@ import torch.nn as nn
+ import vllm.model_executor.offloader.prefetch_ops  # noqa: F401
+ from vllm.logger import init_logger
+ from vllm.model_executor.offloader.base import BaseOffloader
++from vllm.model_executor.offloader.wrec_residency import get_wrec_residency_state
+ from vllm.utils.platform_utils import is_pin_memory_available
+ 
+ logger = init_logger(__name__)
+@@ -198,6 +199,7 @@ class PrefetchOffloader(BaseOffloader):
+                         copy_stream=self.copy_stream,
+                         whitelist_param_names=whitelist,
+                         layer_idx=len(self.module_offloaders),
++                        model_layer_index=module_index,
+                     )
+                 )
+ 
+@@ -225,7 +227,13 @@ class PrefetchOffloader(BaseOffloader):
+ 
+             # Start prefetch for next layer (circular)
+             # mutates_args on output_tensor creates ordering dependency
+-            next_index = (index + self.prefetch_step) % len(self.module_offloaders)
++            default_next_index = (index + self.prefetch_step) % len(
++                self.module_offloaders
++            )
++            next_index = get_wrec_residency_state().choose_next_prefetch_index(
++                default_index=default_next_index,
++                module_offloaders=self.module_offloaders,
++            )
+             # Handle tuple output (e.g., (hidden_states, residual))
+             if isinstance(output, tuple):
+                 torch.ops.vllm.start_prefetch(output[0], next_index)
+@@ -378,12 +386,14 @@ class _ModuleOffloader:
+         copy_stream: torch.cuda.Stream,
+         whitelist_param_names: list[str],
+         layer_idx: int,
++        model_layer_index: int,
+     ):
+         self.mode = mode
+         self.module = module
+         self.device = next(module.parameters()).device
+         self.copy_stream = copy_stream
+         self.layer_idx = layer_idx
++        self.model_layer_index = model_layer_index
+         self.offloaded_bytes = 0
+ 
+         # Event to signal when H2D copy to static buffer is complete.
+@@ -645,6 +655,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
+         self.offloaded_bytes = (
+             self._cpu_storage.numel() * self._cpu_storage.element_size()
+         )
++        param._vllm_cpu_offload_storage = self._cpu_storage
+ 
+         # Point param.data to CPU storage - this allows weight loading to work
+         # and frees GPU memory when the original GPU tensor is garbage collected
+@@ -683,6 +694,7 @@ class _CpuParamOffloader(_BaseParamOffloader):
+             # param.data is on GPU - copy to existing CPU storage
+             assert self._cpu_storage is not None
+             self._cpu_storage.copy_(param.data)
++        param._vllm_cpu_offload_storage = self._cpu_storage
+ 
+     def assign_static_buffer(self, gpu_buffer: torch.Tensor) -> None:
+         """Point parameter data to GPU static buffer.
+diff --git a/vllm/model_executor/offloader/uva.py b/vllm/model_executor/offloader/uva.py
+index c524e43..e835c71 100644
+--- a/vllm/model_executor/offloader/uva.py
++++ b/vllm/model_executor/offloader/uva.py
+@@ -100,6 +100,7 @@ class UVAOffloader(BaseOffloader):
+             cpu_data = p.data.to(device="cpu")
+             if self.pin_memory:
+                 cpu_data = cpu_data.pin_memory()
++            p._vllm_cpu_offload_storage = cpu_data
+ 
+             if not self.uva_offloading:
+                 p.data = cpu_data
 diff --git a/vllm/model_executor/offloader/wrec_residency.py b/vllm/model_executor/offloader/wrec_residency.py
 new file mode 100644
 index 0000000..e9cec3a
@@ -654,6 +686,37 @@ index 0000000..e9cec3a
 +
 +def get_wrec_residency_state() -> WrecResidencyState:
 +    return _GLOBAL_WREC_RESIDENCY_STATE
+diff --git a/vllm/v1/core/sched/scheduler.py b/vllm/v1/core/sched/scheduler.py
+index fe524cc..35b4444 100644
+--- a/vllm/v1/core/sched/scheduler.py
++++ b/vllm/v1/core/sched/scheduler.py
+@@ -51,6 +51,7 @@ from vllm.v1.core.sched.request_queue import (
+     create_request_queue,
+ )
+ from vllm.v1.core.sched.utils import check_stop, remove_all
++from vllm.v1.core.sched.wrec_sidecar_client import WrecSidecarClient
+ from vllm.v1.engine import EngineCoreEventType, EngineCoreOutput, EngineCoreOutputs
+ from vllm.v1.kv_cache_interface import AttentionSpec, KVCacheConfig
+ from vllm.v1.metrics.perf import ModelMetrics, PerfStats
+@@ -249,6 +250,7 @@ class Scheduler(SchedulerInterface):
+ 
+         self.has_mamba_layers = kv_cache_config.has_mamba_layers
+         self.needs_kv_cache_zeroing = kv_cache_config.needs_kv_cache_zeroing
++        self.wrec_sidecar_client = WrecSidecarClient()
+         self.need_mamba_block_aligned_split = (
+             self.has_mamba_layers and self.cache_config.mamba_cache_mode == "align"
+         )
+@@ -1410,6 +1412,10 @@ class Scheduler(SchedulerInterface):
+             finish_reason = None
+             if stopped:
+                 routed_experts = self._get_routed_experts(request)
++                self.wrec_sidecar_client.submit_routed_experts(
++                    request_id=req_id,
++                    routed_experts=routed_experts,
++                )
+ 
+                 # Capture finish_reason BEFORE _handle_stopped_request, which may
+                 # reset the status to WAITING for streaming requests that continue.
 diff --git a/vllm/v1/core/sched/wrec_sidecar_client.py b/vllm/v1/core/sched/wrec_sidecar_client.py
 new file mode 100644
 index 0000000..9101899
