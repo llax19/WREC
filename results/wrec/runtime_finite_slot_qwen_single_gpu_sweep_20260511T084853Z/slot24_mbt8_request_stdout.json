@@ -1,0 +1,37 @@
+prepared 32 requests with strategy=fcfs dispatch_strategy=fcfs server_scheduling_policy=fcfs (arrival_interval=0.0, max_concurrency=1)
+logged dolly-eval-000001 (strategy=fcfs, load=finite_slot_sweep_slot24_mbt8)
+Traceback (most recent call last):
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 199, in post_streaming_completion
+    with HTTP_OPENER.open(request, timeout=300) as response:
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/urllib/request.py", line 525, in open
+    response = meth(req, response)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/urllib/request.py", line 634, in http_response
+    response = self.parent.error(
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/urllib/request.py", line 563, in error
+    return self._call_chain(*args)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/urllib/request.py", line 643, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 439, in <module>
+    main()
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 392, in main
+    collect_results(done)
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 368, in collect_results
+    log_row = future.result()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 246, in build_log_row
+    result = post_streaming_completion(
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 218, in post_streaming_completion
+    raise RuntimeError(exc.read().decode("utf-8", errors="replace")) from exc
+RuntimeError: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":500}}

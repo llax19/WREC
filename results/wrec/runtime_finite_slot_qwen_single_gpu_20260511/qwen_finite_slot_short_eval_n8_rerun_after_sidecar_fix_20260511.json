@@ -1,0 +1,66 @@
+[
+  {
+    "request_id": "dolly-eval-000001",
+    "latency_s": 3.5657971296459436,
+    "text": " \n",
+    "prompt_tokens": 20,
+    "completion_tokens": 1,
+    "total_tokens": 21
+  },
+  {
+    "request_id": "dolly-eval-000003",
+    "latency_s": 2.0811134092509747,
+    "text": " \n\n",
+    "prompt_tokens": 15,
+    "completion_tokens": 1,
+    "total_tokens": 16
+  },
+  {
+    "request_id": "dolly-eval-000004",
+    "latency_s": 1.5039587747305632,
+    "text": " AWS",
+    "prompt_tokens": 10,
+    "completion_tokens": 1,
+    "total_tokens": 11
+  },
+  {
+    "request_id": "dolly-eval-000006",
+    "latency_s": 3.097025902941823,
+    "text": " \n",
+    "prompt_tokens": 24,
+    "completion_tokens": 1,
+    "total_tokens": 25
+  },
+  {
+    "request_id": "dolly-eval-000009",
+    "latency_s": 2.1308149434626102,
+    "text": " Monday",
+    "prompt_tokens": 13,
+    "completion_tokens": 1,
+    "total_tokens": 14
+  },
+  {
+    "request_id": "dolly-eval-000010",
+    "latency_s": 2.009709380567074,
+    "text": " ",
+    "prompt_tokens": 13,
+    "completion_tokens": 1,
+    "total_tokens": 14
+  },
+  {
+    "request_id": "dolly-eval-000011",
+    "latency_s": 1.585657924413681,
+    "text": " C",
+    "prompt_tokens": 10,
+    "completion_tokens": 1,
+    "total_tokens": 11
+  },
+  {
+    "request_id": "dolly-eval-000012",
+    "latency_s": 1.9098718352615833,
+    "text": " If",
+    "prompt_tokens": 12,
+    "completion_tokens": 1,
+    "total_tokens": 13
+  }
+]

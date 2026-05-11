@@ -1,0 +1,64 @@
+{
+  "summary": [
+    {
+      "name": "finite_slot_s16_mbt4",
+      "log": "logs/raw/wrec/qwen_single_gpu_20260511/finite_slot_s16_mbt4_eval_short_n8.jsonl",
+      "requests": 8,
+      "latency_mean_s": 2.39900866150856,
+      "latency_max_s": 4.722727537155151,
+      "ttft_mean_s": 2.3989464044570923,
+      "input_tokens_sum": 117,
+      "output_tokens_sum": 8,
+      "request_ids": [
+        "dolly-eval-000001",
+        "dolly-eval-000003",
+        "dolly-eval-000004",
+        "dolly-eval-000006",
+        "dolly-eval-000009",
+        "dolly-eval-000010",
+        "dolly-eval-000011",
+        "dolly-eval-000012"
+      ]
+    },
+    {
+      "name": "stateonly_mbt4",
+      "log": "logs/raw/wrec/qwen_single_gpu_20260511/stateonly_mbt4_eval_short_n8.jsonl",
+      "requests": 8,
+      "latency_mean_s": 4.198001980781555,
+      "latency_max_s": 6.823199510574341,
+      "ttft_mean_s": 4.197952508926392,
+      "input_tokens_sum": 117,
+      "output_tokens_sum": 8,
+      "request_ids": [
+        "dolly-eval-000001",
+        "dolly-eval-000003",
+        "dolly-eval-000004",
+        "dolly-eval-000006",
+        "dolly-eval-000009",
+        "dolly-eval-000010",
+        "dolly-eval-000011",
+        "dolly-eval-000012"
+      ]
+    },
+    {
+      "name": "no_wrec_mbt4",
+      "log": "logs/raw/wrec/qwen_single_gpu_20260511/no_wrec_mbt4_eval_short_n8.jsonl",
+      "requests": 8,
+      "latency_mean_s": 3.099667251110077,
+      "latency_max_s": 4.912213563919067,
+      "ttft_mean_s": 3.0996243953704834,
+      "input_tokens_sum": 117,
+      "output_tokens_sum": 8,
+      "request_ids": [
+        "dolly-eval-000001",
+        "dolly-eval-000003",
+        "dolly-eval-000004",
+        "dolly-eval-000006",
+        "dolly-eval-000009",
+        "dolly-eval-000010",
+        "dolly-eval-000011",
+        "dolly-eval-000012"
+      ]
+    }
+  ]
+}

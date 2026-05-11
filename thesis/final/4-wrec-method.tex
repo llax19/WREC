@@ -1,0 +1,178 @@
+\cleardoublepage
+
+\section{WREC 专家缓存策略设计与实现}
+
+本章介绍 WREC（Workload-aware Router-event Expert Cache）专家缓存策略的设计与实现。第 3 章已经将资源受限 MoE 推理抽象为专家引用序列上的在线缓存问题，本章进一步说明本文如何从路由轨迹中构造工作负载先验，如何在推理过程中维护在线状态，以及如何根据这些信息做出专家准入、绕过和换出决策。WREC 的目标不是修改路由器或改变模型输出，而是在专家传输受限、部分专家驻留的条件下，减少由缓存未命中引起的专家权重传输压力。
+
+\subsection{总体设计}
+
+WREC 的设计围绕四个环节展开。第一，采集 MoE 模型在给定工作负载上的路由事件，将模型运行过程转化为 token、layer 和 expert 共同确定的事件流。第二，使用训练侧或历史工作负载轨迹构造工作负载先验，包括短窗口专家出现概率、窗口内期望路由次数和跨层专家转移概率。第三，在在线重放或运行时事件流中维护当前请求内的专家统计、最近访问历史和上一层专家选择。第四，在缓存未命中时，使用评分函数比较新访问专家与当前驻留专家，决定是否将新专家载入 GPU 专家缓存，以及在容量不足时换出哪个专家。
+
+图式上，WREC 的输入与输出可概括为：
+
+\begin{equation}
+    \label{equ:wrec-pipeline}
+    \mathrm{Trace}_{\mathrm{train}},\ \mathrm{Event}_{t},\ S_t
+    \xrightarrow{\mathrm{WREC}}
+    \{\mathrm{admit},\mathrm{bypass},\mathrm{evict}\},
+\end{equation}
+
+其中，$\mathrm{Trace}_{\mathrm{train}}$ 表示用于构造先验的历史路由轨迹，$\mathrm{Event}_{t}$ 表示当前到达的路由事件，$S_t$ 表示当前 GPU 专家驻留集合。WREC 只使用历史轨迹、当前事件和此前已经到达的在线事件；除单独标记为 Belady 或 route-window oracle 的基线外，正文中的 WREC 主策略不使用未来真实访问。
+
+本文最终采用的是由消融实验收缩后的 WREC-H2 版本。原始 WREC-H2 同时包含工作负载先验、recent-history、request-local 和 cross-layer 四类信号。后续实验表明，在固定 total-budget 的 prefill 重放中，recent-history 项不是稳定正贡献，而 request-local 与 cross-layer 项承担主要收益。因此，本文主策略将 recent 权重置为 $0$，保留请求内局部性和跨层转移信号。该版本仍属于 WREC-H2 策略族，只是根据消融结果选择了更稳健的参数。
+
+\subsection{路由轨迹采集与引用展开}
+
+WREC 的基础数据来自 MoE 路由事件。对于支持输出 router logits 的模型，本文在 prefill 阶段对每个请求进行前向计算，读取每一层 router logits，并按模型配置取 top-$k$ 个专家。每个 token 在每一层生成一个路由事件：
+
+\begin{equation}
+    \label{equ:wrec-router-event-detail}
+    r=(q,p,l,\mathcal{E}_{q,p,l},\mathcal{P}_{q,p,l}),
+\end{equation}
+
+其中，$q$ 是请求编号，$p$ 是 token 位置，$l$ 是 MoE 层编号，$\mathcal{E}_{q,p,l}$ 是该 token 在该层选择的专家集合，$\mathcal{P}_{q,p,l}$ 是对应的路由概率。对于 Mixtral 的 top-$2$ 路由，一个路由事件会进一步展开为两个专家引用 $(l,e)$。这种展开方式与第 3 章的专家引用序列一致，使缓存模拟器可以在同一条引用序列上比较不同策略。
+
+轨迹采集流程保留以下字段：请求编号、阶段、层号、token 位置、被选专家、专家概率和事件编号。阶段字段用于区分 prefill 与 decode；本文主实验只使用 prefill 轨迹，decode 轨迹作为迁移性负结果单独讨论。事件编号用于在 runtime shadow 原型中验证在线事件顺序与离线重放顺序一致。采集后的 JSONL 轨迹再被转换为内部的 \texttt{ExpertRef} 表示，每条记录包含引用序号、事件序号、请求编号、层号、token 位置和专家编号。
+
+在引用展开时，本文将缓存对象定义为 $(l,e)$ 而不是单独的专家编号 $e$。这是因为不同 MoE 层中的同名专家拥有不同权重；例如第 $3$ 层 expert $1$ 与第 $4$ 层 expert $1$ 是两个不同缓存对象。该定义也使 total-budget 策略可以在所有层的专家对象之间进行全局竞争，而不是预先为每一层固定相同容量。
+
+\subsection{工作负载先验构造}
+
+WREC 使用训练侧路由轨迹构造三类先验。第一类是窗口出现概率。设第 $l$ 层按时间顺序排列的路由事件窗口大小为 $w$，专家 $e$ 在一个窗口中至少出现一次的概率记为：
+
+\begin{equation}
+    \label{equ:wrec-window-prob}
+    P_{\mathrm{win}}(l,e)=
+    \frac{\#\{\mathrm{window}:e\in \mathrm{window}\}}{\#\{\mathrm{window}\}}.
+\end{equation}
+
+第二类是窗口内期望路由次数。设 $C_{\mathrm{win}}(l,e)$ 表示专家 $e$ 在第 $l$ 层一个窗口中被引用的次数，则：
+
+\begin{equation}
+    \label{equ:wrec-window-count}
+    E_{\mathrm{win}}(l,e)=\mathbb{E}[C_{\mathrm{win}}(l,e)].
+\end{equation}
+
+结合单次专家加载传输时间 $T_{\mathrm{load}}$，本文为每个专家对象构造基础收益分：
+
+\begin{equation}
+    \label{equ:wrec-base-score}
+    B(l,e)=P_{\mathrm{win}}(l,e)\cdot E_{\mathrm{win}}(l,e)\cdot T_{\mathrm{load}}-T_{\mathrm{load}}.
+\end{equation}
+
+该项的直观含义是：若一个专家在短窗口中出现概率高、且出现后可能被多次引用，那么提前或继续保留它更可能节省后续需求加载；减去 $T_{\mathrm{load}}$ 则表示加载该专家本身也需要付出一次传输成本。由于本文主实验中同一模型内各专家大小相同，$T_{\mathrm{load}}$ 对同一实验配置是常数，但该形式保留了扩展到异构专家大小或异构传输代价的接口。
+
+第三类先验是跨层转移概率。对于同一请求、同一 token，若第 $l-1$ 层选择了专家 $u$，第 $l$ 层选择了专家 $e$，则统计二者的共现次数。跨层转移概率定义为：
+
+\begin{equation}
+    \label{equ:wrec-cross-prob}
+    P_{\mathrm{cross}}^{(l)}(e\mid u)=
+    \frac{N^{(l)}(u,e)}{\sum_{e'}N^{(l)}(u,e')}.
+\end{equation}
+
+当某个前一层专家在训练轨迹中没有足够统计时，实际实现中使用均匀概率作为退化处理，避免未见组合导致策略不稳定。跨层转移概率为在线阶段提供了一个可用信号：当前 token 在上一层选择了哪些专家，可以帮助估计下一层哪些专家更值得驻留。
+
+\subsection{在线状态维护}
+
+WREC 在线阶段维护三类状态。第一类是每层最近访问历史。对于每一层，系统维护长度为 $h$ 的专家引用队列，并同步维护队列内专家计数。该状态可计算 recent 概率：
+
+\begin{equation}
+    \label{equ:wrec-recent-prob}
+    R_t(l,e)=\frac{\#\{e\ \mathrm{in\ recent\ queue\ of\ layer}\ l\}}{h}.
+\end{equation}
+
+在最终主配置中，recent 项权重为 $0$，但该状态仍保留在实现中，用于消融和后续扩展。
+
+第二类是当前请求内统计。对于正在处理的请求，WREC 按层维护该请求已经访问过的专家计数和总引用数。请求内概率为：
+
+\begin{equation}
+    \label{equ:wrec-request-prob}
+    Q_t(l,e)=
+    \frac{\#\{e\ \mathrm{visited\ in\ current\ request,\ layer}\ l\}}
+    {\#\{\mathrm{expert\ refs\ in\ current\ request,\ layer}\ l\}}.
+\end{equation}
+
+该项刻画同一输入请求内部的局部复用。与全局静态热度不同，请求内统计会随当前请求内容动态变化；与 LRU 不同，它在评分时显式区分层号和专家编号。
+
+第三类是 token 层级历史。WREC 在处理同一 token 的不同层时，记录已经完成层的专家选择。当第 $l$ 层的专家 $e$ 被评分时，若同一 token 在第 $l-1$ 层选择了专家集合 $\mathcal{E}_{l-1,p}$，则 cross-layer 分数为：
+
+\begin{equation}
+    \label{equ:wrec-cross-score}
+    X_t(l,e)=
+    \frac{1}{|\mathcal{E}_{l-1,p}|}
+    \sum_{u\in \mathcal{E}_{l-1,p}} P_{\mathrm{cross}}^{(l)}(e\mid u).
+\end{equation}
+
+该项只使用当前 token 已经产生的上一层路由结果，不使用未来层真实访问。因此，它仍然满足在线策略约束。
+
+\subsection{WREC-H2 评分与准入决策}
+
+WREC 对一个候选专家对象 $(l,e)$ 的总分定义为：
+
+\begin{equation}
+    \label{equ:wrec-score}
+    \mathrm{Score}_t(l,e)=
+    B(l,e)+
+    \alpha R_t(l,e)+
+    \beta Q_t(l,e)+
+    \gamma X_t(l,e)-
+    \delta D_t(l,e),
+\end{equation}
+
+其中，$B(l,e)$ 是训练轨迹构造的基础分，$R_t$ 是最近历史项，$Q_t$ 是请求内局部项，$X_t$ 是跨层转移项，$D_t$ 是可选的驻留竞争惩罚项。本文主实验采用的配置为：
+
+\begin{equation}
+    \label{equ:wrec-main-config}
+    w=4,\quad h=8,\quad
+    \alpha=0,\quad
+    \beta=1024,\quad
+    \gamma=1024,\quad
+    \delta=0.
+\end{equation}
+
+其中 $w$ 是训练侧窗口大小，$h$ 是 recent-history 长度。将 $\alpha$ 置为 $0$ 的原因来自第 5 章消融实验：recent-history 在当前 prefill total-budget 重放中并不稳定提供正收益，而请求内与跨层信号更可靠。
+
+当访问 $(l,e)$ 且该专家已经驻留时，WREC 将其记为命中，并更新最近访问、请求内统计和 token 层级历史。当访问未命中时，系统首先将该次访问计为一次需求加载，因为真实执行必须获得该专家权重才能完成当前 MoE 层计算；随后 WREC 决定是否让该专家进入长期驻留集合。如果缓存未满，则新专家直接进入驻留集合；如果缓存已满，则 WREC 计算当前驻留专家的分数，选取分数最低者作为候选换出对象。若新专家分数高于该候选换出对象，则执行换出并准入新专家；否则，新专家在本次需求加载后被绕过，不进入驻留集合。
+
+这一准入-绕过机制区别于普通 LRU。LRU 在每次未命中后都会把新对象放入缓存，并换出最久未访问对象；WREC 则允许低分专家只为当前访问临时加载，而不污染后续驻留集合。对于 MoE prefill 轨迹，这一点很重要：某些专家可能由于单个 token 的路由偶然被访问，但未必值得占用全局有限的专家缓存槽位。
+
+\subsection{基线策略与离线上界}
+
+为了公平评估 WREC，本文实现了以下基线。第一，\texttt{on\_demand} 不保留专家缓存，每次专家访问都视为需求加载，用于给出最朴素的传输压力。第二，LRU 使用在线最近访问顺序，未命中时换出最久未访问专家。第三，\texttt{static\_hot} 只使用训练轨迹中的全局专家频率，将最热的专家对象初始化为驻留集合，并不根据 eval 未来信息调整。第四，\texttt{route\_window\_prefetch} 使用 eval 未来窗口进行预取，因此只作为 oracle-style 压力基线，不作为可部署策略。第五，Belady oracle 使用完整未来访问序列选择最晚再次使用或不再使用的专家作为换出对象，是等大小缓存对象假设下的离线上界。
+
+在容量分配上，本文区分 per-layer 容量和 total-budget 容量。per-layer 容量为每个 MoE 层分配相同专家槽数，便于与传统分层缓存直觉比较；total-budget 容量只规定全模型专家槽总数，允许热点层和热点专家在全局范围内竞争槽位。WREC 主结果使用 total-budget 模式，因为该模式更接近显存预算的真实约束：GPU 显存只关心总驻留专家权重大小，而不要求每一层拥有完全相同的槽数。
+
+\subsection{重放模拟器实现}
+
+本文实现了基于访问轨迹的重放模拟器，用于隔离评估缓存策略本身。模拟器输入为 eval 路由轨迹、train 路由轨迹、模型专家大小、CPU-GPU 有效带宽和缓存预算。对每条专家引用，模拟器按策略更新缓存状态，并统计需求命中、需求未命中、需求加载、预取加载、预取浪费、传输字节数和传输时间代理。
+
+对无预取策略而言，需求加载次数等于需求未命中次数。传输代理指标只计算需求加载字节：
+
+\begin{equation}
+    \label{equ:wrec-demand-stall}
+    T_{\mathrm{stall}}=
+    \frac{N_{\mathrm{demand}}\cdot B_{\mathrm{expert}}}{b_{\mathrm{cg}}},
+\end{equation}
+
+其中，$N_{\mathrm{demand}}$ 是需求加载次数，$B_{\mathrm{expert}}$ 是单个专家对象大小，$b_{\mathrm{cg}}$ 是 CPU-GPU 有效带宽。对于包含预取的策略，模拟器额外统计预取传输量和预取浪费，但正文主策略 WREC-H2 不启用预取，因此主结果中的 waste 为 $0$。
+
+模拟器还计算 oracle gap。设某一缓存预算下策略 $\pi$ 的 stall proxy 为 $T_\pi$，LRU 和 Belady 的结果分别为 $T_{\mathrm{LRU}}$ 和 $T_{\mathrm{Belady}}$。则策略相对 LRU 的收益为：
+
+\begin{equation}
+    \label{equ:wrec-gain}
+    G_{\pi}=\frac{T_{\mathrm{LRU}}-T_{\pi}}{T_{\mathrm{LRU}}},
+\end{equation}
+
+而未捕获 oracle gap 可用 $T_\pi-T_{\mathrm{Belady}}$ 表示。该指标用于判断 WREC 是否真正接近离线上界，而不仅仅是超过某一个在线基线。
+
+\subsection{运行时接口与有限 slot 原型}
+
+除离线重放模拟器外，本文还实现了运行时 shadow 接口。该接口将在线 WREC 策略封装为一个轻量 sidecar 服务。推理框架在每个路由事件产生后向 sidecar 发送请求编号、层号、token 位置和 selected experts；sidecar 顺序维护 WREC 在线状态和 shadow resident set，并返回每个专家的 would-admit、would-bypass 和 would-evict 决策。该模式不控制真实专家加载，但可以验证 WREC 的状态更新和决策逻辑能否按运行时事件流在线执行。
+
+在 vLLM 集成原型中，本文进一步实现了专家驻留管理接口。该接口支持三种层次。第一是 state-only 模式，只导出 routed expert 事件并消费 sidecar 决策，不改变真实专家权重放置。第二是 row-copy skeleton 模式，为特定专家保留 CPU backing，并在需要时把专家切片复制回 GPU 权重张量。第三是 finite-slot 模式，当 \texttt{WREC\_EXPERT\_RESIDENCY\_SLOT\_CAPACITY} 小于模型全局专家数时，将每层专家权重替换为有限 GPU slot 张量，并维护 logical expert 到 slot id 的 \texttt{expert\_map}。MoE kernel 通过该映射访问当前驻留的逻辑专家。
+
+finite-slot 原型的关键约束是：当前事件真正需要的专家集合必须能够放入该层 slot 容量，否则会触发 slot overflow；对不在当前 protected set 中的旧专家，管理器可根据 sidecar 的 eviction 决策释放 slot，并把对应 expert map 置为无效。该原型仍处于实验阶段：当前实现能够跑通 guarded Qwen finite-slot 短测，但仍存在额外 CPU copy，尚未完全复用 vLLM 的 offload storage。因此，第 5 章将 finite-slot 作为集成实验的预留项，而不把短测结果作为主实验结论。
+
+\subsection{本章小结}
+
+本章介绍了 WREC 的方法设计和实现细节。WREC 首先从历史路由轨迹中构造窗口热度、期望路由次数和跨层转移概率，然后在在线事件流中维护 recent、request-local 和 token-layer 状态，并使用评分函数进行专家准入、绕过和换出决策。本文主策略采用 recent 权重为 $0$ 的 request/cross-layer WREC-H2，以适应 prefill total-budget 重放中的消融结果。最后，本章说明了离线重放模拟器和运行时 shadow/finite-slot 原型的实现边界。第 5 章将在这些实现基础上给出实验结果与分析。

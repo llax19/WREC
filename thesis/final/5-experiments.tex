@@ -1,0 +1,242 @@
+\cleardoublepage
+
+\section{实验设计与结果分析}
+
+本章评估 WREC 在资源受限 MoE prefill 专家缓存场景中的效果。实验围绕五个问题展开：目标模型和硬件配置是否存在专家传输瓶颈；路由轨迹中是否存在可利用的专家局部性；简单在线基线与离线上界之间是否存在明显差距；WREC-H2 是否能在固定专家缓存预算下稳定降低传输 stall proxy；以及该策略的有效边界在哪里。最后，本章预留完整 runtime finite-slot 实验表格；由于相关数据仍在运行中，该部分暂不填入最终数值。
+
+\subsection{实验平台与数据来源}
+
+本文主实验使用 Mixtral-8x7B-Instruct-v0.1 的 prefill 路由轨迹。工作负载来自 Dolly 指令数据，划分为 train/reference trace 和 eval trace：train trace 用于构造静态热度、窗口先验和跨层转移概率；eval trace 用于策略重放评估。主实验不使用 eval 未来信息训练 WREC；只有 Belady oracle 和 route-window oracle prefetch 被明确标记为上界或压力基线。
+
+表~\ref{tab:experiment-setup} 总结了主要实验配置。专家大小按 Mixtral 专家 FFN 权重推断，float16/BF16 下单专家对象为 $352321536$ bytes，即约 $336$ MiB。传输 stall proxy 使用 $41.3722$ GB/s 的 CPU-GPU 有效带宽；该值与专家传输微基准中 pinned host memory 到 GPU 的中位复制时间相匹配，后者测得单专家中位复制时间为 $8.4673$ ms，而模拟器按 $41.37$ GB/s 估计为 $8.5164$ ms。需要强调的是，该指标只校准专家传输量级，不等同于端到端 serving latency。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:experiment-setup}主实验配置}
+    \begin{tabularx}{\linewidth}{lX}
+        \hline
+        项目 & 配置 \\ \hline
+        主模型 & Mixtral-8x7B-Instruct-v0.1 \\ \hline
+        主要阶段 & prefill 阶段专家缓存重放 \\ \hline
+        工作负载 & Dolly 指令数据，train/reference 与 eval 分离 \\ \hline
+        路由设置 & 每个 MoE 层 top-$2$ 专家路由 \\ \hline
+        专家对象 & 按 $(layer, expert)$ 区分，共 $32\times 8=256$ 个专家对象 \\ \hline
+        单专家大小 & $352321536$ bytes，约 $336$ MiB \\ \hline
+        带宽参数 & $41.3722$ GB/s CPU-GPU 有效带宽 \\ \hline
+        主要指标 & miss rate、stall ms/input token、gain vs LRU、oracle gap、prefetch waste \\ \hline
+    \end{tabularx}
+\end{table}
+
+重新生成的 2$\times$RTX 3090 Ti 轨迹统计如表~\ref{tab:trace-statistics} 所示。所有 split 均无采集失败。Mixtral 有 $32$ 个 MoE 层，每个 token 在每层产生一个 router event，每个 router event 展开为两个 expert refs，因此 expert refs 数量为 router events 的两倍。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:trace-statistics}Mixtral prefill 路由轨迹统计}
+    \begin{tabularx}{\linewidth}{lrrrr}
+        \hline
+        split & 请求数 & input tokens & router events & failures \\ \hline
+        debug n64 & 64 & 3347 & 107104 & 0 \\ \hline
+        train n512 & 512 & 29123 & 931936 & 0 \\ \hline
+        eval n256 & 256 & 14147 & 452704 & 0 \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{专家传输瓶颈筛查}
+
+实验首先验证目标配置是否属于专家传输值得优化的场景。Mixtral-8x7B 的专家权重占模型参数主体。按 BF16/float16 估算，总权重约 $86.99$ GiB，其中专家 FFN 权重约 $84.00$ GiB。若要求全部专家常驻 GPU，资源受限单机或消费级 GPU 很难同时容纳专家权重、非专家权重、KV cache 和运行时临时缓冲。因此，partial residency 是该模型在受限显存配置下的现实约束。
+
+从传输代价看，单个专家对象约 $336$ MiB。在 $41.37$ GB/s 有效带宽下，一次专家加载约 $8.52$ ms。如果每个输入 token 在 $32$ 层中产生 $64$ 次 expert refs，那么即使只有一部分访问未命中，累计传输代理时间也会非常可观。HRM 筛查和传输微基准共同说明，本文关注的不是 all-resident 小模型推理，而是专家权重不能全部稳定驻留、缓存未命中会显著转化为 CPU-GPU 传输压力的场景。
+
+在本地 2$\times$RTX 3090 Ti 的 INT8 Mixtral 分析中，模型权重在理想聚合显存模型下接近可全驻留，但该结论对 KV cache、CUDA buffer、量化运行时开销和显存碎片非常敏感。若为 KV/cache 预留 $8$ GiB 或更多预算，HRM 容量筛查显示全专家驻留不再可靠；一旦每层有专家需要从 CPU 加载，CPU-GPU transfer 会重新成为主导瓶颈。因此，后续缓存策略实验仍以 partial-residency、transfer-bound 作为主要适用边界。
+
+\subsection{路由局部性分析}
+
+WREC 是否有意义取决于路由序列中是否存在可利用结构。表~\ref{tab:locality-statistics} 展示了 Mixtral Dolly train trace 的局部性统计。该 trace 包含 $29123$ 个 input-token units、$931936$ 个 router events 和 $1863872$ 个 expert refs。每个 input token 平均产生 $32$ 个 router events 和 $64$ 个 expert refs，与 Mixtral 的 $32$ 层 top-$2$ MoE 结构一致。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:locality-statistics}Mixtral train trace 专家局部性统计}
+    \begin{tabularx}{\linewidth}{lX}
+        \hline
+        指标 & 结果 \\ \hline
+        expert refs & $1863872$ \\ \hline
+        selected experts/router event & $2.0000$ \\ \hline
+        router events/input token & $32.0000$ \\ \hline
+        expert refs/input token & $64.0000$ \\ \hline
+        same-layer reuse distance p50/p90/p99 & $5.00$ / $27.00$ / $7097.00$ expert refs \\ \hline
+        per-request-layer working set p50/p90/p99 & $8.00$ / $8.00$ / $8.00$ unique experts \\ \hline
+        train/eval hotness total variation p50/p90 & $0.0104$ / $0.0164$ \\ \hline
+        train/eval top-2 overlap mean & $0.9375$ \\ \hline
+        train/eval top-4 overlap mean & $0.9375$ \\ \hline
+    \end{tabularx}
+\end{table}
+
+这些结果支持三个判断。第一，same-layer reuse distance 的中位数为 $5$、p90 为 $27$，说明短窗口内存在明显复用，专家访问并非完全随机。第二，每个请求在每层的 working set 很快覆盖 $8$ 个专家，说明只依赖单层固定小容量缓存会受到容量限制，需要 total-budget 级别的全局分配。第三，train/eval hotness shift 较小，top-2 与 top-4 overlap mean 均为 $0.9375$，说明训练侧先验对 eval trace 具有一定稳定性。因此，WREC 同时使用 workload prior 和 online request/cross-layer state 是合理的。
+
+\subsection{公平基线与离线上界}
+
+在提出 WREC 主结果前，本文先比较简单基线与离线上界。表~\ref{tab:fair-baselines} 使用每层 $1$、$2$、$4$ 个专家槽的设置，比较 \texttt{on\_demand}、LRU、\texttt{static\_hot} 和 Belady oracle。这里的 \texttt{static\_hot} 只使用 train trace 频率；Belady 使用 eval 未来信息，只作为理论上界。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:fair-baselines}公平基线与 Belady oracle 对比}
+    \begin{tabularx}{\linewidth}{rrrrr}
+        \hline
+        每层槽数 & 策略 & miss rate & hit rate & stall ms/input token \\ \hline
+        1 & on demand & 1.000000 & 0.000000 & 545.0175 \\ \hline
+        1 & LRU & 0.921096 & 0.078904 & 502.0137 \\ \hline
+        1 & static hot & 0.837102 & 0.162898 & 456.2354 \\ \hline
+        1 & Belady & 0.675870 & 0.324130 & 368.3609 \\ \hline
+        2 & LRU & 0.692906 & 0.307094 & 377.6461 \\ \hline
+        2 & static hot & 0.691349 & 0.308651 & 376.7974 \\ \hline
+        2 & Belady & 0.461339 & 0.538661 & 251.4378 \\ \hline
+        4 & LRU & 0.418951 & 0.581049 & 228.3359 \\ \hline
+        4 & static hot & 0.429235 & 0.570765 & 233.9407 \\ \hline
+        4 & Belady & 0.219416 & 0.780584 & 119.5856 \\ \hline
+    \end{tabularx}
+\end{table}
+
+该结果表明，专家缓存调度问题并不平凡。容量较小时，静态热度优于 LRU，说明 train trace 的频率先验确实有用；容量较大时，LRU 又略优于静态热度，说明在线时间局部性也不可忽略。但无论哪种简单基线，与 Belady oracle 都存在明显差距。例如每层 $4$ 个槽时，LRU 的 stall proxy 为 $228.3359$ ms/input token，而 Belady 为 $119.5856$ ms/input token。这一差距说明，路由序列中仍有简单 online 或 static policy 没有捕获的可利用结构。
+
+\subsection{WREC 主结果}
+
+WREC 主实验使用固定 total expert-cache budget，而不是固定每层容量。Mixtral 共有 $256$ 个专家对象，因此 total slots $32/64/96/128/192$ 分别对应 $12.5\%/25.0\%/37.5\%/50.0\%/75.0\%$ 的专家对象容量。LRU 和 route-window prefetch 采用均匀 per-layer allocation；\texttt{static\_hot} 使用全局 train 频率；WREC 使用全局 adaptive admission/eviction。表~\ref{tab:wrec-main-result} 给出主要结果。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:wrec-main-result}固定 total-budget 下的 WREC-H2 主结果}
+    \begin{tabularx}{\linewidth}{rrrrrr}
+        \hline
+        total slots & LRU stall & WREC stall & WREC miss rate & gain vs LRU & waste bytes/token \\ \hline
+        32 & 502.0137 & 141.5841 & 0.259779 & 71.80\% & 0.00 \\ \hline
+        64 & 377.6461 & 89.0200 & 0.163334 & 76.43\% & 0.00 \\ \hline
+        96 & 299.8082 & 58.8588 & 0.107994 & 80.37\% & 0.00 \\ \hline
+        128 & 228.3359 & 42.4675 & 0.077920 & 81.40\% & 0.00 \\ \hline
+        192 & 102.5387 & 25.3611 & 0.046533 & 75.27\% & 0.00 \\ \hline
+    \end{tabularx}
+\end{table}
+
+WREC-H2 在全部测试预算上都明显优于 LRU。随着 total slots 从 $32$ 增加到 $128$，WREC 相对 LRU 的 stall proxy 改善从 $71.80\%$ 增至 $81.40\%$；在 $192$ slots 时收益回落到 $75.27\%$，但仍显著为正。这说明 WREC 的收益不是单一预算点偶然出现，而是在低到中高缓存预算下均保持稳定。所有主配置中 WREC-H2 的 prefetch waste 都为 $0$，因为该版本只做 demand-load admission/eviction，不依赖预取未来窗口。
+
+表~\ref{tab:wrec-oracle-gap} 展示 WREC 与 Belady oracle 的剩余差距。Belady 在所有预算上仍显著优于 WREC，例如 $64$ slots 下 Belady stall 为 $29.9324$ ms/input token，而 WREC 为 $89.0200$ ms/input token。这一结果有两层含义：一方面，WREC 捕获了大量 LRU 到 Belady 之间的空间；另一方面，在线策略与离线上界之间仍存在余量，后续仍可以研究更强的受约束规划或阶段特定策略。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:wrec-oracle-gap}WREC 与 Belady oracle 的差距}
+    \begin{tabularx}{\linewidth}{rrrrr}
+        \hline
+        total slots & LRU stall & WREC stall & Belady stall & Belady gain vs LRU \\ \hline
+        32 & 502.0137 & 141.5841 & 35.0436 & 93.02\% \\ \hline
+        64 & 377.6461 & 89.0200 & 29.9324 & 92.07\% \\ \hline
+        96 & 299.8082 & 58.8588 & 24.8392 & 91.71\% \\ \hline
+        128 & 228.3359 & 42.4675 & 19.7472 & 91.35\% \\ \hline
+        192 & 102.5387 & 25.3611 & 9.5850 & 90.65\% \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{消融实验}
+
+为分析 WREC 的收益来源，本文在 representative budgets $64/96/128$ 上进行消融，结果如表~\ref{tab:wrec-ablation} 所示。完整 WREC-H2 的平均 gain vs LRU 为 $77.80\%$。移除 cross-layer 信号后，平均 gain 降至 $68.54\%$，说明跨层转移信息是主要有效信号之一。移除 recent-history 项后，平均 gain 反而略升至 $79.40\%$，这也是本文最终将 recent 权重设为 $0$ 的依据。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:wrec-ablation}WREC-H2 信号消融}
+    \begin{tabularx}{\linewidth}{lrr}
+        \hline
+        变体 & avg gain vs LRU & avg saved stall ms/input token \\ \hline
+        full WREC-H2 & 77.80\% & 233.0356 \\ \hline
+        no recent signal & 79.40\% & 238.4813 \\ \hline
+        no cross-layer signal & 68.54\% & 204.9079 \\ \hline
+        no request signal & 77.70\% & 231.9129 \\ \hline
+        train-window-only & -0.93\% & -2.0868 \\ \hline
+        WREC-H recent-only & 43.51\% & 125.9300 \\ \hline
+    \end{tabularx}
+\end{table}
+
+该消融结果说明，WREC 的收益不能简单解释为静态热度或普通 recency。train-window-only 几乎退化到 LRU，说明只依赖训练窗口先验不足以支撑主收益；WREC-H recent-only 明显弱于 WREC-H2，说明最近访问历史本身也不是主要来源。当前最稳健的解释是：训练侧先验提供初始排序和基础分，而在线 request-local 与 cross-layer context 负责把策略对齐到当前请求的实际路由结构。
+
+\subsection{敏感性分析}
+
+带宽敏感性结果如表~\ref{tab:wrec-bandwidth} 所示。相对 LRU 的比例收益在 $8$ 到 $41.37$ GB/s 范围内基本保持在 $77\%$ 左右，但绝对 saved stall 随带宽降低显著增加：在 $8$ GB/s 时平均节省 $1198.9577$ ms/input token，而在 $41.3722$ GB/s 时平均节省 $233.0356$ ms/input token。这与第 3 章的传输瓶颈建模一致：当 CPU-GPU 传输越慢，减少专家需求加载带来的绝对收益越大。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:wrec-bandwidth}带宽敏感性}
+    \begin{tabularx}{\linewidth}{rrr}
+        \hline
+        带宽 GB/s & avg gain vs LRU & avg saved stall ms/input token \\ \hline
+        8 & 77.42\% & 1198.9577 \\ \hline
+        16 & 77.67\% & 601.5417 \\ \hline
+        32 & 77.79\% & 301.2620 \\ \hline
+        41.3722 & 77.80\% & 233.0356 \\ \hline
+    \end{tabularx}
+\end{table}
+
+窗口大小和 history size 的敏感性总体较平坦。窗口大小 $1/4/8/16/32$ 的平均 gain 在 $77.15\%$ 到 $77.85\%$ 之间；history size $1/4/8/16/32$ 的结果也只在小范围内波动，其中 $h=8$ 最好。由于主策略 recent 权重为 $0$，history size 的影响主要来自实现一致性和对照实验，而不是主收益来源。该结果说明 WREC-H2 的主结论不是由单个超参数偶然对齐造成的。
+
+\subsection{运行时 shadow 验证}
+
+为了验证 WREC 是否具备在线运行形式，本文实现了 runtime shadow prototype。该原型按 routed expert event stream 逐条消费事件，在线维护 request-local、cross-layer history 和 shadow resident set，并输出 would-admit、would-bypass、would-evict 决策。它不控制真实专家加载，因此不是端到端 serving 性能实验。
+
+在 2$\times$RTX 3090 Ti 重新生成的 eval n256 trace 上，shadow prototype 使用 $64$ total slots、history size $8$、recent weight $0$、request weight $1024$、cross-layer weight $1024$。结果如表~\ref{tab:runtime-shadow} 所示。shadow miss rate 为 $0.163476576$，stall proxy 为 $89.0976$ ms/input token。与同配置离线 total-budget replay 对齐验证中，expert refs、hit/miss counts、hit/miss rate、transfer bytes 和 stall metrics 的 delta 均为 $0$，overall pass 为 True。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:runtime-shadow}WREC runtime shadow 验证}
+    \begin{tabularx}{\linewidth}{lr}
+        \hline
+        指标 & 结果 \\ \hline
+        expert refs processed & 905408 \\ \hline
+        router events observed & 452704 \\ \hline
+        shadow hits / misses & 757395 / 148013 \\ \hline
+        shadow hit rate / miss rate & 0.836523424 / 0.163476576 \\ \hline
+        would-admit / would-bypass & 112458 / 35555 \\ \hline
+        stall ms/input token & 89.097603 \\ \hline
+        alignment overall pass & True \\ \hline
+        mean overhead/router event & 61.068 $\mu$s \\ \hline
+        decision cost/miss & 173.289 $\mu$s \\ \hline
+    \end{tabularx}
+\end{table}
+
+该实验的意义在于验证策略接口，而不是证明真实 latency 提升。通过 shadow 对齐，本文确认 WREC 在线状态更新与离线重放的决策语义一致，也确认 sidecar event contract 能承载策略所需信息。真实 finite-slot 专家加载控制仍需要单独实验验证。
+
+\subsection{Decode 迁移负结果}
+
+本文还测试了将 prefill train trace 构造的 WREC prior 迁移到 decode-only replay 的效果。该实验包含 $64$ 个 eval 请求、$1024$ 个 decode tokens、$32768$ 个 decode router events 和 $65536$ 个 expert refs。结果显示，decode-only replay 不复现 prefill 主实验中的强收益。WREC-H 在各预算上只有 $1.27\%$ 到 $9.20\%$ 的小幅正收益；WREC-H2 在 $64/96/128/192$ slots 下反而弱于 LRU。
+
+这一负结果说明，prefill 与 decode 的路由访问结构不同，prefill 训练得到的 request/cross-layer 权重不能直接视为统一 inference-time policy。Belady 在 decode 中仍显著优于 LRU，说明 decode 阶段也存在可利用局部性；但它需要 decode-specific prior、请求调度建模或独立策略设计。因此，本文将贡献边界限定为 prefill-stage expert cache scheduling，而不声称已经解决 decode 阶段的专家缓存问题。
+
+\subsection{集成 finite-slot 实验预留}
+
+在完整运行时集成方向上，本文已经实现 vLLM expert residency 的 state-only 和 finite-slot 原型，并在 Qwen1.5-MoE-A2.7B 的 guarded 短测中跑通了 \texttt{vLLM request -> routed expert export -> WREC sidecar decision -> finite-slot expert map} 链路。此前阻塞 finite-slot 的主要问题包括 sidecar 事件少计和 \texttt{expert\_map} 在 InferenceMode 下原地更新失败；当前实现已经通过 client 重试、显式告警和在 \texttt{torch.inference\_mode(False)} 下创建/更新 expert map 解决了这两个问题。
+
+不过，正在进行的 finite-slot sweep 才是应写入论文主表的数据。为避免把 smoke test 包装成最终结论，表~\ref{tab:finite-slot-placeholder} 仅预留结果位置。该实验计划比较 \texttt{no\_wrec}、state-only 和 finite-slot 配置，并扫描 slot capacity 与 max batched tokens。待数据稳定后，应填入请求数、平均 latency、最大 latency、平均 TTFT、输入/输出 token 数和是否发生 slot overflow。
+
+\begin{table}[ht]
+    \centering
+    \caption{\label{tab:finite-slot-placeholder}finite-slot runtime 主实验结果预留}
+    \begin{tabularx}{\linewidth}{lrrrrrX}
+        \hline
+        配置 & 请求数 & slot capacity & max batched tokens & mean latency & mean TTFT & 备注 \\ \hline
+        no WREC & 待填 & 无 & 待填 & 待填 & 待填 & baseline serving \\ \hline
+        state-only & 待填 & 无 & 待填 & 待填 & 待填 & 只导出事件和维护 sidecar 状态 \\ \hline
+        finite-slot & 待填 & 16 & 4 & 待填 & 待填 & guarded finite-slot 配置 \\ \hline
+        finite-slot & 待填 & 24 & 4 & 待填 & 待填 & sweep 待填 \\ \hline
+        finite-slot & 待填 & 32 & 4 & 待填 & 待填 & sweep 待填 \\ \hline
+        finite-slot & 待填 & 16 & 8 & 待填 & 待填 & sweep 待填 \\ \hline
+        finite-slot & 待填 & 24 & 8 & 待填 & 待填 & sweep 待填 \\ \hline
+        finite-slot & 待填 & 32 & 8 & 待填 & 待填 & sweep 待填 \\ \hline
+    \end{tabularx}
+\end{table}
+
+这一预留表格对应本文后续最需要补齐的系统实验。只有当 finite-slot 在足够请求规模上稳定运行，并且记录真实 latency、TTFT、sidecar 决策、slot overflow 和资源占用后，才能讨论 WREC 是否改善真实 serving 行为。当前第五章的主结论仍来自 trace-driven replay 和 runtime shadow 对齐。
+
+\subsection{有效性威胁与局限性}
+
+本文实验存在以下局限。第一，主结果来自 trace-driven simulator，使用 measured bandwidth 和 expert size 构造传输 stall proxy，但没有完整建模计算与传输重叠、CUDA 调度、内存分配、显存碎片和运行时排队。因此，stall proxy 只能比较专家传输压力，不能直接解释为端到端延迟。第二，route-window prefetch 和 Belady oracle 使用未来 eval 信息，只能作为上界或压力测试，不能作为可部署在线策略。第三，当前主实验假设同一模型内专家大小相同，因此 transfer-aware score 的异构价值没有被充分检验。第四，本文主结果覆盖 Mixtral prefill trace；更大 MoE 模型、不同数据集和 decode 阶段仍需要额外实验。
+
+这些局限不影响本文的核心结论边界：在 transfer-bound、partial-residency 的 Mixtral prefill trace 上，WREC-H2 能在不改变路由结果的前提下显著降低需求专家加载和传输 stall proxy。但本文不声称 WREC 已经提升模型质量，不声称已经改善真实 TTFT 或端到端 serving latency，也不声称 finite-slot runtime 已完成最终评估。
+
+\subsection{本章小结}
+
+本章给出了 WREC 的实验评估。HRM 筛查和传输微基准说明 Mixtral 在受限显存和带宽配置下存在专家传输优化动机；路由统计表明 prefill trace 具有短窗口复用和跨 split 热度稳定性；公平基线与 Belady 的差距说明专家缓存调度不是简单的热度缓存问题。在固定 total-budget 主实验中，request/cross-layer WREC-H2 在 $32$ 到 $192$ 个专家槽上均显著优于 LRU，stall proxy 改善为 $71.80\%$ 到 $81.40\%$ 区间内的稳定正收益。消融结果进一步说明，主要收益来自 request-local 与 cross-layer 信号，而不是 recent-history。runtime shadow 验证表明 WREC 策略接口可以按运行时事件流在线执行并与离线重放对齐。decode 迁移和 finite-slot 预留结果则明确了本文当前工作的边界。
