@@ -138,40 +138,40 @@ WREC 对一个候选专家对象 $(l,e)$ 的总分定义为：
 
 \subsection{基线策略与离线上界}
 
-为了公平评估 WREC，本文实现了以下基线。第一，\texttt{on\_demand} 不保留专家缓存，每次专家访问都视为需求加载，用于给出最朴素的传输压力。第二，LRU 使用在线最近访问顺序，未命中时换出最久未访问专家。第三，\texttt{static\_hot} 只使用训练轨迹中的全局专家频率，将最热的专家对象初始化为驻留集合，并不根据 eval 未来信息调整。第四，\texttt{route\_window\_prefetch} 使用 eval 未来窗口进行预取，因此只作为 oracle-style 压力基线，不作为可部署策略。第五，Belady oracle 使用完整未来访问序列选择最晚再次使用或不再使用的专家作为换出对象，是等大小缓存对象假设下的离线上界。
+为了公平评估 WREC，本文实现了以下基线。第一，\texttt{on\_demand} 不保留专家缓存，每次专家访问都视为需求加载，用于给出最朴素的传输压力。第二，LRU 使用在线最近访问顺序，未命中时换出最久未访问专家。第三，\texttt{static\_hot} 只使用训练轨迹中的全局专家频率，将最热的专家对象初始化为驻留集合，并不根据 eval 未来信息调整。第四，\texttt{route\_window\_prefetch} 使用 eval 未来窗口进行预取，因此只作为使用未来信息的压力基线，不作为可部署策略。第五，Belady oracle 使用完整未来访问序列选择最晚再次使用或不再使用的专家作为换出对象，是等大小缓存对象假设下的离线上界。
 
 在容量分配上，本文区分 per-layer 容量和 total-budget 容量。per-layer 容量为每个 MoE 层分配相同专家槽数，便于与传统分层缓存直觉比较；total-budget 容量只规定全模型专家槽总数，允许热点层和热点专家在全局范围内竞争槽位。WREC 主结果使用 total-budget 模式，因为该模式更接近显存预算的真实约束：GPU 显存只关心总驻留专家权重大小，而不要求每一层拥有完全相同的槽数。
 
 \subsection{重放模拟器实现}
 
-本文实现了基于访问轨迹的重放模拟器，用于隔离评估缓存策略本身。模拟器输入为 eval 路由轨迹、train 路由轨迹、模型专家大小、CPU-GPU 有效带宽和缓存预算。对每条专家引用，模拟器按策略更新缓存状态，并统计需求命中、需求未命中、需求加载、预取加载、预取浪费、传输字节数和传输时间代理。
+本文实现了基于访问轨迹的重放模拟器，用于隔离评估缓存策略本身。模拟器输入为 eval 路由轨迹、train 路由轨迹、模型专家大小、CPU-GPU 有效带宽和缓存预算。对每条专家引用，模拟器按策略更新缓存状态，并统计需求命中、需求未命中、需求加载、预取加载、预取浪费、传输字节数和传输时间估计值。
 
-对无预取策略而言，需求加载次数等于需求未命中次数。传输代理指标只计算需求加载字节：
+对无预取策略而言，需求加载次数等于需求未命中次数。传输时间估计值只计算需求加载字节：
 
 \begin{equation}
-    \label{equ:wrec-demand-stall}
-    T_{\mathrm{stall}}=
+    \label{equ:wrec-transfer-time}
+    T_{\mathrm{transfer}}=
     \frac{N_{\mathrm{demand}}\cdot B_{\mathrm{expert}}}{b_{\mathrm{cg}}},
 \end{equation}
 
-其中，$N_{\mathrm{demand}}$ 是需求加载次数，$B_{\mathrm{expert}}$ 是单个专家对象大小，$b_{\mathrm{cg}}$ 是 CPU-GPU 有效带宽。对于包含预取的策略，模拟器额外统计预取传输量和预取浪费，但正文主策略 WREC-H2 不启用预取，因此主结果中的 waste 为 $0$。
+其中，$N_{\mathrm{demand}}$ 是需求加载次数，$B_{\mathrm{expert}}$ 是单个专家对象大小，$b_{\mathrm{cg}}$ 是 CPU-GPU 有效带宽。该值表示不考虑计算与传输重叠时的专家权重传输时间估计，不等同于真实端到端延迟。对于包含预取的策略，模拟器额外统计预取传输量和预取浪费，但正文主策略 WREC-H2 不启用预取，因此主结果中的 waste 为 $0$。
 
-模拟器还计算 oracle gap。设某一缓存预算下策略 $\pi$ 的 stall proxy 为 $T_\pi$，LRU 和 Belady 的结果分别为 $T_{\mathrm{LRU}}$ 和 $T_{\mathrm{Belady}}$。则策略相对 LRU 的收益为：
+模拟器还计算 WREC 相对 LRU 的收益。设某一缓存预算下策略 $\pi$ 的传输时间估计值为 $T_\pi$，LRU 的结果为 $T_{\mathrm{LRU}}$，则策略相对 LRU 的收益为：
 
 \begin{equation}
     \label{equ:wrec-gain}
-    G_{\pi}=\frac{T_{\mathrm{LRU}}-T_{\pi}}{T_{\mathrm{LRU}}},
+    G_{\pi}=\frac{T_{\mathrm{LRU}}-T_{\pi}}{T_{\mathrm{LRU}}}.
 \end{equation}
 
-而未捕获 oracle gap 可用 $T_\pi-T_{\mathrm{Belady}}$ 表示。该指标用于判断 WREC 是否真正接近离线上界，而不仅仅是超过某一个在线基线。
+同时，本文使用 $T_\pi-T_{\mathrm{Belady}}$ 描述在线策略与 Belady 离线上界之间的剩余差距。该指标用于判断 WREC 是否真正接近离线上界，而不仅仅是超过某一个在线基线。
 
-\subsection{运行时接口与有限 slot 原型}
+\subsection{运行时接口与有限槽位原型}
 
 除离线重放模拟器外，本文还实现了运行时 shadow 接口。该接口将在线 WREC 策略封装为一个轻量 sidecar 服务。推理框架在每个路由事件产生后向 sidecar 发送请求编号、层号、token 位置和 selected experts；sidecar 顺序维护 WREC 在线状态和 shadow resident set，并返回每个专家的 would-admit、would-bypass 和 would-evict 决策。该模式不控制真实专家加载，但可以验证 WREC 的状态更新和决策逻辑能否按运行时事件流在线执行。
 
 在 vLLM 集成原型中，本文进一步实现了专家驻留管理接口。该接口支持三种层次。第一是 state-only 模式，只导出 routed expert 事件并消费 sidecar 决策，不改变真实专家权重放置。第二是 row-copy skeleton 模式，为特定专家保留 CPU backing，并在需要时把专家切片复制回 GPU 权重张量。第三是 finite-slot 模式，当 \texttt{WREC\_EXPERT\_RESIDENCY\_SLOT\_CAPACITY} 小于模型全局专家数时，将每层专家权重替换为有限 GPU slot 张量，并维护 logical expert 到 slot id 的 \texttt{expert\_map}。MoE kernel 通过该映射访问当前驻留的逻辑专家。
 
-finite-slot 原型的关键约束是：当前事件真正需要的专家集合必须能够放入该层 slot 容量，否则会触发 slot overflow；对不在当前 protected set 中的旧专家，管理器可根据 sidecar 的 eviction 决策释放 slot，并把对应 expert map 置为无效。该原型仍处于实验阶段：当前实现能够跑通 guarded Qwen finite-slot 短测，但仍存在额外 CPU copy，尚未完全复用 vLLM 的 offload storage。因此，第 5 章将 finite-slot 作为集成实验的预留项，而不把短测结果作为主实验结论。
+finite-slot 原型的作用是验证 WREC 决策能否进入真实专家驻留路径，而不是替代第 5 章的 trace-driven 主实验。该原型要求当前 batch 中每层实际访问的 unique experts 数量不超过 slot capacity，否则有限槽位无法保证正确执行。由于该路径同时受到 vLLM 调度、CPU offload、副本管理和 kernel 映射约束，第 5 章将其作为运行时可行性验证报告，而不将其作为 WREC 算法主效果的唯一依据。
 
 \subsection{本章小结}
 
