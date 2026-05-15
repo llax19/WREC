@@ -1,0 +1,4 @@
+prepared 2 requests with strategy=fcfs dispatch_strategy=fcfs server_scheduling_policy=fcfs (arrival_interval=0.0, max_concurrency=1)
+logged wrec-short-smoke-0 (strategy=fcfs, load=finite_slot_slot32_mbt16_r1)
+logged wrec-short-smoke-1 (strategy=fcfs, load=finite_slot_slot32_mbt16_r1)
+saved gpu summary to /root/WREC/results/wrec/runtime_lazy_init_smoke_20260515T/finite_slot_slot32_mbt16_r1_gpu_summary.json

@@ -1,0 +1,18 @@
+{
+  "case_id": "finite_slot_slot32_mbt16_r1",
+  "status": "success",
+  "method": "finite_slot",
+  "repeat": 1,
+  "slot_capacity": 32,
+  "max_num_batched_tokens": 16,
+  "requests_completed": 2,
+  "request_file": "/root/WREC/results/wrec/runtime_selective_prefetch_smoke_short_20260515T/smoke_two_short_requests.jsonl",
+  "request_log": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_request_log.jsonl",
+  "sidecar_metrics_json": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_sidecar_metrics.json",
+  "gpu_metrics_log": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_gpu_metrics.jsonl",
+  "gpu_metrics_summary_json": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_gpu_summary.json",
+  "server_log": "/root/WREC/logs/server/qwen_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_server.log",
+  "sidecar_log": "/root/WREC/logs/server/qwen_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_sidecar.log",
+  "error_kind": "",
+  "error_message": ""
+}

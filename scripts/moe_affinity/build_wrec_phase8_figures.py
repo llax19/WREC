@@ -102,18 +102,18 @@ def build_locality_summary_figure(stats: dict[str, Any], *, output: Path) -> Non
     overlap = stats["train_eval_hotness_shift"]["topk_overlap_by_layer"]
     windows = sorted(int(key) for key in window_stats)
 
-    width, height = 1160, 620
+    width, height = 900, 420
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        '<text x="580" y="32" text-anchor="middle" font-family="Arial" font-size="22">Mixtral Prefill Expert Locality Summary</text>',
-        '<text x="580" y="56" text-anchor="middle" font-family="Arial" font-size="13">Train trace: 29,123 input tokens, 931,936 router events, 1,863,872 expert refs</text>',
+        '<text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="20">Mixtral Prefill Expert Locality</text>',
+        '<text x="450" y="52" text-anchor="middle" font-family="Arial" font-size="12">29,123 input tokens, 931,936 router events, 1,863,872 expert refs</text>',
     ]
 
     # Panel 1: top2 share by layer
-    p1 = {"x": 70, "y": 110, "w": 470, "h": 220}
+    p1 = {"x": 80, "y": 105, "w": 340, "h": 190}
     parts += [
-        f'<text x="{p1["x"] + p1["w"]/2}" y="{p1["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Top-2 expert share by layer</text>',
+        f'<text x="{p1["x"] + p1["w"]/2}" y="{p1["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Top-2 expert share across layers</text>',
         f'<line x1="{p1["x"]}" y1="{p1["y"]}" x2="{p1["x"]}" y2="{p1["y"] + p1["h"]}" stroke="#333"/>',
         f'<line x1="{p1["x"]}" y1="{p1["y"] + p1["h"]}" x2="{p1["x"] + p1["w"]}" y2="{p1["y"] + p1["h"]}" stroke="#333"/>',
     ]
@@ -129,73 +129,77 @@ def build_locality_summary_figure(stats: dict[str, Any], *, output: Path) -> Non
         parts.append(f'<line x1="{p1["x"]-5}" y1="{y:.2f}" x2="{p1["x"] + p1["w"]}" y2="{y:.2f}" stroke="#eee"/>')
         parts.append(f'<text x="{p1["x"]-10}" y="{y+4:.2f}" text-anchor="end" font-family="Arial" font-size="11">{tick:.2f}</text>')
     parts.append(f'<polyline fill="none" stroke="#4C78A8" stroke-width="2.5" points="{" ".join(points)}"/>')
-
+    parts.append(f'<text x="{p1["x"] + p1["w"]/2}" y="{p1["y"] + p1["h"] + 42}" text-anchor="middle" font-family="Arial" font-size="11">Layer index</text>')
+    parts.append(f'<text x="{p1["x"] - 48}" y="{p1["y"] + p1["h"]/2}" transform="rotate(-90 {p1["x"] - 48} {p1["y"] + p1["h"]/2})" text-anchor="middle" font-family="Arial" font-size="11">Top-2 share</text>')
     # Panel 2: reuse distance quantiles
-    p2 = {"x": 620, "y": 110, "w": 230, "h": 220}
-    parts += [
-        f'<text x="{p2["x"] + p2["w"]/2}" y="{p2["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Reuse distance quantiles</text>',
-        f'<line x1="{p2["x"]}" y1="{p2["y"]}" x2="{p2["x"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
-        f'<line x1="{p2["x"]}" y1="{p2["y"] + p2["h"]}" x2="{p2["x"] + p2["w"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
-    ]
-    reuse_vals = [("p50", float(reuse["p50"])), ("p90", float(reuse["p90"])), ("p99", float(reuse["p99"]))]
-    max_reuse = max(value for _, value in reuse_vals)
-    for idx, (label, value) in enumerate(reuse_vals):
-        x = p2["x"] + 35 + idx * 65
-        h = p2["h"] * value / max_reuse
-        y = p2["y"] + p2["h"] - h
-        parts.append(f'<rect x="{x}" y="{y:.2f}" width="42" height="{h:.2f}" fill="#F58518"/>')
-        parts.append(f'<text x="{x + 21}" y="{y-6:.2f}" text-anchor="middle" font-family="Arial" font-size="11">{value:.0f}</text>')
-        parts.append(f'<text x="{x + 21}" y="{p2["y"] + p2["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{label}</text>')
-    parts.append(f'<text x="{p2["x"] + p2["w"]/2}" y="{p2["y"] + p2["h"] + 38}" text-anchor="middle" font-family="Arial" font-size="11">same-layer expert ref distance</text>')
+    parts.append('<rect x="80" y="330" width="740" height="58" fill="#f8f8f8" stroke="#dddddd"/>')
+    parts.append('<text x="100" y="352" font-family="Arial" font-size="12">Reuse distance p50/p90/p99: 5 / 27 / 7097 expert refs</text>')
+    parts.append('<text x="100" y="374" font-family="Arial" font-size="12">Train/eval hotness overlap: top-2 = 0.938, top-4 = 0.938</text>')
+    # p2 = {"x": 620, "y": 110, "w": 230, "h": 220}
+    # parts += [
+    #     f'<text x="{p2["x"] + p2["w"]/2}" y="{p2["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Reuse distance quantiles</text>',
+    #     f'<line x1="{p2["x"]}" y1="{p2["y"]}" x2="{p2["x"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
+    #     f'<line x1="{p2["x"]}" y1="{p2["y"] + p2["h"]}" x2="{p2["x"] + p2["w"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
+    # ]
+    # reuse_vals = [("p50", float(reuse["p50"])), ("p90", float(reuse["p90"])), ("p99", float(reuse["p99"]))]
+    # max_reuse = max(value for _, value in reuse_vals)
+    # for idx, (label, value) in enumerate(reuse_vals):
+    #     x = p2["x"] + 35 + idx * 65
+    #     h = p2["h"] * value / max_reuse
+    #     y = p2["y"] + p2["h"] - h
+    #     parts.append(f'<rect x="{x}" y="{y:.2f}" width="42" height="{h:.2f}" fill="#F58518"/>')
+    #     parts.append(f'<text x="{x + 21}" y="{y-6:.2f}" text-anchor="middle" font-family="Arial" font-size="11">{value:.0f}</text>')
+    #     parts.append(f'<text x="{x + 21}" y="{p2["y"] + p2["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{label}</text>')
+    # parts.append(f'<text x="{p2["x"] + p2["w"]/2}" y="{p2["y"] + p2["h"] + 38}" text-anchor="middle" font-family="Arial" font-size="11">same-layer expert ref distance</text>')
 
     # Panel 3: short-window locality
-    p3 = {"x": 70, "y": 390, "w": 470, "h": 170}
+    p2 = {"x": 500, "y": 105, "w": 320, "h": 190}
     parts += [
-        f'<text x="{p3["x"] + p3["w"]/2}" y="{p3["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Short-window locality</text>',
-        f'<line x1="{p3["x"]}" y1="{p3["y"]}" x2="{p3["x"]}" y2="{p3["y"] + p3["h"]}" stroke="#333"/>',
-        f'<line x1="{p3["x"]}" y1="{p3["y"] + p3["h"]}" x2="{p3["x"] + p3["w"]}" y2="{p3["y"] + p3["h"]}" stroke="#333"/>',
+        f'<text x="{p2["x"] + p2["w"]/2}" y="{p2["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Short-window working set</text>',
+        f'<line x1="{p2["x"]}" y1="{p2["y"]}" x2="{p2["x"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
+        f'<line x1="{p2["x"]}" y1="{p2["y"] + p2["h"]}" x2="{p2["x"] + p2["w"]}" y2="{p2["y"] + p2["h"]}" stroke="#333"/>',
     ]
     max_unique = max(float(window_stats[str(w)]["unique_experts_per_layer_window"]["p50"]) for w in windows)
     points_unique = []
     points_prob = []
     for idx, window in enumerate(windows):
-        x = p3["x"] + idx * p3["w"] / max(1, len(windows) - 1)
+        x = p2["x"] + idx * p2["w"] / max(1, len(windows) - 1)
         unique = float(window_stats[str(window)]["unique_experts_per_layer_window"]["p50"])
-        prob = float(window_stats[str(window)]["expert_use_probability_per_window"]["p50"])
-        y_unique = p3["y"] + (1.0 - unique / max_unique) * p3["h"]
-        y_prob = p3["y"] + (1.0 - prob) * p3["h"]
+        # prob = float(window_stats[str(window)]["expert_use_probability_per_window"]["p50"])
+        y_unique = p2["y"] + (1.0 - unique / max_unique) * p2["h"]
+        # y_prob = p2["y"] + (1.0 - prob) * p2["h"]
         points_unique.append(f"{x:.2f},{y_unique:.2f}")
-        points_prob.append(f"{x:.2f},{y_prob:.2f}")
-        parts.append(f'<text x="{x:.2f}" y="{p3["y"] + p3["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{window}</text>')
+        # points_prob.append(f"{x:.2f},{y_prob:.2f}")
+        parts.append(f'<text x="{x:.2f}" y="{p2["y"] + p2["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{window}</text>')
     parts.append(f'<polyline fill="none" stroke="#54A24B" stroke-width="2.5" points="{" ".join(points_unique)}"/>')
-    parts.append(f'<polyline fill="none" stroke="#E45756" stroke-width="2.5" points="{" ".join(points_prob)}"/>')
-    parts.append(f'<text x="{p3["x"] + 18}" y="{p3["y"] + 18}" font-family="Arial" font-size="11" fill="#54A24B">p50 unique experts / window</text>')
-    parts.append(f'<text x="{p3["x"] + 18}" y="{p3["y"] + 36}" font-family="Arial" font-size="11" fill="#E45756">p50 expert-use probability</text>')
+    # parts.append(f'<polyline fill="none" stroke="#E45756" stroke-width="2.5" points="{" ".join(points_prob)}"/>')
+    parts.append(f'<text x="{p2["x"] + 18}" y="{p2["y"] + 18}" font-family="Arial" font-size="11" fill="#54A24B">p50 unique experts</text>')
+    # parts.append(f'<text x="{p2["x"] + 18}" y="{p2["y"] + 36}" font-family="Arial" font-size="11" fill="#E45756">p50 expert-use probability</text>')
 
     # Panel 4: train/eval overlap
-    p4 = {"x": 620, "y": 390, "w": 230, "h": 170}
-    parts += [
-        f'<text x="{p4["x"] + p4["w"]/2}" y="{p4["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Train/eval hotness stability</text>',
-        f'<line x1="{p4["x"]}" y1="{p4["y"]}" x2="{p4["x"]}" y2="{p4["y"] + p4["h"]}" stroke="#333"/>',
-        f'<line x1="{p4["x"]}" y1="{p4["y"] + p4["h"]}" x2="{p4["x"] + p4["w"]}" y2="{p4["y"] + p4["h"]}" stroke="#333"/>',
-    ]
-    overlap_vals = [("top2", float(overlap["2"]["mean"])), ("top4", float(overlap["4"]["mean"]))]
-    for idx, (label, value) in enumerate(overlap_vals):
-        x = p4["x"] + 45 + idx * 85
-        h = p4["h"] * value
-        y = p4["y"] + p4["h"] - h
-        parts.append(f'<rect x="{x}" y="{y:.2f}" width="48" height="{h:.2f}" fill="#B279A2"/>')
-        parts.append(f'<text x="{x + 24}" y="{y-6:.2f}" text-anchor="middle" font-family="Arial" font-size="11">{value:.3f}</text>')
-        parts.append(f'<text x="{x + 24}" y="{p4["y"] + p4["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{label}</text>')
-    parts.append(f'<text x="{p4["x"] + p4["w"]/2}" y="{p4["y"] + p4["h"] + 38}" text-anchor="middle" font-family="Arial" font-size="11">mean train/eval overlap by layer</text>')
+    # p4 = {"x": 620, "y": 390, "w": 230, "h": 170}
+    # parts += [
+    #     f'<text x="{p4["x"] + p4["w"]/2}" y="{p4["y"]-14}" text-anchor="middle" font-family="Arial" font-size="15">Train/eval hotness stability</text>',
+    #     f'<line x1="{p4["x"]}" y1="{p4["y"]}" x2="{p4["x"]}" y2="{p4["y"] + p4["h"]}" stroke="#333"/>',
+    #     f'<line x1="{p4["x"]}" y1="{p4["y"] + p4["h"]}" x2="{p4["x"] + p4["w"]}" y2="{p4["y"] + p4["h"]}" stroke="#333"/>',
+    # ]
+    # overlap_vals = [("top2", float(overlap["2"]["mean"])), ("top4", float(overlap["4"]["mean"]))]
+    # for idx, (label, value) in enumerate(overlap_vals):
+    #     x = p4["x"] + 45 + idx * 85
+    #     h = p4["h"] * value
+    #     y = p4["y"] + p4["h"] - h
+    #     parts.append(f'<rect x="{x}" y="{y:.2f}" width="48" height="{h:.2f}" fill="#B279A2"/>')
+    #     parts.append(f'<text x="{x + 24}" y="{y-6:.2f}" text-anchor="middle" font-family="Arial" font-size="11">{value:.3f}</text>')
+    #     parts.append(f'<text x="{x + 24}" y="{p4["y"] + p4["h"] + 18}" text-anchor="middle" font-family="Arial" font-size="11">{label}</text>')
+    # parts.append(f'<text x="{p4["x"] + p4["w"]/2}" y="{p4["y"] + p4["h"] + 38}" text-anchor="middle" font-family="Arial" font-size="11">mean train/eval overlap by layer</text>')
 
-    # Key numbers
-    parts.append('<text x="910" y="148" font-family="Arial" font-size="14">Key numbers</text>')
-    parts.append('<text x="910" y="172" font-family="Arial" font-size="12">reuse p50/p90/p99: 5 / 27 / 7097</text>')
-    parts.append('<text x="910" y="194" font-family="Arial" font-size="12">window-4 unique experts p50: 5</text>')
-    parts.append('<text x="910" y="216" font-family="Arial" font-size="12">window-4 use probability p50: 0.625</text>')
-    parts.append('<text x="910" y="238" font-family="Arial" font-size="12">top-2 overlap mean: 0.938</text>')
-    parts.append('<text x="910" y="260" font-family="Arial" font-size="12">top-4 overlap mean: 0.938</text>')
+    # # Key numbers
+    # parts.append('<text x="910" y="148" font-family="Arial" font-size="14">Key numbers</text>')
+    # parts.append('<text x="910" y="172" font-family="Arial" font-size="12">reuse p50/p90/p99: 5 / 27 / 7097</text>')
+    # parts.append('<text x="910" y="194" font-family="Arial" font-size="12">window-4 unique experts p50: 5</text>')
+    # parts.append('<text x="910" y="216" font-family="Arial" font-size="12">window-4 use probability p50: 0.625</text>')
+    # parts.append('<text x="910" y="238" font-family="Arial" font-size="12">top-2 overlap mean: 0.938</text>')
+    # parts.append('<text x="910" y="260" font-family="Arial" font-size="12">top-4 overlap mean: 0.938</text>')
 
     parts.append("</svg>")
     write_text(output, "\n".join(parts))

@@ -81,6 +81,7 @@ class WrecRuntimeSidecarEngine:
         request_weight: float,
         cross_layer_weight: float,
         contention_penalty: float,
+        ranking_score_threshold: float | None,
     ) -> None:
         load_start = time.perf_counter()
         train_refs, train_meta = load_event_trace(train_trace)
@@ -93,6 +94,7 @@ class WrecRuntimeSidecarEngine:
         self.num_experts = int(train_meta["num_experts"])
         self.total_slots = max(0, min(total_slots, self.num_layers * self.num_experts))
         self.history_size = history_size
+        self.ranking_score_threshold = ranking_score_threshold
         self.created_at_utc = datetime.now(timezone.utc).isoformat()
 
         prior_start = time.perf_counter()
@@ -127,6 +129,19 @@ class WrecRuntimeSidecarEngine:
         self.loop_ns = 0
         self.decision_ns = 0
         self.history_update_ns = 0
+        self.ranking_ns = 0
+
+    def _empty_online_view(self) -> Any:
+        return SimpleNamespace(
+            recent_refs={
+                layer: deque(maxlen=self.history_size)
+                for layer in range(self.num_layers)
+            },
+            recent_counts={layer: Counter() for layer in range(self.num_layers)},
+            request_counts={layer: Counter() for layer in range(self.num_layers)},
+            request_totals={layer: 0 for layer in range(self.num_layers)},
+            token_layer_experts={},
+        )
 
     def _request_history(self, request_id: str) -> RequestHistory:
         history = self.requests.get(request_id)
@@ -172,6 +187,70 @@ class WrecRuntimeSidecarEngine:
         history.request_counts[ref.layer][ref.expert] += 1
         history.request_totals[ref.layer] += 1
         history.current_event_experts.append(ref.expert)
+
+    def rank_layer_experts(
+        self,
+        *,
+        layer: int,
+        token_pos: int = 0,
+        timestamp: int | None = None,
+        request_id: str | None = None,
+    ) -> list[int]:
+        online = (
+            self._online_view(request_id)
+            if request_id is not None
+            else self._empty_online_view()
+        )
+        effective_timestamp = self.ref_index if timestamp is None else timestamp
+        scored = [
+            (
+                self.policy.score(
+                    layer=layer,
+                    token_pos=token_pos,
+                    expert=expert,
+                    timestamp=effective_timestamp,
+                    cache=self.cache,
+                    online=online,
+                    stats=self.stats,
+                ),
+                expert,
+            )
+            for expert in range(self.num_experts)
+        ]
+        if self.ranking_score_threshold is not None:
+            scored = [
+                item
+                for item in scored
+                if item[0] >= self.ranking_score_threshold
+            ]
+        return [
+            expert
+            for _, expert in sorted(
+                scored,
+                key=lambda item: (-item[0], item[1]),
+            )
+        ]
+
+    def ranked_experts_payload(
+        self,
+        *,
+        layers: list[int] | None = None,
+        token_pos: int = 0,
+        request_id: str | None = None,
+    ) -> dict[str, list[int]]:
+        ranking_start = time.perf_counter_ns()
+        selected_layers = layers if layers is not None else list(range(self.num_layers))
+        payload = {
+            str(layer): self.rank_layer_experts(
+                layer=layer,
+                token_pos=token_pos,
+                request_id=request_id,
+            )
+            for layer in selected_layers
+            if 0 <= layer < self.num_layers
+        }
+        self.ranking_ns += time.perf_counter_ns() - ranking_start
+        return payload
 
     def process_event(self, payload: dict[str, Any]) -> dict[str, Any]:
         request_id = str(payload["request_id"])
@@ -252,10 +331,18 @@ class WrecRuntimeSidecarEngine:
             )
 
         self.loop_ns += time.perf_counter_ns() - event_start
+        ranked_layers = [layer]
+        if layer + 1 < self.num_layers:
+            ranked_layers.append(layer + 1)
         return {
             "request_id": request_id,
             "event_index": event_index,
             "decisions": decisions,
+            "ranked_experts_by_layer": self.ranked_experts_payload(
+                layers=ranked_layers,
+                token_pos=token_pos,
+                request_id=request_id,
+            ),
             "metrics": self.metrics(),
         }
 
@@ -269,6 +356,7 @@ class WrecRuntimeSidecarEngine:
             "train_trace": str(self.train_trace),
             "model_path": str(self.model_path) if self.model_path else None,
             "total_slots": self.total_slots,
+            "ranking_score_threshold": self.ranking_score_threshold,
             "num_layers": self.num_layers,
             "num_experts": self.num_experts,
             "expert_bytes": self.expert_bytes,
@@ -293,6 +381,8 @@ class WrecRuntimeSidecarEngine:
                 "online_loop_us_per_router_event": self.loop_ns / router_events / 1000.0,
                 "history_update_us_per_expert_ref": self.history_update_ns / expert_refs / 1000.0,
                 "decision_us_per_miss": self.decision_ns / max(1, self.shadow_misses) / 1000.0,
+                "ranking_seconds": self.ranking_ns / 1e9,
+                "ranking_us_per_router_event": self.ranking_ns / router_events / 1000.0,
             },
             "claim_boundary": {
                 "does_control_real_expert_loading": False,
@@ -325,6 +415,15 @@ class Handler(BaseHTTPRequestHandler):
             return
         if self.path == "/metrics":
             self._send(200, ENGINE.metrics())
+            return
+        if self.path == "/rankings":
+            self._send(
+                200,
+                {
+                    "ranked_experts_by_layer": ENGINE.ranked_experts_payload(),
+                    "metrics": ENGINE.metrics(),
+                },
+            )
             return
         self._send(404, {"error": "not found"})
 
@@ -364,6 +463,7 @@ def main() -> None:
     parser.add_argument("--request-weight", type=float, default=1024.0)
     parser.add_argument("--cross-layer-weight", type=float, default=1024.0)
     parser.add_argument("--contention-penalty", type=float, default=0.0)
+    parser.add_argument("--ranking-score-threshold", type=float, default=None)
     args = parser.parse_args()
 
     global ENGINE
@@ -380,6 +480,7 @@ def main() -> None:
         request_weight=args.request_weight,
         cross_layer_weight=args.cross_layer_weight,
         contention_penalty=args.contention_penalty,
+        ranking_score_threshold=args.ranking_score_threshold,
     )
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     print(json.dumps({"status": "listening", "host": args.host, "port": args.port}, ensure_ascii=False))

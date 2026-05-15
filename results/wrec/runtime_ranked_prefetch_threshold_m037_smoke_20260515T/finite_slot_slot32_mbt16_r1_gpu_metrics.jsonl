@@ -1,0 +1,7 @@
+{"timestamp": 1778811444.9318316, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 0, "utilization_memory_pct": 0}
+{"timestamp": 1778811445.9675229, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 0, "utilization_memory_pct": 0}
+{"timestamp": 1778811447.003374, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 0, "utilization_memory_pct": 0}
+{"timestamp": 1778811448.0392463, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 97, "utilization_memory_pct": 2}
+{"timestamp": 1778811449.079551, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 0, "utilization_memory_pct": 0}
+{"timestamp": 1778811450.1351647, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 97, "utilization_memory_pct": 1}
+{"timestamp": 1778811451.191176, "gpu_index": 0, "gpu_name": "NVIDIA GeForce RTX 3090 Ti", "memory_used_mib": 17973, "memory_total_mib": 24564, "utilization_gpu_pct": 96, "utilization_memory_pct": 2}

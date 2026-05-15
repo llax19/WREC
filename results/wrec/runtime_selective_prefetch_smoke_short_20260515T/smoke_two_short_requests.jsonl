@@ -1,0 +1,2 @@
+{"id": "wrec-short-smoke-0", "request_id": "wrec-short-smoke-0", "prompt": "Hello, my name is", "target_max_new_tokens": 1, "group": "short_smoke"}
+{"id": "wrec-short-smoke-1", "request_id": "wrec-short-smoke-1", "prompt": "Hello, my name is", "target_max_new_tokens": 1, "group": "short_smoke"}

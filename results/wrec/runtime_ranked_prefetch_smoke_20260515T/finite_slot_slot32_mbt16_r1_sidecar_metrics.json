@@ -1,0 +1,38 @@
+{
+  "created_at_utc": "2026-05-15T02:05:01.263072+00:00",
+  "train_trace": "/root/WREC/logs/processed/wrec/qwen_single_gpu_20260511/train_n256.jsonl",
+  "model_path": "/root/WREC/models/qwen1.5-MoE-A2.7B",
+  "total_slots": 192,
+  "num_layers": 24,
+  "num_experts": 60,
+  "expert_bytes": 17301504.0,
+  "bandwidth_gbps": 41.37220609315469,
+  "expert_refs": 960,
+  "router_events": 240,
+  "shadow_hits": 316,
+  "shadow_misses": 644,
+  "shadow_hit_rate": 0.32916666666666666,
+  "shadow_miss_rate": 0.6708333333333333,
+  "would_admit": 630,
+  "would_bypass": 14,
+  "would_evict": 630,
+  "final_resident": 192,
+  "demand_transfer_bytes": 11142168576.0,
+  "stall_ms": 269.31531161069864,
+  "timing": {
+    "load_seconds": 6.141318557783961,
+    "prior_seconds": 5.486461730673909,
+    "online_loop_seconds": 0.491775976,
+    "online_loop_us_per_expert_ref": 512.2666416666667,
+    "online_loop_us_per_router_event": 2049.066566666667,
+    "history_update_us_per_expert_ref": 3.477997916666667,
+    "decision_us_per_miss": 736.0927391304348,
+    "ranking_seconds": 0.102102831,
+    "ranking_us_per_router_event": 425.4284625
+  },
+  "claim_boundary": {
+    "does_control_real_expert_loading": false,
+    "does_measure_end_to_end_latency": false,
+    "integration_boundary": "HTTP sidecar /event API for runtime hooks"
+  }
+}

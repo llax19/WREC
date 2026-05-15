@@ -1,0 +1,31 @@
+prepared 1 requests with strategy=fcfs dispatch_strategy=fcfs server_scheduling_policy=fcfs (arrival_interval=0.0, max_concurrency=1)
+Traceback (most recent call last):
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 439, in <module>
+    main()
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 414, in main
+    collect_results(done)
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 368, in collect_results
+    log_row = future.result()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/_base.py", line 451, in result
+    return self.__get_result()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+    raise self._exception
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 246, in build_log_row
+    result = post_streaming_completion(
+  File "/root/WREC/scripts/runtime/log_vllm_requests.py", line 200, in post_streaming_completion
+    for raw_line in response:
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/http/client.py", line 695, in readline
+    return super().readline(limit)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/http/client.py", line 687, in peek
+    return self._peek_chunked(n)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/http/client.py", line 723, in _peek_chunked
+    chunk_left = self._get_chunk_left()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/http/client.py", line 571, in _get_chunk_left
+    chunk_left = self._read_next_chunk_size()
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/http/client.py", line 531, in _read_next_chunk_size
+    line = self.fp.readline(_MAXLINE + 1)
+  File "/root/miniconda3/envs/vllm_moe/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+TimeoutError: timed out

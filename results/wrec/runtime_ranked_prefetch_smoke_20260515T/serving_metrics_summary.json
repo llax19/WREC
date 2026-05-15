@@ -1,0 +1,33 @@
+[
+  {
+    "case_id": "finite_slot_slot32_mbt16_r1",
+    "status": "success",
+    "num_requests": 2,
+    "input_tokens": 10,
+    "output_tokens": 2,
+    "total_tokens": 12,
+    "wall_time_s": 5.354053497314453,
+    "requests_per_s": 0.37354875161467527,
+    "input_tokens_per_s": 1.8677437580733762,
+    "total_tokens_per_s": 2.2412925096880514,
+    "output_tokens_per_s": 0.37354875161467527,
+    "mean_ttft_ms": 2676.796793937683,
+    "p95_ttft_ms": 2828.931152820587,
+    "mean_e2e_ms": 2676.84268951416,
+    "p95_e2e_ms": 2828.976082801819,
+    "mean_tpot_ms": null,
+    "p95_tpot_ms": null,
+    "shadow_miss_rate": 0.6708333333333333,
+    "shadow_hits": 316,
+    "shadow_misses": 644,
+    "router_events": 240,
+    "expert_refs": 960,
+    "online_loop_us_per_expert_ref": 512.2666416666667,
+    "gpu0_peak_memory_used_mib": 17973.0,
+    "gpu0_avg_memory_used_mib": 17973.0,
+    "gpu0_peak_memory_utilization": 0.7316805080605765,
+    "gpu_metrics_summary_json": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_gpu_summary.json",
+    "request_log": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_request_log.jsonl",
+    "sidecar_metrics_json": "/root/WREC/results/wrec/runtime_ranked_prefetch_smoke_20260515T/finite_slot_slot32_mbt16_r1_sidecar_metrics.json"
+  }
+]

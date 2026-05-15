@@ -1,0 +1,16 @@
+{
+  "case_id": "finite_slot_slot16_mbt4_r1",
+  "status": "success",
+  "method": "finite_slot",
+  "repeat": 1,
+  "slot_capacity": 16,
+  "max_num_batched_tokens": 4,
+  "requests_completed": 16,
+  "request_file": "/root/WREC/data/prompts/wrec_dolly_prefill_eval_long_n16_maxnew1_20260514.jsonl",
+  "request_log": "/root/WREC/results/wrec/runtime_qwen_real_inference_main_20260514T_prefill_main_n16_maxnew1/finite_slot_slot16_mbt4_r1_request_log.jsonl",
+  "sidecar_metrics_json": "/root/WREC/results/wrec/runtime_qwen_real_inference_main_20260514T_prefill_main_n16_maxnew1/finite_slot_slot16_mbt4_r1_sidecar_metrics.json",
+  "server_log": "/root/WREC/logs/server/qwen_real_inference_main_20260514T_prefill_main_n16_maxnew1/finite_slot_slot16_mbt4_r1_server.log",
+  "sidecar_log": "/root/WREC/logs/server/qwen_real_inference_main_20260514T_prefill_main_n16_maxnew1/finite_slot_slot16_mbt4_r1_sidecar.log",
+  "error_kind": "",
+  "error_message": ""
+}

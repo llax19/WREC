@@ -1,0 +1,105 @@
+{
+  "backup_dir": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z",
+  "created_utc": "20260514T175204Z",
+  "files": [
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/layers/attention/attention.py",
+      "deployed_destination_sha256": "1184e5c210d9ed38779b09aa50ae9a046dd12fbc6bfa921faa5580717f8e7f01",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/layers/attention/attention.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "1184e5c210d9ed38779b09aa50ae9a046dd12fbc6bfa921faa5580717f8e7f01",
+      "relative_file": "vllm/model_executor/layers/attention/attention.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/layers/attention/attention.py",
+      "source_sha256": "1184e5c210d9ed38779b09aa50ae9a046dd12fbc6bfa921faa5580717f8e7f01"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/layers/attention/mla_attention.py",
+      "deployed_destination_sha256": "4382c0c4a0406ada774fa64fe3e1a43fdd89dde1a34efc48f9f432eabb4876ff",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/layers/attention/mla_attention.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "4382c0c4a0406ada774fa64fe3e1a43fdd89dde1a34efc48f9f432eabb4876ff",
+      "relative_file": "vllm/model_executor/layers/attention/mla_attention.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/layers/attention/mla_attention.py",
+      "source_sha256": "4382c0c4a0406ada774fa64fe3e1a43fdd89dde1a34efc48f9f432eabb4876ff"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/layers/fused_moe/layer.py",
+      "deployed_destination_sha256": "20fffb4b87de69c190bba96e8941e6dff11a8ecd8e1ed0dfab53433b9cb4c2d1",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/layers/fused_moe/layer.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "20fffb4b87de69c190bba96e8941e6dff11a8ecd8e1ed0dfab53433b9cb4c2d1",
+      "relative_file": "vllm/model_executor/layers/fused_moe/layer.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/layers/fused_moe/layer.py",
+      "source_sha256": "20fffb4b87de69c190bba96e8941e6dff11a8ecd8e1ed0dfab53433b9cb4c2d1"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py",
+      "deployed_destination_sha256": "cd7fcf27aa108979a7d1449e71a3a9f48e093dc0feb4c279a09f909520b98626",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "af4efd46bea9bba392334c4c4e80d1176344670e8db851edea6102eaa63bd4dc",
+      "relative_file": "vllm/model_executor/layers/fused_moe/wrec_expert_residency.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/layers/fused_moe/wrec_expert_residency.py",
+      "source_sha256": "cd7fcf27aa108979a7d1449e71a3a9f48e093dc0feb4c279a09f909520b98626"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/offloader/prefetch.py",
+      "deployed_destination_sha256": "ffeda6eef7ed8aeaba81c72c98b1debaca0214ae24c8e973264c90fabdf8e3de",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/offloader/prefetch.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "a4207ee5f664302bb8c53addecf86f6d222580789167420425e13b20675535cc",
+      "relative_file": "vllm/model_executor/offloader/prefetch.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/offloader/prefetch.py",
+      "source_sha256": "ffeda6eef7ed8aeaba81c72c98b1debaca0214ae24c8e973264c90fabdf8e3de"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/offloader/uva.py",
+      "deployed_destination_sha256": "387d9f685e0f5c6abf25905c4808c2e12c59c31223129b489902cd448c285d78",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/offloader/uva.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "3bc7e4b07ad1ff592c611377175a3390d0d717e9c31b2e105ef3943ffa29043a",
+      "relative_file": "vllm/model_executor/offloader/uva.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/offloader/uva.py",
+      "source_sha256": "387d9f685e0f5c6abf25905c4808c2e12c59c31223129b489902cd448c285d78"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/model_executor/offloader/wrec_residency.py",
+      "deployed_destination_sha256": "47d5f8c793fc3d984f0bfe8773730ae9baf872e93a9c7fd3a55d801a7fdb8476",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/model_executor/offloader/wrec_residency.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "97eea2908242336a4fdc7c505b0185814892b14bc2c6563ca7218615cb40e09f",
+      "relative_file": "vllm/model_executor/offloader/wrec_residency.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/model_executor/offloader/wrec_residency.py",
+      "source_sha256": "47d5f8c793fc3d984f0bfe8773730ae9baf872e93a9c7fd3a55d801a7fdb8476"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/v1/core/sched/scheduler.py",
+      "deployed_destination_sha256": "8f037f91c0af3a10cc98c176b0e1d697212e9a2479ce668a77dfec30b4334646",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/v1/core/sched/scheduler.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "8f037f91c0af3a10cc98c176b0e1d697212e9a2479ce668a77dfec30b4334646",
+      "relative_file": "vllm/v1/core/sched/scheduler.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/v1/core/sched/scheduler.py",
+      "source_sha256": "8f037f91c0af3a10cc98c176b0e1d697212e9a2479ce668a77dfec30b4334646"
+    },
+    {
+      "backup": "/tmp/wrec_vllm_sitepkg_backup_20260514T175204Z/vllm/v1/core/sched/wrec_sidecar_client.py",
+      "deployed_destination_sha256": "1f262bbb4c9c1a4c6d608339f1ac7c2bc3abb28080031f1c9fed890607cc4cc5",
+      "destination": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm/v1/core/sched/wrec_sidecar_client.py",
+      "destination_existed": true,
+      "previous_destination_sha256": "1f262bbb4c9c1a4c6d608339f1ac7c2bc3abb28080031f1c9fed890607cc4cc5",
+      "relative_file": "vllm/v1/core/sched/wrec_sidecar_client.py",
+      "source": "/root/WREC/external/vllm-0.19.0/vllm/v1/core/sched/wrec_sidecar_client.py",
+      "source_sha256": "1f262bbb4c9c1a4c6d608339f1ac7c2bc3abb28080031f1c9fed890607cc4cc5"
+    }
+  ],
+  "git": {
+    "commit": "2a69949bdadf0e8942b7a1619b229cb475beef20",
+    "status_short": "M vllm/model_executor/layers/attention/attention.py\n M vllm/model_executor/layers/attention/mla_attention.py\n M vllm/model_executor/layers/fused_moe/layer.py\n M vllm/model_executor/offloader/prefetch.py\n M vllm/model_executor/offloader/uva.py\n M vllm/v1/core/sched/scheduler.py\n?? vllm/model_executor/layers/fused_moe/wrec_expert_residency.py\n?? vllm/model_executor/offloader/wrec_residency.py\n?? vllm/v1/core/sched/wrec_sidecar_client.py"
+  },
+  "mode": "deploy",
+  "py_compile": "ok",
+  "source_root": "/root/WREC/external/vllm-0.19.0",
+  "target_python": "/root/miniconda3/envs/vllm_moe/bin/python3.10",
+  "vllm_package_dir": "/root/miniconda3/envs/vllm_moe/lib/python3.10/site-packages/vllm"
+}
