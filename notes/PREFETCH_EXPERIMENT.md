@@ -149,4 +149,21 @@ WREC expert residency reusing vLLM CPU offload storage
 - sidecar ranking 开销：`0.1021s` total，`425.43us/router event`。
 - 没有 extra CPU copy fallback，没有 slot overflow。
 
-边界：该 smoke 证明 ranked-expert prefetch 已改变 runtime 机制，但不能证明性能收益。2 条短请求下 TTFT 比 lazy-init smoke 更高，说明 `top-active_slots` 且 `active_slots=32` 的预取过于激进，H2D transfer 开销明显。后续需要加 threshold 或 per-layer prefetch budget，而不是无条件取满 32 个 experts。
+边界：该 smoke 证明 ranked-expert prefetch 已改变 runtime 机制，但不能证明性能收益。2 条短请求下 TTFT 比 lazy-init smoke 更高，说明 `top-active_slots` 且 `active_slots=32` 的预取过于激进，H2D transfer 开销明显。后续需要加 score gate，避免低价值 experts 进入 desired set；数量约束仍交给 runtime 的 `active_slots`。
+
+## ranking 过滤策略
+
+绝对 score threshold 已接入 sidecar 和 runner：
+
+- sidecar CLI：`--ranking-score-threshold`
+- runner env：`SIDECAR_RANKING_SCORE_THRESHOLD`
+
+当前回退为只使用绝对 threshold gate。`score=0` 在静态 base score 中近似表示预取收益与搬运成本打平：`p_use * expected_tokens * miss_stall_ms - transfer_ms = 0`。但 runtime total score 还会叠加 recent/request/cross-layer 分数并受权重影响，所以 `threshold=0` 不是跨配置的自然常数，只能作为一个保守实验点。
+
+语义：
+
+1. 对每层所有 experts 计算 score 并排序。
+2. 可选绝对门槛：保留 `score >= ranking_score_threshold`。
+3. runtime attention hook 再按 `active_slots` 截断。
+
+设计边界：sidecar 只负责 score-based filtering，不负责按数量 cap 每层候选。每次能预取多少由 runtime 根据当前 `active_slots` 和真实 slot pool 决定。

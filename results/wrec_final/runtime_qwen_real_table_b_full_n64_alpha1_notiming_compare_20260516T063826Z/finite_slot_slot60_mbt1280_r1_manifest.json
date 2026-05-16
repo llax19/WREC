@@ -1,0 +1,18 @@
+{
+  "case_id": "finite_slot_slot60_mbt1280_r1",
+  "status": "success",
+  "method": "finite_slot",
+  "repeat": 1,
+  "slot_capacity": 60,
+  "max_num_batched_tokens": 1280,
+  "requests_completed": 64,
+  "request_file": "/root/WREC/data/prompts/wrec_dolly_prefill_eval_long_n64_maxnew16_20260514.jsonl",
+  "request_log": "/root/WREC/results/wrec/runtime_qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_request_log.jsonl",
+  "sidecar_metrics_json": "/root/WREC/results/wrec/runtime_qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_sidecar_metrics.json",
+  "gpu_metrics_log": "/root/WREC/results/wrec/runtime_qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_gpu_metrics.jsonl",
+  "gpu_metrics_summary_json": "/root/WREC/results/wrec/runtime_qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_gpu_summary.json",
+  "server_log": "/root/WREC/logs/server/qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_server.log",
+  "sidecar_log": "/root/WREC/logs/server/qwen_real_table_b_full_n64_alpha1_notiming_compare_20260516T063826Z/finite_slot_slot60_mbt1280_r1_sidecar.log",
+  "error_kind": "",
+  "error_message": ""
+}
